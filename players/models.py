@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
 
 import random
 import string
@@ -22,16 +22,19 @@ class UserManager(BaseUserManager):
             username=username,
             password=password,
         )
+        user.is_staff = True
+        user.is_superuser = True
         user.is_admin = True
         user.save(using=self._db)
         return user
 
 
-class User(AbstractBaseUser):
+class User(AbstractUser, PermissionsMixin):
     username = models.CharField(verbose_name="username", max_length=150, unique=True)
     password = models.CharField(verbose_name="password", max_length=128)
     name = models.CharField(verbose_name="name", max_length=100, blank=True, null=True)
-    avatar = models.URLField(verbose_name="avatar", blank=True, null=True, default="default_avatar_url")  # URL پیش‌فرض برای آواتار دیفالت
+    avatar = models.CharField(max_length=500,verbose_name="avatar", blank=True, null=True)  # URL پیش‌فرض برای آواتار
+    # دیفالت
     level = models.IntegerField(verbose_name="level", default=1)
     level_xp = models.IntegerField(verbose_name="level xp", default=0)
     game_token = models.IntegerField(verbose_name="game token", default=0)  # مقدار ثابت اولیه توکن
@@ -41,7 +44,7 @@ class User(AbstractBaseUser):
                                    help_text='Designates whether the user can log into this admin site.')
     is_active = models.BooleanField(verbose_name='active', default=True,
                                     help_text='Designates whether this user should be treated as active. '
-                                                'Unselect this instead of deleting accounts.')
+                                              'Unselect this instead of deleting accounts.')
 
     date_joined = models.DateTimeField(verbose_name='date joined', default=timezone.now)
     last_seen = models.DateTimeField(verbose_name='last seen date', null=True)

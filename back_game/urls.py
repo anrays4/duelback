@@ -1,4 +1,5 @@
 from django.urls import path
+from .views import playing_game_page
 
 from .views import (
     game_table_list, find_match, PlayerReadyAPIView, PollingTurnAPIView, ConfirmMoveAPIView,
@@ -6,6 +7,8 @@ from .views import (
 
 
 urlpatterns = [
+    path('playing-game/', playing_game_page, name="playing_backgammon_game"),
+
     # URLs برای GameTable
     path('gametables/', game_table_list, name='gametable_list'),
     path('find-match/', find_match, name='find_match'),

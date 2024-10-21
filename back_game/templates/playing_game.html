@@ -1,0 +1,640 @@
+{% load static %}
+{% load custom_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="assets/images/favicon.png" rel="icon" type="image/png">
+
+    <title>Instello</title>
+    <meta name="description" content="Instello - Sharing Photos platform HTML Template">
+    {% include 'header_ref.html' %}
+    <link rel="stylesheet" href="{% versioned_static "css/playing_game.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="{% versioned_static "js/jquery-3.7.1.js" %}"></script>
+</head>
+<body style="background-color: #293445">
+
+<!-- close show notif -->
+<div class="lg:p-20 p-10 uk-modal" id="close-rome" uk-modal="" tabindex="-1">
+    <div class="uk-modal-dialog tt relative mx-auto bg-white rounded-lg shadow-xl w-[400px]">
+        <div class="p-6">
+            <h2 class="text-xl font-semibold">Leave Game</h2>
+        </div>
+        <div class="p-6 py-0">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing e ab eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        <div class="flex justify-end p-6 text-sm font-medium">
+            <button class="px-4 py-1.5 rounded-md uk-modal-close" type="button">Cancel</button>
+            <button class="px-5 py-1.5 bg-gray-100 rounded-md uk-modal-close" type="button">Okay</button>
+        </div>
+
+        <!-- close button -->
+        <button type="button" class="bg-white rounded-full p-2 absolute right-0 top-0 m-3 dark:bg-slate-600 uk-modal-close">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<!-- enemy profile -->
+<div class="lg:p-20 p-10 uk-modal" id="enemy-profile" uk-modal="" tabindex="-1">
+    <div class="uk-modal-dialog tt relative mx-auto bg-white rounded-lg shadow-xl w-[400px]">
+        <div class="p-6">
+            <h2 class="text-xl font-semibold">Anrays</h2>
+        </div>
+        <div class="p-6 py-0">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing e ab eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        <div class="flex justify-end p-6 text-sm font-medium">
+            <button class="px-4 py-1.5 rounded-md uk-modal-close" type="button">Cancel</button>
+            <button class="px-5 py-1.5 bg-gray-100 rounded-md uk-modal-close" type="button">Okay</button>
+        </div>
+
+        <!-- close button -->
+        <button type="button" class="bg-white rounded-full p-2 absolute right-0 top-0 m-3 dark:bg-slate-600 uk-modal-close">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<!-- my profile -->
+<div class="lg:p-20 p-10 uk-modal" id="my-profile" uk-modal="" tabindex="-1">
+    <div class="uk-modal-dialog tt relative mx-auto bg-white rounded-lg shadow-xl w-[400px]">
+        <div class="p-6">
+            <h2 class="text-xl font-semibold">myasdsad </h2>
+        </div>
+        <div class="p-6 py-0">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing e ab eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        <div class="flex justify-end p-6 text-sm font-medium">
+            <button class="px-4 py-1.5 rounded-md uk-modal-close" type="button">Cancel</button>
+            <button class="px-5 py-1.5 bg-gray-100 rounded-md uk-modal-close" type="button">Okay</button>
+        </div>
+
+        <!-- close button -->
+        <button type="button" class="bg-white rounded-full p-2 absolute right-0 top-0 m-3 dark:bg-slate-600 uk-modal-close">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<div id="wrapper">
+    <main class="2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
+
+        <div class="bg-white rounded-xl shadow-sm p-2 px-1 border1 dark:bg-dark2" style="box-shadow: 0px 0px 20px black;">
+            <div class="grid grid-cols-3 gap-3">
+                <a href="#" uk-toggle="target: #enemy-profile" data-caption="Caption 1" style="display: flex; justify-content: flex-start">
+                    <div class="md:w-10 md:h-10 w-10 h-10 relative md:border-3 border-2 shadow border-white dark:border-slate-700">
+                        <img src="{% static "images/anrays-update.png" %}" alt="" class="absolute w-full h-full">
+                        <div class="w-4 h-4 absolute bg-green-500 rounded-full border border-white dark:border-slate-800"
+                             style="bottom: 30px;left: 30px;font-size: 8px;text-align: center;color: #ffffff;text-shadow: 0px 0px 5px #000000;font-weight: 900;">
+                            <span>123</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center">
+                        <p class="ml-2">anrays</p>
+                    </div>
+                </a>
+
+                <a href="#" style="display: flex; justify-content: center;flex-wrap: wrap;">
+                    <div class="md:w-10 md:h-10 w-10 h-10 relative shadow border-white">
+                        <img src="{% static "images/aa.png" %}" alt="" class="absolute w-full h-full">
+                    </div>
+                    <div style="display: flex; align-items: center">
+                        <p class="ml-2 font-bold">1,000,000</p>
+                    </div>
+                    <div class="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700" role="progressbar" aria-valuenow="25"
+                         aria-valuemin="0" aria-valuemax="100">
+                        <div id="turn_time_bar"
+                             class="flex flex-col justify-center rounded-full overflow-hidden text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-blue-500"
+                             style="width: 100%; background-color: #51dd18"></div>
+                    </div>
+                </a>
+
+                <a href="#" uk-toggle="target: #my-profile" data-caption="Caption 1" style="display: flex; flex-direction: row-reverse;">
+                    <div class="md:w-10 md:h-10 w-10 h-10 relative md:border-3 border-2 shadow border-white dark:border-slate-700">
+                        <img src="{% static "images/anrays-update.png" %}" alt="" class="absolute w-full h-full">
+                        <div class="w-4 h-4 absolute bg-green-500 rounded-full border border-white dark:border-slate-800"
+                             style="bottom: 30px;right: 30px;font-size: 8px;text-align: center;color: #ffffff;text-shadow: 0px 0px 5px #000000;font-weight: 900;">
+                            <span>45</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center">
+                        <p class="mr-2">anra2ys</p>
+                    </div>
+                </a>
+
+            </div>
+
+
+        </div>
+
+        <!--  game board -->
+        <div class="max-w-2xl mx-auto">
+            <div class="uk-switcher mt-5 mb-5" id="comp_tab" style="touch-action: pan-y pinch-zoom;">
+                <div class="space-y-8 uk-active" style="">
+                    <div class="relative bg-white p-1 rounded-xl shadow-sm overflow-hidden dark:bg-dark2">
+                        <div id="finish-enemy-dice">
+                            <div id="f-p-1" class="finish-enemy-dice-place"></div>
+                            <div id="f-p-2" class="finish-enemy-dice-place"></div>
+                            <div id="f-p-3" class="finish-enemy-dice-place"></div>
+                            <div id="f-p-4" class="finish-enemy-dice-place"></div>
+                            <div id="f-p-5" class="finish-enemy-dice-place"></div>
+                            <div id="f-p-6" class="finish-enemy-dice-place"></div>
+                            <div id="f-p-7" class="finish-enemy-dice-place"></div>
+                            <div id="f-p-8" class="finish-enemy-dice-place"></div>
+                            <div id="f-p-9" class="finish-enemy-dice-place"></div>
+                            <div id="f-p-10" class="finish-enemy-dice-place"></div>
+                            <div id="f-p-11" class="finish-enemy-dice-place"></div>
+                            <div id="f-p-12" class="finish-enemy-dice-place"></div>
+                            <div id="f-p-13" class="finish-enemy-dice-place"></div>
+                            <div id="f-p-14" class="finish-enemy-dice-place"></div>
+                            <div id="f-p-15" class="finish-enemy-dice-place"></div>
+                        </div>
+                        <div class="board-table">
+
+                            <div class="middle-of-board">
+                                <div class="enemy-out-dice">
+                                    <div id="e-o-d-1" class="my-out-dice-place"></div>
+                                    <div id="e-o-d-2" class="my-out-dice-place"></div>
+                                    <div id="e-o-d-3" class="my-out-dice-place"></div>
+                                    <div id="e-o-d-4" class="my-out-dice-place"></div>
+                                    <div id="e-o-d-5" class="my-out-dice-place"></div>
+                                    <div id="e-o-d-6" class="my-out-dice-place"></div>
+                                    <div id="e-o-d-7" class="my-out-dice-place"></div>
+                                    <div id="e-o-d-8" class="my-out-dice-place"></div>
+                                </div>
+
+                                <div id="p0" class="my-out-dice">
+                                    <div id="p0-1" class="my-out-dice-place"></div>
+                                    <div id="p0-2" class="my-out-dice-place"></div>
+                                    <div id="p0-3" class="my-out-dice-place"></div>
+                                    <div id="p0-4" class="my-out-dice-place"></div>
+                                    <div id="p0-5" class="my-out-dice-place"></div>
+                                    <div id="p0-6" class="my-out-dice-place"></div>
+                                    <div id="p0-7" class="my-out-dice-place"></div>
+                                    <div id="p0-8" class="my-out-dice-place"></div>
+                                </div>
+                            </div>
+
+                            <div class="top">
+                                <div class="top-left size-4-part display-4-part">
+                                    <div id="p12" class="all-line top-line" title="place12">
+                                        <div class="triangle triangle-top triangle-even"></div>
+                                        <div id="p12-1" class="dice-place"></div>
+                                        <div id="p12-2" class="dice-place"></div>
+                                        <div id="p12-3" class="dice-place"></div>
+                                        <div id="p12-4" class="dice-place"></div>
+                                        <div id="p12-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p11" class="all-line top-line" title="place11">
+                                        <div class="triangle triangle-top triangle-odd"></div>
+                                        <div id="p11-1" class="dice-place"></div>
+                                        <div id="p11-2" class="dice-place"></div>
+                                        <div id="p11-3" class="dice-place"></div>
+                                        <div id="p11-4" class="dice-place"></div>
+                                        <div id="p11-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p10" class="all-line top-line" title="place10">
+                                        <div class="triangle triangle-top triangle-even"></div>
+                                        <div id="p10-1" class="dice-place"></div>
+                                        <div id="p10-2" class="dice-place"></div>
+                                        <div id="p10-3" class="dice-place"></div>
+                                        <div id="p10-4" class="dice-place"></div>
+                                        <div id="p10-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p9" class="all-line top-line" title="place9">
+                                        <div class="triangle triangle-top triangle-odd"></div>
+                                        <div id="p9-1" class="dice-place"></div>
+                                        <div id="p9-2" class="dice-place"></div>
+                                        <div id="p9-3" class="dice-place"></div>
+                                        <div id="p9-4" class="dice-place"></div>
+                                        <div id="p9-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p8" class="all-line top-line" title="place8">
+                                        <div class="triangle triangle-top triangle-even"></div>
+                                        <div id="p8-1" class="dice-place"></div>
+                                        <div id="p8-2" class="dice-place"></div>
+                                        <div id="p8-3" class="dice-place"></div>
+                                        <div id="p8-4" class="dice-place"></div>
+                                        <div id="p8-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p7" class="all-line top-line" title="place7">
+                                        <div class="triangle triangle-top triangle-odd"></div>
+                                        <div id="p7-1" class="dice-place"></div>
+                                        <div id="p7-2" class="dice-place"></div>
+                                        <div id="p7-3" class="dice-place"></div>
+                                        <div id="p7-4" class="dice-place"></div>
+                                        <div id="p7-5" class="dice-place"></div>
+                                    </div>
+                                </div>
+
+                                <div class="top-right size-4-part display-4-part">
+                                    <div id="p6" class="all-line top-line" title="place6">
+                                        <div class="triangle triangle-top triangle-even"></div>
+                                        <div id="p6-1" class="dice-place"></div>
+                                        <div id="p6-2" class="dice-place"></div>
+                                        <div id="p6-3" class="dice-place"></div>
+                                        <div id="p6-4" class="dice-place"></div>
+                                        <div id="p6-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p5" class="all-line top-line" title="place5">
+                                        <div class="triangle triangle-top triangle-odd"></div>
+                                        <div id="p5-1" class="dice-place"></div>
+                                        <div id="p5-2" class="dice-place"></div>
+                                        <div id="p5-3" class="dice-place"></div>
+                                        <div id="p5-4" class="dice-place"></div>
+                                        <div id="p5-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p4" class="all-line top-line" title="place4">
+                                        <div class="triangle triangle-top triangle-even"></div>
+                                        <div id="p4-1" class="dice-place"></div>
+                                        <div id="p4-2" class="dice-place"></div>
+                                        <div id="p4-3" class="dice-place"></div>
+                                        <div id="p4-4" class="dice-place"></div>
+                                        <div id="p4-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p3" class="all-line top-line" title="place3">
+                                        <div class="triangle triangle-top triangle-odd"></div>
+                                        <div id="p3-1" class="dice-place"></div>
+                                        <div id="p3-2" class="dice-place"></div>
+                                        <div id="p3-3" class="dice-place"></div>
+                                        <div id="p3-4" class="dice-place"></div>
+                                        <div id="p3-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p2" class="all-line top-line" title="place2">
+                                        <div class="triangle triangle-top triangle-even"></div>
+                                        <div id="p2-1" class="dice-place"></div>
+                                        <div id="p2-2" class="dice-place"></div>
+                                        <div id="p2-3" class="dice-place"></div>
+                                        <div id="p2-4" class="dice-place"></div>
+                                        <div id="p2-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p1" class="all-line top-line" title="place1">
+                                        <div class="triangle triangle-top triangle-odd"></div>
+                                        <div id="p1-1" class="dice-place"></div>
+                                        <div id="p1-2" class="dice-place"></div>
+                                        <div id="p1-3" class="dice-place"></div>
+                                        <div id="p1-4" class="dice-place"></div>
+                                        <div id="p1-5" class="dice-place"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="bottom">
+                                <div class="bottom-left size-4-part display-4-part">
+                                    <div id="p13" class="all-line bottom-line" title="place13">
+                                        <div class="triangle triangle-bottom triangle-odd"></div>
+                                        <div id="p13-1" class="dice-place"></div>
+                                        <div id="p13-2" class="dice-place"></div>
+                                        <div id="p13-3" class="dice-place"></div>
+                                        <div id="p13-4" class="dice-place"></div>
+                                        <div id="p13-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p14" class="all-line bottom-line" title="place14">
+                                        <div class="triangle triangle-bottom triangle-even"></div>
+                                        <div id="p14-1" class="dice-place"></div>
+                                        <div id="p14-2" class="dice-place"></div>
+                                        <div id="p14-3" class="dice-place"></div>
+                                        <div id="p14-4" class="dice-place"></div>
+                                        <div id="p14-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p15" class="all-line bottom-line" title="place15">
+                                        <div class="triangle triangle-bottom triangle-odd"></div>
+                                        <div id="p15-1" class="dice-place"></div>
+                                        <div id="p15-2" class="dice-place"></div>
+                                        <div id="p15-3" class="dice-place"></div>
+                                        <div id="p15-4" class="dice-place"></div>
+                                        <div id="p15-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p16" class="all-line bottom-line" title="place16">
+                                        <div class="triangle triangle-bottom triangle-even"></div>
+                                        <div id="p16-1" class="dice-place"></div>
+                                        <div id="p16-2" class="dice-place"></div>
+                                        <div id="p16-3" class="dice-place"></div>
+                                        <div id="p16-4" class="dice-place"></div>
+                                        <div id="p16-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p17" class="all-line bottom-line" title="place17">
+                                        <div class="triangle triangle-bottom triangle-odd"></div>
+                                        <div id="p17-1" class="dice-place"></div>
+                                        <div id="p17-2" class="dice-place"></div>
+                                        <div id="p17-3" class="dice-place"></div>
+                                        <div id="p17-4" class="dice-place"></div>
+                                        <div id="p17-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p18" class="all-line bottom-line" title="place18">
+                                        <div class="triangle triangle-bottom triangle-even"></div>
+                                        <div id="p18-1" class="dice-place"></div>
+                                        <div id="p18-2" class="dice-place"></div>
+                                        <div id="p18-3" class="dice-place"></div>
+                                        <div id="p18-4" class="dice-place"></div>
+                                        <div id="p18-5" class="dice-place"></div>
+                                    </div>
+                                </div>
+
+                                <div class="bottom-right size-4-part display-4-part">
+                                    <div id="p19" class="all-line bottom-line" title="place19">
+                                        <div class="triangle triangle-bottom triangle-odd"></div>
+                                        <div id="p19-1" class="dice-place"></div>
+                                        <div id="p19-2" class="dice-place"></div>
+                                        <div id="p19-3" class="dice-place"></div>
+                                        <div id="p19-4" class="dice-place"></div>
+                                        <div id="p19-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p20" class="all-line bottom-line" title="place20">
+                                        <div class="triangle triangle-bottom triangle-even"></div>
+                                        <div id="p20-1" class="dice-place"></div>
+                                        <div id="p20-2" class="dice-place"></div>
+                                        <div id="p20-3" class="dice-place"></div>
+                                        <div id="p20-4" class="dice-place"></div>
+                                        <div id="p20-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p21" class="all-line bottom-line" title="place21">
+                                        <div class="triangle triangle-bottom triangle-odd"></div>
+                                        <div id="p21-1" class="dice-place"></div>
+                                        <div id="p21-2" class="dice-place"></div>
+                                        <div id="p21-3" class="dice-place"></div>
+                                        <div id="p21-4" class="dice-place"></div>
+                                        <div id="p21-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p22" class="all-line bottom-line" title="place22">
+                                        <div class="triangle triangle-bottom triangle-even"></div>
+                                        <div id="p22-1" class="dice-place"></div>
+                                        <div id="p22-2" class="dice-place"></div>
+                                        <div id="p22-3" class="dice-place"></div>
+                                        <div id="p22-4" class="dice-place"></div>
+                                        <div id="p22-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p23" class="all-line bottom-line" title="place23">
+                                        <div class="triangle triangle-bottom triangle-odd"></div>
+                                        <div id="p23-1" class="dice-place"></div>
+                                        <div id="p23-2" class="dice-place"></div>
+                                        <div id="p23-3" class="dice-place"></div>
+                                        <div id="p23-4" class="dice-place"></div>
+                                        <div id="p23-5" class="dice-place"></div>
+                                    </div>
+                                    <div id="p24" class="all-line bottom-line" title="place24">
+                                        <div class="triangle triangle-bottom triangle-even"></div>
+                                        <div id="p24-1" class="dice-place"></div>
+                                        <div id="p24-2" class="dice-place"></div>
+                                        <div id="p24-3" class="dice-place"></div>
+                                        <div id="p24-4" class="dice-place"></div>
+                                        <div id="p24-5" class="dice-place"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tas-place">
+
+                                <div class="enemy-tas-place">
+                                    <div id='main-dice3' class="dice" style="display: none">
+                                        <div id="dice-3-side-one" class='side one'>
+                                            <div class="dot one-1"></div>
+                                        </div>
+                                        <div id="dice-3-side-two" class='side two'>
+                                            <div class="dot two-1"></div>
+                                            <div class="dot two-2"></div>
+                                        </div>
+                                        <div id="dice-3-side-three" class='side three'>
+                                            <div class="dot three-1"></div>
+                                            <div class="dot three-2"></div>
+                                            <div class="dot three-3"></div>
+                                        </div>
+                                        <div id="dice-3-side-four" class='side four'>
+                                            <div class="dot four-1"></div>
+                                            <div class="dot four-2"></div>
+                                            <div class="dot four-3"></div>
+                                            <div class="dot four-4"></div>
+                                        </div>
+                                        <div id="dice-3-side-five" class='side five'>
+                                            <div class="dot five-1"></div>
+                                            <div class="dot five-2"></div>
+                                            <div class="dot five-3"></div>
+                                            <div class="dot five-4"></div>
+                                            <div class="dot five-5"></div>
+                                        </div>
+                                        <div id="dice-3-side-six" class='side six'>
+                                            <div class="dot six-1"></div>
+                                            <div class="dot six-2"></div>
+                                            <div class="dot six-3"></div>
+                                            <div class="dot six-4"></div>
+                                            <div class="dot six-5"></div>
+                                            <div class="dot six-6"></div>
+                                        </div>
+                                    </div>
+                                    <div id='main-dice4' class="dice" style="display: none">
+                                        <div id="dice-4-side-one" class='side one'>
+                                            <div class="dot one-1"></div>
+                                        </div>
+                                        <div id="dice-4-side-two" class='side two'>
+                                            <div class="dot two-1"></div>
+                                            <div class="dot two-2"></div>
+                                        </div>
+                                        <div id="dice-4-side-three" class='side three'>
+                                            <div class="dot three-1"></div>
+                                            <div class="dot three-2"></div>
+                                            <div class="dot three-3"></div>
+                                        </div>
+                                        <div id="dice-4-side-four" class='side four'>
+                                            <div class="dot four-1"></div>
+                                            <div class="dot four-2"></div>
+                                            <div class="dot four-3"></div>
+                                            <div class="dot four-4"></div>
+                                        </div>
+                                        <div id="dice-4-side-five" class='side five'>
+                                            <div class="dot five-1"></div>
+                                            <div class="dot five-2"></div>
+                                            <div class="dot five-3"></div>
+                                            <div class="dot five-4"></div>
+                                            <div class="dot five-5"></div>
+                                        </div>
+                                        <div id="dice-4-side-six" class='side six'>
+                                            <div class="dot six-1"></div>
+                                            <div class="dot six-2"></div>
+                                            <div class="dot six-3"></div>
+                                            <div class="dot six-4"></div>
+                                            <div class="dot six-5"></div>
+                                            <div class="dot six-6"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="my-tas-place">
+                                    <div id='main-dice1' class="dice">
+                                        <div id="dice-1-side-one" class='side one'>
+                                            <div class="dot one-1"></div>
+                                        </div>
+                                        <div id="dice-1-side-two" class='side two'>
+                                            <div class="dot two-1"></div>
+                                            <div class="dot two-2"></div>
+                                        </div>
+                                        <div id="dice-1-side-three" class='side three'>
+                                            <div class="dot three-1"></div>
+                                            <div class="dot three-2"></div>
+                                            <div class="dot three-3"></div>
+                                        </div>
+                                        <div id="dice-1-side-four" class='side four'>
+                                            <div class="dot four-1"></div>
+                                            <div class="dot four-2"></div>
+                                            <div class="dot four-3"></div>
+                                            <div class="dot four-4"></div>
+                                        </div>
+                                        <div id="dice-1-side-five" class='side five'>
+                                            <div class="dot five-1"></div>
+                                            <div class="dot five-2"></div>
+                                            <div class="dot five-3"></div>
+                                            <div class="dot five-4"></div>
+                                            <div class="dot five-5"></div>
+                                        </div>
+                                        <div id="dice-1-side-six" class='side six'>
+                                            <div class="dot six-1"></div>
+                                            <div class="dot six-2"></div>
+                                            <div class="dot six-3"></div>
+                                            <div class="dot six-4"></div>
+                                            <div class="dot six-5"></div>
+                                            <div class="dot six-6"></div>
+                                        </div>
+                                    </div>
+                                    <div id='main-dice2' class="dice">
+                                        <div id="dice-2-side-one" class='side one'>
+                                            <div class="dot one-1"></div>
+                                        </div>
+                                        <div id="dice-2-side-two" class='side two'>
+                                            <div class="dot two-1"></div>
+                                            <div class="dot two-2"></div>
+                                        </div>
+                                        <div id="dice-2-side-three" class='side three'>
+                                            <div class="dot three-1"></div>
+                                            <div class="dot three-2"></div>
+                                            <div class="dot three-3"></div>
+                                        </div>
+                                        <div id="dice-2-side-four" class='side four'>
+                                            <div class="dot four-1"></div>
+                                            <div class="dot four-2"></div>
+                                            <div class="dot four-3"></div>
+                                            <div class="dot four-4"></div>
+                                        </div>
+                                        <div id="dice-2-side-five" class='side five'>
+                                            <div class="dot five-1"></div>
+                                            <div class="dot five-2"></div>
+                                            <div class="dot five-3"></div>
+                                            <div class="dot five-4"></div>
+                                            <div class="dot five-5"></div>
+                                        </div>
+                                        <div id="dice-2-side-six" class='side six'>
+                                            <div class="dot six-1"></div>
+                                            <div class="dot six-2"></div>
+                                            <div class="dot six-3"></div>
+                                            <div class="dot six-4"></div>
+                                            <div class="dot six-5"></div>
+                                            <div class="dot six-6"></div>
+                                        </div>
+                                    </div>
+                                    <button id="roll-tas-btn" type="button" class="text-sm py-1.5 px-4 font-semibold bg-secondery btn-box-shadow"
+                                            style="display: none"
+                                            onclick="click_roll_btn()"><i class="fa-solid fa-dice"></i></i> ROLL
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="finish-my-dice">
+                            <div id="f-m-p-1" class="finish-my-dice-place"></div>
+                            <div id="f-m-p-2" class="finish-my-dice-place"></div>
+                            <div id="f-m-p-3" class="finish-my-dice-place"></div>
+                            <div id="f-m-p-4" class="finish-my-dice-place"></div>
+                            <div id="f-m-p-5" class="finish-my-dice-place"></div>
+                            <div id="f-m-p-6" class="finish-my-dice-place"></div>
+                            <div id="f-m-p-7" class="finish-my-dice-place"></div>
+                            <div id="f-m-p-8" class="finish-my-dice-place"></div>
+                            <div id="f-m-p-9" class="finish-my-dice-place"></div>
+                            <div id="f-m-p-10" class="finish-my-dice-place"></div>
+                            <div id="f-m-p-11" class="finish-my-dice-place"></div>
+                            <div id="f-m-p-12" class="finish-my-dice-place"></div>
+                            <div id="f-m-p-13" class="finish-my-dice-place"></div>
+                            <div id="f-m-p-14" class="finish-my-dice-place"></div>
+                            <div id="f-m-p-15" class="finish-my-dice-place"></div>
+                        </div>
+
+                        <div class="btn-box">
+                            <button type="button" class="text-sm py-1.5 px-4 font-semibold bg-secondery btn-box-shadow" onclick="action_undo()"><i
+                                    class="fa-solid fa-rotate-left" style="color: #e34646"></i> Undo
+                            </button>
+                            <button type="button" class="text-sm py-1.5 px-4 font-semibold bg-secondery btn-box-shadow">
+                                <i class="fa-solid fa-check" style="color: #1fe01f"></i> Go
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="enemy-dices">
+                <div id="e-d-1" class="enemy-dice-style"></div>
+                <div id="e-d-2" class="enemy-dice-style"></div>
+                <div id="e-d-3" class="enemy-dice-style"></div>
+                <div id="e-d-4" class="enemy-dice-style"></div>
+                <div id="e-d-5" class="enemy-dice-style"></div>
+                <div id="e-d-6" class="enemy-dice-style"></div>
+                <div id="e-d-7" class="enemy-dice-style"></div>
+                <div id="e-d-8" class="enemy-dice-style"></div>
+                <div id="e-d-9" class="enemy-dice-style"></div>
+                <div id="e-d-10" class="enemy-dice-style"></div>
+                <div id="e-d-11" class="enemy-dice-style"></div>
+                <div id="e-d-12" class="enemy-dice-style"></div>
+                <div id="e-d-13" class="enemy-dice-style"></div>
+                <div id="e-d-14" class="enemy-dice-style"></div>
+                <div id="e-d-15" class="enemy-dice-style"></div>
+            </div>
+            <div class="my-dices">
+                <div id="m-d-1" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+                <div id="m-d-2" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+                <div id="m-d-3" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+                <div id="m-d-4" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+                <div id="m-d-5" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+                <div id="m-d-6" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+                <div id="m-d-7" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+                <div id="m-d-8" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+                <div id="m-d-9" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+                <div id="m-d-10" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+                <div id="m-d-11" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+                <div id="m-d-12" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+                <div id="m-d-13" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+                <div id="m-d-14" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+                <div id="m-d-15" class="my-dice-style" onclick="get_place_of_dice(this)"></div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm p-2 px-1 border1 dark:bg-dark2" style="position: absolute; bottom: 0;width: 100%">
+            <div class="grid grid-cols-2 gap-3">
+                <a href="#" uk-toggle="target: #close-rome" style="display: flex; flex-direction: row; font-size: 25px">
+                    <i class="fa-solid fa-list"></i>
+                </a>
+            </div>
+
+
+        </div>
+    </main>
+</div>
+
+<p id="request_res"></p>
+<script src="{% versioned_static "js/playing_game.js" %}"></script>
+
+
+{% include 'footer_ref.html' %}
+</body>
+</html>

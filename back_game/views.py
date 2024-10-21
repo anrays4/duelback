@@ -14,6 +14,10 @@ from .serializers import (
 from players.models import GameHistory
 
 
+def playing_game_page(request):
+    return render(request, "playing_game.html", context={})
+
+
 def game_table_list(request):
     game_tables = GameTable.objects.all()
     context = {'game_tables': game_tables}

@@ -29,7 +29,7 @@ urlpatterns = [
     path('users/', include('players.urls')),
 
     # URLs برای اپ back_game
-    path('back_game/', include('back_game.urls')),
+    path('backgammon/', include('back_game.urls')),
 
     # URLs برای اپ home
     path('home/', include('home.urls')),
