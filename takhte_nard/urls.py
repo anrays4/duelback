@@ -26,8 +26,8 @@ urlpatterns = [
     # URLs برای اپ players
     path('users/', include('players.urls')),
 
-    # URLs برای اپ games
-    path('games/', include('games.urls')),
+    # URLs برای اپ back_game
+    path('back_game/', include('back_game.urls')),
 
     # URLs برای اپ home
     path('home/', include('home.urls')),

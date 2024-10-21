@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'players',
-    'games',
+    'back_game',
     'home',
 ]
 

@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 import random
 import string
 
-from games.models import GameTable
+from back_game.models import GameTable
 
 
 class UserManager(BaseUserManager):
