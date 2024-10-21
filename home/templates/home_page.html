@@ -1,10 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home Page</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+{% load custom_tags %}
 
-</body>
-</html>
+
+
+{% block content %}
+    <div id="wrapper">
+        <main class="2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
+
+            <div class="main__inner">
+
+                <div class="relative bg-white border border-slate-200 p-1 rounded-xl shadow-sm overflow-hidden dark:border1 dark:bg-dark2">
+
+                    <h4 class="text-lg font-medium text-black dark:text-white absolute top-4 left-4"> Backgammon </h4>
+
+                    <!-- button tab -->
+                    <div class="inline-flex my-2 bg-slate-50 rounded-md p-0.5 font-medium text-sm shadow-sm absolute top-1.5 right-3 dark:bg-slate-700/40"
+                         uk-switcher="animation: uk-animation-slide-left-small, uk-animation-slide-right-small ;toggle: > *">
+                        <button type="button" class="px-4 py-1.5 rounded-md bg-white shadow aria-expanded:dark:bg-slate-700/80" aria-expanded="false">
+                            <i class="fa-solid fa-users"></i> <span>1,200</span>
+                        </button>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-lg border border-gray-100 overflow-hidden mt-[60px] dark:border1 dark:bg-dark1">
+
+                        <!-- Preview -->
+                        <div class="p-10 relative" style="background-image: url('{% versioned_static "images/back.PNG" %}')">
+
+                            <div class="relative z-20">
+
+
+                                <div class="grid gap-5 md:grid-cols-2 dark:text-white">
+                                    <div class="p-5 bg-white shadow rounded-md dark:bg-slate-700 uk-scrollspy-inview "
+                                         uk-scrollspy="cls: uk-animation-slide-left; repeat: true" style="">
+                                        <h3 class="mb-2 text-base font-semibold">Left</h3>
+                                        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                    </div>
+                                    <div class="p-5 bg-white shadow rounded-md dark:bg-slate-700 uk-scrollspy-inview "
+                                         uk-scrollspy="cls: uk-animation-slide-right; repeat: true" style="">
+                                        <h3 class="mb-2 text-base font-semibold">Right</h3>
+                                        <p class="text-sm">Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+{% endblock %}
+
+
+
