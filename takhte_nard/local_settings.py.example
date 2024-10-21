@@ -1,6 +1,7 @@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True or False
-DEVEL = True or False
+
+IS_DEVELOPMENT = True or False
 
 ALLOWED_HOSTS = []
 
@@ -10,3 +11,5 @@ DB_USER = 'your db user'
 DB_PASS = 'your db password'
 
 BASE_URL = 'your domain address'
+
+TELEGRAM_BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN'
