@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% load humanize %}
+
+
+{% block content %}
+    <div id="wrapper">
+        <main class="2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
+            <div class="main__inner">
+
+                <div class="bg-white rounded-xl shadow-sm p-5 border1 dark:bg-dark2">
+
+                    <div class="flex justify-center text-black dark:text-white">
+                        <h3 class="font-bold text-base"><i class="fa-solid fa-chess-queen"></i> Leaderboard Top 100 </h3>
+                        <button type="button">
+                            <ion-icon name="sync-outline" class="text-xl"></ion-icon>
+                        </button>
+                    </div>
+
+                    <div class="space-y-2 capitalize text-xs font-normal mt-5 mb-2 text-gray-500 dark:text-white/80">
+
+                        {% for player in top_player %}
+                            {% if forloop.counter0 < 100 %}
+
+                                <div class="flex items-center gap-3">
+                                    <span>{{ forloop.counter }}</span>
+                                    {% if player.avatar is None %}
+                                        <img src="{% versioned_static "images/profile-default.jpg" %}"
+                                             class="bg-gray-200 rounded-full w-10 h-10">
+                                    {% else %}
+                                        <img src="{{ player.avatar }}" alt="" class="bg-gray-200 rounded-full w-10 h-10">
+                                    {% endif %}
+
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-sm text-black dark:text-white"> {{ player.name }}</h4></a>
+                                        <div class="mt-0.5">Level {{ player.level }}</div>
+                                    </div>
+                                    <button type="button"
+                                            class="text-sm rounded-full py-1.5 px-4 font-semibold bg-secondery"><i
+                                            class="fa-solid fa-trophy"></i> {{ player.backgammon_game_wins }}</button>
+                                </div>
+
+                            {% endif %}
+                        {% endfor %}
+
+
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}

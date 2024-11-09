@@ -1,10 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load custom_tags %}
+{% load humanize %}
 
-</body>
-</html>
+
+{% block content %}
+    <!-- need token notify -->
+    <div class="lg:p-20 p-10 uk-modal" id="need-token-box" uk-modal="" tabindex="-1">
+        <div class="uk-modal-dialog tt relative mx-auto dark:bg-dark2 rounded-lg w-[400px]" style="box-shadow: 0 0 20px 0px #1c1c1c;">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-alert">!Need more token</h2>
+            </div>
+            <div class="p-6 py-0">
+                <p class="font-bold text-alert">Your game token is not enough to enter this game.</p>
+            </div>
+            <div class="flex justify-end p-6 text-sm font-medium">
+                <a href="">
+                    <button class="px-5 py-1.5 btn-shadow rounded-md ml-2" type="button"><i class="fa-solid fa-cart-shopping"></i> Buy</button>
+                </a>
+            </div>
+
+            <!-- close button -->
+            <button type="button" class=" rounded-full p-2 absolute right-0 top-0 m-3 uk-modal-close">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div id="wrapper">
+        <main class="2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
+            <div class="main__inner">
+
+                {% for game_table in game_tables %}
+
+                    <div class="relative bg-white border border-slate-200 p-1 rounded-xl shadow-sm overflow-hidden dark:border1 dark:bg-dark2 mb-5">
+                        <h4 class="text-3d text-lg font-medium text-black dark:text-white absolute top-4 left-4"> {{ game_table.name }} </h4>
+
+                        <div class="inline-flex my-2 bg-slate-50 rounded-md p-0.5 font-medium text-sm shadow-sm absolute top-1.5 right-3 dark:bg-slate-700/40"
+                             uk-switcher="animation: uk-animation-slide-left-small, uk-animation-slide-right-small ;toggle: > *">
+                            <button type="button" class="px-4 py-1.5 rounded-md bg-white shadow aria-expanded:dark:bg-slate-700/80 uk-active"
+                                    aria-expanded="true">
+                                <i class="fa-solid fa-coins mr-2"></i><span>{{ game_table.fee|intcomma }}</span>
+                            </button>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-lg border border-gray-100 overflow-hidden mt-[60px] dark:border1 dark:bg-dark1">
+
+                            <div class="p-10 relative pt-20" onclick="show_token_not_enough({{ game_table.fee }})"
+                                 style="background-image: url('{{ game_table.image.url }}'); background-repeat: round">
+                                <div class="relative z-20">
+                                    <div class="relative z-20 flex justify-center py-2">
+                                        <a {% if game_table.fee <= my_user.game_token and game_table.is_active %}
+                                            href="{% url "find_match" table_id=game_table.id %}
+                                        {% endif %}">
+                                            <button class="button bg-secondery text-white w-32 btn-shadow">
+                                                {% if game_table.fee > my_user.game_token %}
+                                                    <i class="fa-solid fa-lock mr-1"></i>
+                                                {% endif %}
+                                                Find Match
+                                            </button>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                {% endfor %}
+                <div style="margin-bottom: 80px"></div>
+
+            </div>
+        </main>
+    </div>
+
+    {{ my_user.game_token|json_script:"token_amount" }}
+
+    <script>
+        const gameToken = JSON.parse(document.getElementById("token_amount").textContent);
+
+
+        function show_token_not_enough(fee) {
+            if (fee > gameToken) {
+                document.getElementById("need-token-box").classList.add("uk-open")
+            }
+        }
+    </script>
+{% endblock %}
+

@@ -19,10 +19,19 @@ from django.urls import path, re_path, include
 from django.views.static import serve
 from django.conf import settings
 from django.conf.urls.static import static
+from about.views import about_page
+from home.views import sign_in_page
+from players.views import RegisterPlayer
 
 urlpatterns = [
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+
+    path('contact-us/', about_page, name="about_page"),
+    path('<init_data>', sign_in_page, name="sign_in_page"),
+
+    path('register/player', RegisterPlayer.as_view(), name="register_api"),
+
     path('admin/', admin.site.urls),
 
     # URLs برای اپ players
@@ -33,6 +42,8 @@ urlpatterns = [
 
     # URLs برای اپ home
     path('home/', include('home.urls')),
+
+    path('payments/', include('payments.urls')),
 ]
 if settings.IS_DEVELOPMENT:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% load humanize %}
+
+{% block header_ref %}
+    <link rel="stylesheet" href="{% versioned_static "css/find_match.css" %}">
+{% endblock %}
+
+{% block content %}
+    <div id="wrapper">
+        <main class="2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
+            <div class="main__inner">
+
+                <div class="bg-white rounded-xl shadow-sm p-5 border1 dark:bg-dark2">
+                    <div class="flex justify-center text-black dark:text-white">
+                        <h3 class="font-bold text-base"><i class="fa-solid fa-coins"></i> Fee : {{ table.fee }} </h3>
+                    </div>
+
+                    <div class="flex justify-center text-black dark:text-white">
+                        <h3 class="font-bold text-base"><i class="fa-solid fa-magnifying-glass"></i> Finding match <span id="dot-anim">...</span></h3>
+                    </div>
+
+                    <div class="relative capitalize font-normal text-sm mt-4 mb-2 uk-slider" tabindex="-1" uk-slider="autoplay: false;finite: false">
+                        <div class="overflow-hidden uk-slider-container">
+                            <ul class="-ml-2 uk-slider-items w-[calc(100%+0.5rem)]" style="transform: translate3d(-164.2px, 0px, 0px);">
+
+
+                                <li class="w-1/2 pr-2" tabindex="-1">
+                                    <div class="flex flex-col items-center shadow-sm p-2 rounded-xl border1 box-shadow-dark-in">
+                                        <div class="relative w-16 h-16 mx-auto mt-2">
+                                            {% if my_user.avatar is None %}
+                                                <img src="{% versioned_static "images/profile-default.jpg" %}"
+                                                     class="h-full object-cover rounded-full shadow w-full box-shadow-dark">
+                                            {% else %}
+                                                <img src="{{ my_user.avatar }}"
+                                                     class="h-full object-cover rounded-full shadow w-full box-shadow-dark">
+                                            {% endif %}
+
+                                        </div>
+                                        </a>
+                                        <div class="mt-5 text-center w-full">
+                                            <h5 class="font-semibold"> {{ my_user.name }}</h5>
+                                            <div class="text-xs text-gray-400 mt-0.5 font-medium">Level <span>{{ my_user.level }}</span></div>
+
+                                        </div>
+                                    </div>
+                                </li>
+
+
+                                <li class="w-1/2 pr-2" tabindex="-1">
+                                    <div class="flex flex-col items-center shadow-sm p-2 rounded-xl border1 box-shadow-dark-in">
+                                        <div class="relative w-16 h-16 mx-auto mt-2">
+                                            <img id="enemy-avatar" src="{% versioned_static "images/profile-default.jpg" %}"
+                                                 class="h-full object-cover rounded-full shadow w-full box-shadow-dark success circle">
+
+                                        </div>
+                                        </a>
+                                        <div class="mt-5 text-center w-full">
+                                            <h5 class="font-semibold" id="enemy-name"> Searching </h5>
+                                            <div class="text-xs text-gray-400 mt-0.5 font-medium">Level <span id="enemy-lvl">...</span></div>
+
+                                        </div>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="flex justify-center text-black dark:text-white">
+                        <button type="button" onclick="cancel_find_match()"
+                                class="dark:bg-red-500/20 block font-semibold mt-4 py-1.5 rounded-lg text-sm w-1/2 border1">
+                            <i class="fa-solid fa-xmark" id="fa-load"></i> cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    {{ req_polling_time|json_script:"polling_time" }}
+    <p id="request_res" hidden></p>
+{% endblock %}
+
+{% block footer_ref %}
+    <script src="{% versioned_static "js/find_match.js" %}"></script>
+{% endblock %}

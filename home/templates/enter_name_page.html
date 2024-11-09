@@ -1,0 +1,65 @@
+{% load static %}
+{% load custom_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="{% versioned_static "images/new-logo.png" %}" rel="icon" type="image/png">
+
+    <title>Enter your Name</title>
+    <meta name="description" content="DuelBack - Best gaming platform for enjoy">
+    {% include 'header_ref.html' %}
+    <link rel="stylesheet" href="{% versioned_static "css/playing_game.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="{% versioned_static "js/jquery-3.7.1.js" %}"></script>
+    <style>
+        #base_logo{
+            width: 180px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="loading" style="display: none;">
+    <div class="loader"></div>
+</div>
+<div class="flex flex-col h-screen justify-center items-center">
+    <div class="max-w-sm mx-auto md:px-10 p-4 w-full">
+        <div uk="" -scrollspy="target: > * > *; cls: uk-animation-scale-up; delay: 100 ;repeat: true">
+            <p class="text-center font-bold">WELCOME TO THE</p>
+            <!-- logo -->
+            <div class="flex justify-center mb-12" uk-scrollspy="target: > *; cls: uk-animation-scale-up; delay: 100 ;repeat: true">
+                <img id="base_logo" src="{% versioned_static "images/base.jpg" %}" alt="" class="w-auto shrink-0 bg-fuchsia-100 rounded-2xl uk-scrollspy-inview ">
+            </div>
+
+
+            <form method="POST" class="space-y-3" uk-scrollspy="target: > *; cls: uk-animation-scale-up; delay: 100 ;repeat: true">
+                {% csrf_token %}
+                <input class="!w-full uk-scrollspy-inview " id="name" name="name" type="text" autofocus="" placeholder="Nickname" required maxlength="12" minlength="4">
+                <p>* Nickname length 4 - 12 </p>
+                <button type="submit"
+                        class="font-medium w-full rounded-lg py-1.5 px-4 text-white h-[38px] active:scale-[0.97] transition-all duration-150 uk-scrollspy-inview "
+                        style="background-color: #23953c;"><span>Enter</span></button>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var loading = document.getElementById("loading");
+        loading.style.display = "flex";
+
+        window.addEventListener("load", function () {
+            loading.style.display = "none";
+        });
+    });
+</script>
+
+</body>
+</html>

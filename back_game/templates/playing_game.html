@@ -8,30 +8,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="assets/images/favicon.png" rel="icon" type="image/png">
+    <link href="{% versioned_static "images/base.jpg" %}" rel="icon" type="image/png">
 
-    <title>Instello</title>
-    <meta name="description" content="Instello - Sharing Photos platform HTML Template">
+    <title>Duelback</title>
+    <meta name="description" content="DuelBack - Best gaming platform for enjoy">
     {% include 'header_ref.html' %}
     <link rel="stylesheet" href="{% versioned_static "css/playing_game.css" %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="{% versioned_static "js/jquery-3.7.1.js" %}"></script>
 </head>
 <body style="background-color: #293445">
-
+<div id="loading" style="display: none;">
+    <div class="loader"></div>
+</div>
 <!-- close show notif -->
 <div class="lg:p-20 p-10 uk-modal" id="close-rome" uk-modal="" tabindex="-1">
     <div class="uk-modal-dialog tt relative mx-auto bg-white rounded-lg shadow-xl w-[400px]">
         <div class="p-6">
-            <h2 class="text-xl font-semibold">Leave Game</h2>
+            <h2 class="text-xl font-semibold text-alert">Leave Game</h2>
         </div>
         <div class="p-6 py-0">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing e ab eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>If you leave the game, you lose the match, are you sure?</p>
         </div>
         <div class="flex justify-end p-6 text-sm font-medium">
-            <button class="px-4 py-1.5 rounded-md uk-modal-close" type="button">Cancel</button>
-            <button class="px-5 py-1.5 bg-gray-100 rounded-md uk-modal-close" type="button">Okay</button>
+            <button class="px-4 py-1.5 btn-suc rounded-md uk-modal-close mr-2" type="button">Cancel</button>
+            <button class="px-5 py-1.5 btn-alert rounded-md ml-2" type="button" onclick="i_want_leave()">Okay</button>
         </div>
 
         <!-- close button -->
@@ -47,15 +48,26 @@
 <div class="lg:p-20 p-10 uk-modal" id="enemy-profile" uk-modal="" tabindex="-1">
     <div class="uk-modal-dialog tt relative mx-auto bg-white rounded-lg shadow-xl w-[400px]">
         <div class="p-6">
-            <h2 class="text-xl font-semibold">Anrays</h2>
+            <h2 class="text-xl font-semibold"><i class="fa-solid fa-user"></i> Profile</h2>
         </div>
-        <div class="p-6 py-0">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing e ab eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <div class="p-6 py-0 flex items-center justify-center">
+            <div id="enemy-profile-pic" class="md:w-10 md:h-10 w-10 h-10 relative md:border-3 border-2 shadow border-white dark:border-slate-700">
+                {% if enemy_user.avatar is None %}
+                    <img src="{% versioned_static "images/profile-default.jpg" %}" alt="" class="absolute w-full h-full">
+                {% else %}
+                    <img src="{{ enemy_user.avatar }}" alt="" class="absolute w-full h-full">
+                {% endif %}
+            </div>
+            <p class="ml-2">{{ enemy_user.username }}</p>
+        </div>
+        <div class="p-6 py-0 flex items-center justify-center">
+            <p>Matches: <span>{{ enemy_matches }}</span></p>
+        </div>
+        <div class="p-6 py-0 flex items-center justify-center">
+            <p><i class="fa-solid fa-trophy"></i> Win: <span>{{ enemy_user.backgammon_game_wins }}</span></p>
         </div>
         <div class="flex justify-end p-6 text-sm font-medium">
-            <button class="px-4 py-1.5 rounded-md uk-modal-close" type="button">Cancel</button>
-            <button class="px-5 py-1.5 bg-gray-100 rounded-md uk-modal-close" type="button">Okay</button>
+
         </div>
 
         <!-- close button -->
@@ -71,15 +83,27 @@
 <div class="lg:p-20 p-10 uk-modal" id="my-profile" uk-modal="" tabindex="-1">
     <div class="uk-modal-dialog tt relative mx-auto bg-white rounded-lg shadow-xl w-[400px]">
         <div class="p-6">
-            <h2 class="text-xl font-semibold">myasdsad </h2>
+            <h2 class="text-xl font-semibold"><i class="fa-solid fa-user"></i> Profile</h2>
         </div>
-        <div class="p-6 py-0">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing e ab eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <div class="p-6 py-0 flex items-center justify-center">
+            <div id="enemy-profile-pic" class="md:w-10 md:h-10 w-10 h-10 relative md:border-3 border-2 shadow border-white dark:border-slate-700">
+
+                {% if my_user.avatar is None %}
+                    <img src="{% versioned_static "images/profile-default.jpg" %}" alt="" class="absolute w-full h-full">
+                {% else %}
+                    <img src="{{ my_user.avatar }}" alt="" class="absolute w-full h-full">
+                {% endif %}
+            </div>
+            <p class="ml-2">{{ my_user.username }}</p>
+        </div>
+        <div class="p-6 py-0 flex items-center justify-center">
+            <p>Matches: <span>{{ my_matches }}</span></p>
+        </div>
+        <div class="p-6 py-0 flex items-center justify-center">
+            <p><i class="fa-solid fa-trophy"></i> Win: <span>{{ my_wins }}</span></p>
         </div>
         <div class="flex justify-end p-6 text-sm font-medium">
-            <button class="px-4 py-1.5 rounded-md uk-modal-close" type="button">Cancel</button>
-            <button class="px-5 py-1.5 bg-gray-100 rounded-md uk-modal-close" type="button">Okay</button>
+
         </div>
 
         <!-- close button -->
@@ -91,30 +115,165 @@
     </div>
 </div>
 
+<!-- lose alert -->
+<div class="lg:p-20 p-10 uk-modal" id="lose-alert" uk-modal="" tabindex="-1">
+    <div class="uk-modal-dialog tt relative mx-auto bg-white rounded-lg shadow-xl w-[400px]">
+        <div class="p-6">
+            <h2 class="text-xl text-alert font-semibold">You lost the game</h2>
+        </div>
+        <div class="p-6 py-0 flex items-center justify-center">
+            <p><i class="fa-solid fa-coins mr-2"></i>: <span class="text-alert font-bold">-{{ game_room.table.fee }}</span></p>
+        </div>
+        <div class="p-6 py-0 flex items-center justify-center">
+            <p>Xp: <span class="text-suc font-bold">+{{ game_room.table.xp_for_loser }}</span></p>
+        </div>
+        <div class="flex justify-center p-6 text-sm font-medium">
+            <a href="{% url "home_page" %}">
+                <button class="px-4 py-1.5 btn-alert rounded-md mr-2" type="button">Back to home</button>
+            </a>
+
+            <a href="{% url "game_table_page" %}">
+                <button class="px-5 py-1.5 btn-suc rounded-md ml-2" type="button">Find match</button>
+            </a>
+
+        </div>
+
+        <!-- close button -->
+        <button type="button" class="bg-white rounded-full p-2 absolute right-0 top-0 m-3 dark:bg-slate-600 uk-modal-close">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+
+
+<!-- win alert -->
+<div class="lg:p-20 p-10 uk-modal" id="win-alert" uk-modal="" tabindex="-1">
+    <div class="uk-modal-dialog tt relative mx-auto bg-white rounded-lg shadow-xl w-[400px]">
+        <div class="p-6">
+            <h2 class="text-xl text-suc font-semibold">You win the game</h2>
+        </div>
+        <div class="p-6 py-0 flex items-center justify-center">
+            <p><i class="fa-solid fa-coins mr-2"></i>: <span class="text-suc font-bold">+{{ game_room.table.get_winner_prize|floatformat:2 }}</span>
+            </p>
+        </div>
+        <div class="p-6 py-0 flex items-center justify-center">
+            <p>Xp: <span class="text-suc font-bold">+{{ game_room.table.xp_for_winner }}</span></p>
+        </div>
+        <div class="flex justify-center p-6 text-sm font-medium">
+            <a href="{% url "home_page" %}">
+                <button class="px-4 py-1.5 btn-alert rounded-md mr-2" type="button">Back to home</button>
+            </a>
+
+            <a href="{% url "game_table_page" %}">
+                <button class="px-5 py-1.5 btn-suc rounded-md ml-2" type="button">Find match</button>
+            </a>
+
+        </div>
+
+        <!-- close button -->
+        <button type="button" class="bg-white rounded-full p-2 absolute right-0 top-0 m-3 dark:bg-slate-600 uk-modal-close">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<!-- win alert dis -->
+<div class="lg:p-20 p-10 uk-modal" id="win-alert-dis" uk-modal="" tabindex="-1">
+    <div class="uk-modal-dialog tt relative mx-auto bg-white rounded-lg shadow-xl w-[400px]">
+        <div class="p-6">
+            <h2 class="text-xl text-suc font-semibold">{{ enemy_user.name }} left the game! You Won</h2>
+        </div>
+        <div class="p-6 py-0 flex items-center justify-center">
+            <p><i class="fa-solid fa-coins mr-2"></i>: <span
+                    class="text-suc font-bold">+{{ game_room.table.get_winner_prize_user_left_the_game|floatformat:2 }}</span>
+            </p>
+        </div>
+        <div class="p-6 py-0 flex items-center justify-center">
+            <p>Xp: <span class="text-suc font-bold">+{{ game_room.table.xp_for_winner }}</span></p>
+        </div>
+        <div class="flex justify-center p-6 text-sm font-medium">
+            <a href="{% url "home_page" %}">
+                <button class="px-4 py-1.5 btn-alert rounded-md mr-2" type="button">Back to home</button>
+            </a>
+
+            <a href="{% url "game_table_page" %}">
+                <button class="px-5 py-1.5 btn-suc rounded-md ml-2" type="button">Find match</button>
+            </a>
+
+        </div>
+
+        <!-- close button -->
+        <button type="button" class="bg-white rounded-full p-2 absolute right-0 top-0 m-3 dark:bg-slate-600 uk-modal-close">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<!-- game cancel alert -->
+<div class="lg:p-20 p-10 uk-modal" id="game-cancel" uk-modal="" tabindex="-1">
+    <div class="uk-modal-dialog tt relative mx-auto bg-white rounded-lg shadow-xl w-[400px]">
+        <div class="p-6">
+            <h2 class="text-xl text-info font-semibold">Sorry, Game is cancel !</h2>
+        </div>
+        <div class="p-6 py-0 flex items-center justify-center">
+            <p>Opponent Left the game</p>
+        </div>
+        <div class="flex justify-center p-6 text-sm font-medium">
+            <a href="{% url "home_page" %}">
+                <button class="px-4 py-1.5 btn-alert rounded-md mr-2" type="button">Back to home</button>
+            </a>
+
+            <a href="{% url "game_table_page" %}">
+                <button class="px-5 py-1.5 btn-suc rounded-md ml-2" type="button">Find match</button>
+            </a>
+
+        </div>
+
+        <!-- close button -->
+        <button type="button" class="bg-white rounded-full p-2 absolute right-0 top-0 m-3 dark:bg-slate-600 uk-modal-close">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+
+
 <div id="wrapper">
     <main class="2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
 
-        <div class="bg-white rounded-xl shadow-sm p-2 px-1 border1 dark:bg-dark2" style="box-shadow: 0px 0px 20px black;">
-            <div class="grid grid-cols-3 gap-3">
+        <div class="bg-white rounded-xl shadow-sm p-3 px-1 border1 dark:bg-dark2" style="box-shadow: 0px 0px 20px black;">
+            <div class="grid grid-cols-3">
                 <a href="#" uk-toggle="target: #enemy-profile" data-caption="Caption 1" style="display: flex; justify-content: flex-start">
-                    <div class="md:w-10 md:h-10 w-10 h-10 relative md:border-3 border-2 shadow border-white dark:border-slate-700">
-                        <img src="{% static "images/anrays-update.png" %}" alt="" class="absolute w-full h-full">
-                        <div class="w-4 h-4 absolute bg-green-500 rounded-full border border-white dark:border-slate-800"
-                             style="bottom: 30px;left: 30px;font-size: 8px;text-align: center;color: #ffffff;text-shadow: 0px 0px 5px #000000;font-weight: 900;">
-                            <span>123</span>
+                    <div id="enemy-profile-pic"
+                         class="md:w-10 md:h-10 w-10 h-10 relative md:border-3 border-2 shadow border-white dark:border-slate-700">
+                        {% if enemy_user.avatar is None %}
+                            <img src="{% versioned_static "images/profile-default.jpg" %}" alt="" class="absolute w-full h-full">
+                        {% else %}
+                            <img src="{{ enemy_user.avatar }}" alt="" class="absolute w-full h-full">
+                        {% endif %}
+                        <div class="w-4 h-4 absolute box-level" style="left: 26px">
+                            <span class="relative z-10">{{ enemy_user.level }}</span>
+                            <img src="{% versioned_static "images/star.png" %}" class="level-star">
                         </div>
                     </div>
                     <div style="display: flex; align-items: center">
-                        <p class="ml-2">anrays</p>
+                        <p class="m-2">{{ enemy_user.name }}</p>
                     </div>
                 </a>
 
                 <a href="#" style="display: flex; justify-content: center;flex-wrap: wrap;">
                     <div class="md:w-10 md:h-10 w-10 h-10 relative shadow border-white">
-                        <img src="{% static "images/aa.png" %}" alt="" class="absolute w-full h-full">
+                        <i class="fa-solid fa-coins"></i>
                     </div>
                     <div style="display: flex; align-items: center">
-                        <p class="ml-2 font-bold">1,000,000</p>
+                        <p class="font-bold">{{ game_room.table.get_winner_prize|floatformat:0 }}</p>
                     </div>
                     <div class="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700" role="progressbar" aria-valuenow="25"
                          aria-valuemin="0" aria-valuemax="100">
@@ -125,21 +284,24 @@
                 </a>
 
                 <a href="#" uk-toggle="target: #my-profile" data-caption="Caption 1" style="display: flex; flex-direction: row-reverse;">
-                    <div class="md:w-10 md:h-10 w-10 h-10 relative md:border-3 border-2 shadow border-white dark:border-slate-700">
-                        <img src="{% static "images/anrays-update.png" %}" alt="" class="absolute w-full h-full">
-                        <div class="w-4 h-4 absolute bg-green-500 rounded-full border border-white dark:border-slate-800"
-                             style="bottom: 30px;right: 30px;font-size: 8px;text-align: center;color: #ffffff;text-shadow: 0px 0px 5px #000000;font-weight: 900;">
-                            <span>45</span>
+                    <div id="my-profile-pic"
+                         class="md:w-10 md:h-10 w-10 h-10 relative md:border-3 border-2 shadow border-white dark:border-slate-700">
+                        {% if my_user.avatar is None %}
+                            <img src="{% versioned_static "images/profile-default.jpg" %}" alt="" class="absolute w-full h-full">
+                        {% else %}
+                            <img src="{{ my_user.avatar }}" alt="" class="absolute w-full h-full">
+                        {% endif %}
+                        <div class="w-4 h-4 absolute box-level">
+                            <span class="relative z-10">{{ my_user.level }}</span>
+                            <img src="{% versioned_static "images/star.png" %}" class="level-star">
                         </div>
+
                     </div>
                     <div style="display: flex; align-items: center">
-                        <p class="mr-2">anra2ys</p>
+                        <p class="m-2">{{ my_user.name }}</p>
                     </div>
                 </a>
-
             </div>
-
-
         </div>
 
         <!--  game board -->
@@ -547,7 +709,7 @@
                                     </div>
                                     <button id="roll-tas-btn" type="button" class="text-sm py-1.5 px-4 font-semibold bg-secondery btn-box-shadow"
                                             style="display: none"
-                                            onclick="click_roll_btn()"><i class="fa-solid fa-dice"></i></i> ROLL
+                                            onclick="click_roll_btn()"><i class="fa-solid fa-dice"></i></i> Roll Dice
                                     </button>
                                 </div>
                             </div>
@@ -571,18 +733,19 @@
                             <div id="f-m-p-15" class="finish-my-dice-place"></div>
                         </div>
 
-                        <div class="btn-box">
+                        <div id="btn-box-id" class="btn-box" style="display:none;">
                             <button type="button" class="text-sm py-1.5 px-4 font-semibold bg-secondery btn-box-shadow" onclick="action_undo()"><i
                                     class="fa-solid fa-rotate-left" style="color: #e34646"></i> Undo
                             </button>
-                            <button type="button" class="text-sm py-1.5 px-4 font-semibold bg-secondery btn-box-shadow">
-                                <i class="fa-solid fa-check" style="color: #1fe01f"></i> Go
+                            <button id="go-btn" type="button" class="text-sm py-1.5 px-4 font-semibold bg-secondery btn-box-shadow"
+                                    onclick="confirm_move()">
+                                <i class="fa-solid fa-check" style="color: #1fe01f"></i> Confirm
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-
+            <h4 id="info-box" class="text-center mt-2">Connecting ...</h4>
             <div class="enemy-dices">
                 <div id="e-d-1" class="enemy-dice-style"></div>
                 <div id="e-d-2" class="enemy-dice-style"></div>
@@ -619,21 +782,36 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm p-2 px-1 border1 dark:bg-dark2" style="position: absolute; bottom: 0;width: 100%">
+        <div class="bg-white rounded-xl shadow-sm p-2 px-1 mt-10 border1 dark:bg-dark2" style="width: 100%">
             <div class="grid grid-cols-2 gap-3">
                 <a href="#" uk-toggle="target: #close-rome" style="display: flex; flex-direction: row; font-size: 25px">
                     <i class="fa-solid fa-list"></i>
                 </a>
             </div>
-
-
         </div>
     </main>
 </div>
 
-<p id="request_res"></p>
+<audio id="moveSound" src="{% versioned_static "sounds/move.mp3" %}" preload="auto"></audio>
+<audio id="rollSound" src="{% versioned_static "sounds/roll_dice.mp3" %}" preload="auto"></audio>
+<audio id="roll2Sound" src="{% versioned_static "sounds/roll_dice_2.mp3" %}" preload="auto"></audio>
+<audio id="cantMoveSound" src="{% versioned_static "sounds/cant_move.mp3" %}" preload="auto"></audio>
+
+{{ game_room_id|json_script:"game_room_id" }}
+{{ turn_time|json_script:"turn_time" }}
+<p id="request_res" hidden></p>
 <script src="{% versioned_static "js/playing_game.js" %}"></script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var loading = document.getElementById("loading");
+        loading.style.display = "flex"; // نمایش صفحه لودینگ
+
+        window.addEventListener("load", function () {
+            loading.style.display = "none"; // پنهان کردن صفحه لودینگ
+        });
+    });
+</script>
 
 {% include 'footer_ref.html' %}
 </body>

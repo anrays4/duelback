@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-0cwq=sfzwll6g8e^rj#lr!lhs$&rf9$-)_vx&93z4yifrg)xtm'
 
-STATIC_VERSION = "1.0.0"
+STATIC_VERSION = "3.0.5"
 # Application definition
 
 INSTALLED_APPS = [
@@ -35,14 +35,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_render_partial',
+    'django.contrib.humanize',
 
     'rest_framework',
 
     'home.templatetags',
 
+    'payments',
     'players',
     'back_game',
     'home',
+    'about',
 ]
 
 MIDDLEWARE = [
@@ -152,47 +155,32 @@ TEMPLATES = [
 AUTH_USER_MODEL = 'players.User'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
 }
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=150),
-    #     "ROTATE_REFRESH_TOKENS": False,
-    #     "BLACKLIST_AFTER_ROTATION": False,
-    #     "UPDATE_LAST_LOGIN": False,
-    #
-    #     "ALGORITHM": "HS256",
-    #     "SIGNING_KEY": settings.SECRET_KEY,
-    #     "VERIFYING_KEY": "",
-    #     "AUDIENCE": None,
-    #     "ISSUER": None,
-    #     "JSON_ENCODER": None,
-    #     "JWK_URL": None,
-    #     "LEEWAY": 0,
-    #
-    #     "AUTH_HEADER_TYPES": ("Bearer",),
-    #     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
-    #     "USER_ID_FIELD": "id",
-    #     "USER_ID_CLAIM": "user_id",
-    #     "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
-    #
-    #     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
-    #     "TOKEN_TYPE_CLAIM": "token_type",
-    #     "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
-    #
-    #     "JTI_CLAIM": "jti",
-    #
-    #     "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    #     "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
-    #     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
-    #
-    #     "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
-    #     "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
-    #     "TOKEN_VERIFY_SERIALIZER": "rest_framework_simplejwt.serializers.TokenVerifySerializer",
-    #     "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
-    #     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
-    #     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
+
+
+TELEGRAM_BOT_ID = "Duelbackbot" # id without @
+TELEGRAM_BOT_TOKEN = "8041774615:AAFSOfK19ZX6D5Stz80uWd5tXYSK0PRge60"
+WEBSITE_URL = "https://google.com"  # with http or https and at last dont set slash
+DEPOSIT_KEY = "5wWscLcwu8YC1aLg9yoXbs0YOLVQvT3t"  # for create payment
+
+# users take tron from this wallet
+WITHDRAW_WALLET_ADDRESS = "TFwoUPuszP7956WtpL2bswrf9DbnKcQNPb"
+# api key tron wallet
+WITHDRAW_KEY = "8ff260c8-ac98-4204-9891-26a10b5fa224"
+# wallet privet key
+WALLET_PRIVATE_KEY = "48107bb9cfd54e660a8a968adee1b5e270661bfc288ad1ff5167e68727df8fe6"
+
+
+

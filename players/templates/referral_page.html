@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+
+
+{% block content %}
+    <div id="wrapper">
+        <main class="2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
+            <div class="main__inner" style="padding-top: 0">
+
+                <div class="level-box">
+
+                    <div class="flex items-center flex-col gap-3">
+                        <div class="flex-1">
+                            <h4 id="ref_link" class="font-semibold text-black dark:text-white" style="font-size: 0.7rem">
+                                {{ ref_link }}
+                            </h4>
+                        </div>
+                        <div class="">
+                            <form action="#" method="post" class="inline-block">
+                                {% csrf_token %}
+                                <button id="claim_reward_btn" type="submit" class="text-sm btn-shadow py-1.5 px-4 font-semibold bg-secondery">
+                                    <i class="fa-solid fa-sack-dollar mr-2"></i>
+                                    <span id="claim_reward">Claim</span>
+                                </button>
+                            </form>
+
+                            <button type="button" class="text-sm btn-shadow py-1.5 px-4 font-semibold bg-secondery"
+                                    onclick="copyTextFromElement()"><i class="fa-solid fa-copy mr-2"></i><span id="copy_ref_link_btn">Copy</span>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div>
+                    <div uk-sticky="cls-active: bg-slate-100/60 z-30 backdrop-blur-lg px-4 dark:bg-slate-800/60; start: 500; animation: uk-animation-slide-top"
+                         class="uk-sticky">
+
+                        <nav class="text-sm text-center text-gray-500 capitalize font-semibold dark:text-white">
+                            <ul class="flex gap-2 justify-center border-t dark:border-slate-700"
+                                uk-switcher="connect: #backgammon_tap ; animation: uk-animation-fade, uk-animation-slide-left-medium">
+
+                                <li class="uk-active">
+                                    <a href="#"
+                                       class="flex items-center p-4 py-2.5 -mb-px border-t-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white"
+                                       aria-expanded="true">
+                                        Referrals
+                                    </a>
+                                </li>
+                                <li class="uk-active">
+                                    <a href="#"
+                                       class="flex items-center p-4 py-2.5 -mb-px border-t-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white"
+                                       aria-expanded="true">
+                                        History
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+
+                    </div>
+
+                    <div class="uk-sticky-placeholder" hidden="" style="height: 41.4px; width: 895px; margin: 0px;"></div>
+
+                    <div id="backgammon_tap" class="uk-switcher">
+
+                        <div class="uk-active">
+                            <div class="match-details-box">
+                                <div class="flex flex-col items-center">
+                                    <p>Referrals</p>
+                                    <p class="text-center font-extrabold"><i class="fa-solid fa-users mr-2"></i> {{ referral_count }}</p>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <p>Profit</p>
+                                    <p class="text-center font-extrabold"><i
+                                            class="fa-solid fa-coins mr-2"></i>{{ my_user.referral_profit|floatformat:2 }}</p>
+                                </div>
+                            </div>
+
+                            <div class="match-list">
+
+                                {% for referral in referrals %}
+                                    <div class="matches" style="background-color: #7171713d">
+                                        <div class="inline-pic-my">
+                                            {% if referral.invited_user.avatar is None %}
+                                                <img src="{% versioned_static "images/profile-default.jpg" %}" alt=""
+                                                     class="bg-gray-200 match-pic ml-2 mr-2">
+                                            {% else %}
+                                                <img src="{{ referral.invited_user.avatar }}" alt="" class="bg-gray-200 match-pic ml-2 mr-2">
+                                            {% endif %}
+
+
+                                            <h4 class="font-semibold text-sm text-black dark:text-white text-left">{{ referral.invited_user.name }}</h4>
+
+                                        </div>
+
+                                        <div class="match-status">
+                                            <p class="font-bold text-sm"><i class="fa-solid fa-star"></i>
+                                                <span>{{ referral.invited_user.level }}</span>
+                                            </p>
+                                        </div>
+
+                                        <div class="match-status mr-2">
+                                            <p class="font-bold text-sm"><i class="fa-solid fa-trophy"></i>
+                                                <span>{{ referral.invited_user.backgammon_game_wins }}</span></p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="space-y-2 capitalize text-xs font-normal mt-5 mb-2 text-gray-500 dark:text-white/80">
+                                {% for history in claim_history reversed %}
+                                    {% if forloop.counter0 < 10 %}
+                                        <div class="flex items-center gap-3">
+                                            <span>{{ forloop.counter }}</span>
+
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-sm"><i class="fa-regular fa-calendar"></i> {{ history.claim_time }}
+                                                </h4>
+                                            </div>
+                                            <button type="button" class=" text-sm rounded-full py-1.5 px-4 font-semibold bg-secondery">
+                                                <i class="fa-solid fa-coins deposit-suc"></i> {{ history.amount }}
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+{% endblock %}
+
+
+{% block footer_ref %}
+    <script>
+        const claim_reward_btn = document.getElementById("claim_reward_btn");
+        claim_reward_btn.addEventListener("click", function () {
+            document.getElementById("claim_reward").innerText = "Loading ...";
+        })
+
+        function copyTextFromElement() {
+            const element = document.getElementById("ref_link");
+            const text = element.innerText || element.textContent;
+
+            if (navigator.clipboard) {
+                // Clipboard API استفاده از
+                navigator.clipboard.writeText(text).then(() => {
+                }).catch(err => {
+                });
+            } else {
+                // روش جایگزین برای مرورگرهای قدیمی‌تر (execCommand)
+                const tempInput = document.createElement('textarea');
+                tempInput.value = text;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                }
+                document.body.removeChild(tempInput);
+
+            }
+            document.getElementById('copy_ref_link_btn').innerText = "Copied!";
+            setTimeout(function () {
+                document.getElementById('copy_ref_link_btn').innerText = "Copy"
+            }, 1000)
+        }
+    </script>
+{% endblock %}
+

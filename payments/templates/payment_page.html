@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% load humanize %}
+
+{% block content %}
+    <main class="2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
+        <div class="main__inner pt-0">
+
+            <div class="level-box">
+                <h4 class="font-bold">Your Payment</h4>
+                <span><span class="text-gray-400 font-extrabold"
+                            style="color:#23953c;">{{ my_payment.amount|floatformat:6 }}</span> Tron (trc 20) </span>
+
+                <div id="timer" class="font-extrabold">59:59</div>
+            </div>
+
+            <div class="mt-10">
+                <!-- sticky tabs -->
+                <div uk-sticky="cls-active: bg-slate-100/60 z-30 backdrop-blur-lg px-4 dark:bg-slate-800/60; start: 500; animation: uk-animation-slide-top"
+                     class="uk-sticky">
+
+                    <nav class="text-sm text-center text-gray-500 capitalize font-semibold dark:text-white">
+                        <ul class="flex gap-2 justify-center border-t dark:border-slate-700"
+                            uk-switcher="connect: #story_tab ; animation: uk-animation-fade, uk-animation-slide-left-medium">
+
+                            <li class="uk-active"><a href="#"
+                                                     class="flex items-center p-4 py-2.5 -mb-px border-t-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white"
+                                                     aria-expanded="false">
+                                <ion-icon class="mr-2 text-2xl" name="camera-outline"></ion-icon>
+                                Wallet Address </a></li>
+                        </ul>
+                    </nav>
+
+                </div>
+                <div class="uk-sticky-placeholder" hidden="" style="height: 41.4px; width: 682.2px; margin: 0px;"></div>
+
+
+                <div id="story_tab" class="uk-switcher" style="touch-action: pan-y pinch-zoom;">
+
+
+                    <div class="">
+
+                        <div class="space-y-2 capitalize text-xs font-normal mt-5 mb-2 text-gray-500 dark:text-white/80">
+
+                            <div class="flex items-center gap-3">
+                                <span>{{ forloop.counter }}</span>
+
+                                <div class="flex-1">
+                                    <div id="to_walllet" class="mt-0.5 font-bold"><i class="fa-solid fa-wallet"></i> {{ my_payment.to_address }}</div>
+                                </div>
+                                <button onclick="copyTextFromElement()" type="button"
+                                        class="text-sm rounded-full py-1.5 px-4 font-semibold bg-secondery">
+                                    <i class="fa-solid fa-copy"></i> <span id="copy_text">Copy</span>
+                                </button>
+
+                            </div>
+
+                            <div class="mt-5 font-bold" style="border-bottom: 3px solid;">Please note that:</div>
+                            <div class="mt-2 font-bold">1. You must enter the exact amount of specified currency for the above wallet address</div>
+                            <div class="mt-2 font-bold">2. This payment gateway expires after <span class="font-extrabold">60</span> minutes</div>
+                            <div class="mt-2 font-bold">
+                                3. Please make sure that the amount you send us is exactly
+                                <span class="font-extrabold" style="color:#23953c;">
+                                {{ my_payment.amount|floatformat:6 }}
+                                </span>
+                            </div>
+                            <div class="mt-2 font-bold">4. Your payment will be confirmed after 10 to 60 minutes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    </div>
+    <script>
+        function time_count(time_s) {
+            if (time_s < 0 || isNaN(time_s)) return "00:00";
+            const minutes = Math.floor(time_s / 60);
+            const seconds = time_s % 60;
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        var base_time = parseInt({{ time }});
+        document.getElementById("timer").innerText = time_count(base_time);
+        setInterval(function () {
+            base_time --;
+            document.getElementById("timer").innerText = time_count(base_time);
+        }, 1000)
+
+        function copyTextFromElement() {
+            const element = document.getElementById("to_walllet");
+            const text = element.innerText || element.textContent;
+
+            if (navigator.clipboard) {
+                // Clipboard API استفاده از
+                navigator.clipboard.writeText(text).then(() => {
+                }).catch(err => {
+                });
+            } else {
+                // روش جایگزین برای مرورگرهای قدیمی‌تر (execCommand)
+                const tempInput = document.createElement('textarea');
+                tempInput.value = text;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                }
+                document.body.removeChild(tempInput);
+
+            }
+            document.getElementById('copy_text').innerText = "Copied!";
+            setTimeout(function () {
+                document.getElementById('copy_text').innerText = "Copy"
+            }, 1500)
+        }
+    </script>
+{% endblock %}
+

@@ -1,0 +1,38 @@
+{% load custom_tags %}
+
+<div class="flex items-center justify-between px-6 z-10 border-b dark:border-slate-700 uk-animation-slide-top-medium">
+    <div class="flex items-center sm:gap-4 gap-2">
+        <a class="flex items-center gap-3 p-2 group" href="{% url "profile_page" %}">
+            <div>
+                <div class="w-4 h-4 absolute box-level-home">
+                    <span class="relative z-10">{{ my_user.level }}</span>
+                    <img src="/static/images/star.png?v=1.0.0" class="level-star-home">
+                </div>
+                {% if my_user.avatar is None %}
+                    <img src="{% versioned_static "images/profile-default.jpg" %}" alt=""
+                         class="profile-pic-border md:w-7 md:h-7 border-2 dark:border-gray-700">
+                {% else %}
+                    <img src="{{ my_user.avatar }}" alt=""
+                         class="profile-pic-border md:w-7 md:h-7 border-2 dark:border-gray-700">
+                {% endif %}
+
+            </div>
+
+
+            <span class="font-semibold text-base">  {{ my_user.name }} </span>
+        </a>
+
+    </div>
+
+    <div class="flex items-center gap-2">
+        <a href="{% url "deposit_page" %}">
+            <button type="button" class="buy-btn px-4 py-1.5 rounded-md bg-white shadow aria-expanded:dark:bg-slate-700/80 uk-active"
+                    aria-expanded="true">
+                <span class="font-bold"><i class="fa-solid fa-coins mr-2"></i>{{ my_user.game_token|floatformat:2 }}</span>
+                <i class="fa-solid fa-plus ml-2"></i>
+            </button>
+        </a>
+
+    </div>
+
+</div>

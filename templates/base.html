@@ -1,0 +1,55 @@
+{% load static %}
+{% load render_partial %}
+{% load custom_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link href="{% versioned_static "images/new-logo.png" %}" rel="icon" type="image/png">
+
+    <!-- title and description-->
+    <title>Duelback</title>
+    <meta name="description" content="DuelBack - Best gaming platform for enjoy">
+
+    {% include 'header_ref.html' %}
+
+</head>
+<body>
+
+<div id="loading" style="display: none;">
+    <div class="loader"></div>
+</div>
+{% render_partial "topbar" %}
+
+
+{% block header_ref %}{% endblock %} {# برای تعریف ref های برای صفحات مختلف #}
+
+{% block content %}
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+{% render_partial 'sidebar' %}
+{% block footer_ref %}{% endblock %} {# برای تعریف js های برای صفحات مختلف #}
+
+{% include 'footer_ref.html' %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var loading = document.getElementById("loading");
+        loading.style.display = "flex"; // نمایش صفحه لودینگ
+
+        window.addEventListener("load", function () {
+            loading.style.display = "none"; // پنهان کردن صفحه لودینگ
+        });
+    });
+</script>
+</body>
+</html>

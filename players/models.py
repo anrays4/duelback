@@ -1,10 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
-
 import random
 import string
-
 from back_game.models import GameTable
 
 
@@ -32,13 +30,14 @@ class UserManager(BaseUserManager):
 class User(AbstractUser, PermissionsMixin):
     username = models.CharField(verbose_name="username", max_length=150, unique=True)
     password = models.CharField(verbose_name="password", max_length=128)
+    user_id = models.CharField(verbose_name="Tel_ID", max_length=128, unique=True)
     name = models.CharField(verbose_name="name", max_length=100, blank=True, null=True)
-    avatar = models.CharField(max_length=500,verbose_name="avatar", blank=True, null=True)  # URL پیش‌فرض برای آواتار
-    # دیفالت
+    avatar = models.CharField(max_length=500, verbose_name="avatar", blank=True, null=True)
     level = models.IntegerField(verbose_name="level", default=1)
     level_xp = models.IntegerField(verbose_name="level xp", default=0)
-    game_token = models.IntegerField(verbose_name="game token", default=0)  # مقدار ثابت اولیه توکن
+    game_token = models.FloatField(verbose_name="game token", default=0)  # مقدار ثابت اولیه توکن
     referral_code = models.CharField(verbose_name="referral code", max_length=10, unique=True, blank=True)
+    referral_profit = models.FloatField(verbose_name="referral profit token", default=0)
 
     is_staff = models.BooleanField(verbose_name='staff status', default=False,
                                    help_text='Designates whether the user can log into this admin site.')
@@ -48,6 +47,8 @@ class User(AbstractUser, PermissionsMixin):
 
     date_joined = models.DateTimeField(verbose_name='date joined', default=timezone.now)
     last_seen = models.DateTimeField(verbose_name='last seen date', null=True)
+
+    backgammon_game_wins = models.IntegerField(default=0)
 
     objects = UserManager()
 
@@ -59,6 +60,30 @@ class User(AbstractUser, PermissionsMixin):
         verbose_name = 'User'
         verbose_name_plural = 'Users'
 
+    def create_lose_game_history(self, winner, game_table):
+        GameHistory.objects.create(user1=self, user2=winner, status="lose", table=game_table)
+
+        if Referral.objects.filter(invited_user=self).exists():
+            my_inviter = Referral.objects.get(invited_user=self).inviter
+            my_inviter.referral_profit += game_table.fee * (1 / 100)
+            my_inviter.save()
+
+    def create_win_game_history(self, loser, game_table):
+        GameHistory.objects.create(user1=self, user2=loser, status="win", table=game_table)
+
+        if Referral.objects.filter(invited_user=self).exists():
+            my_inviter = Referral.objects.get(invited_user=self).inviter
+            my_inviter.referral_profit += game_table.fee * (1 / 100)
+            my_inviter.save()
+
+    def decrease_my_token(self, fee):
+        self.game_token -= fee
+        self.save()
+
+    def deposit_token(self, amount):
+        self.game_token += amount
+        self.save()
+
     def __str__(self):
         return self.username
 
@@ -66,9 +91,6 @@ class User(AbstractUser, PermissionsMixin):
         # ساختن referral_code به صورت یونیک رندوم در اولین ذخیره
         if not self.referral_code:
             self.referral_code = self.generate_unique_referral_code()
-
-        # به روزرسانی level بر اساس level_xp
-        self.level = (self.level_xp // 1000) + 1
 
         super().save(*args, **kwargs)
 
@@ -116,3 +138,12 @@ class GameHistory(models.Model):
 
     def __str__(self):
         return f"Game between {self.user1.name} and {self.user2.name} on {self.table.name}"
+
+
+class TakeReferralsProfitHistory(models.Model):
+    for_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.FloatField()
+    claim_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.for_user.username

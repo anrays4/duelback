@@ -1,6 +1,14 @@
 from django.contrib import admin
 
-from .models import User, Referral, GameHistory
+from .models import User, Referral, GameHistory,TakeReferralsProfitHistory
+
+
+
+@admin.register(TakeReferralsProfitHistory)
+class TakeReferralsProfitHistoryAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'amount', 'claim_time')
+    search_fields = ('for_user__username', 'amount')
+    ordering = ('-amount',)
 
 
 # ثبت مدل User در پنل ادمین

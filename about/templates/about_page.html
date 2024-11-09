@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% load humanize %}
+
+{% block header_ref %}
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+{% endblock %}
+
+{% block content %}
+    <main class="2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
+        <div class="main__inner pt-0">
+
+            <div class="flex justify-center" uk-scrollspy="target: > *; cls: uk-animation-scale-up; delay: 100 ;repeat: true">
+                <img src="{% versioned_static "images/base.jpg" %}" alt="" class="w-auto shrink-0 bg-fuchsia-100 rounded-2xl uk-scrollspy-inview"
+                     style="width: 180px">
+            </div>
+
+            <div class="level-box">
+                <h4 class="font-bold">Follow Us</h4>
+            </div>
+
+            <div class="all-socials">
+                {% for social in socials %}
+                    <a href="#" onclick="open_link('{{ social.link }}')">
+                        <img src="{{ social.logo.url }}" alt="{{ social.social_name }}" class="social-logo">
+                    </a>
+                {% endfor %}
+            </div>
+
+            <div class="mt-10">
+
+                <!-- sticky tabs -->
+                <div uk-sticky="cls-active: bg-slate-100/60 z-30 backdrop-blur-lg px-4 dark:bg-slate-800/60; start: 500; animation: uk-animation-slide-top"
+                     class="uk-sticky">
+
+                    <nav class="text-sm text-center text-gray-500 capitalize font-semibold dark:text-white">
+                        <ul class="flex gap-2 justify-center border-t dark:border-slate-700"
+                            uk-switcher="connect: #story_tab ; animation: uk-animation-fade, uk-animation-slide-left-medium">
+
+                            <li class="uk-active"><a href="#"
+                                                     class="flex items-center p-4 py-2.5 -mb-px border-t-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white"
+                                                     aria-expanded="false">
+                                <ion-icon class="mr-2 text-2xl" name="camera-outline"></ion-icon>
+                                About us </a></li>
+                        </ul>
+                    </nav>
+
+                </div>
+                <div class="uk-sticky-placeholder" hidden="" style="height: 41.4px; width: 682.2px; margin: 0px;"></div>
+
+
+                <div id="story_tab" class="uk-switcher mb-20" style="touch-action: pan-y pinch-zoom;">
+
+                    <!-- Post list -->
+                    <div class="uk-active" style="">
+
+                        <p>Welcome to <span class="font-extrabold">Duel Back</span>, where exciting competitions await you! At Duel Back, we offer a
+                            unique platform for head-to-head
+                            games, providing a different experience in the world of online gaming. Here, users can directly compete against each
+                            other and enhance their skills to reach higher levels.
+                            <br>
+                            <br>
+                            Currently, <span class="font-extrabold">Duel Back</span> offers two popular and challenging games: backgammon and Sudoku,
+                            perfect for fans of strategic
+                            and brain-teasing games. Our aim is to introduce a new and exciting game to our lineup every month, ensuring a world
+                            of diversity and choices for our users.
+                            <br>
+                            <br>
+                            What makes <span class="font-extrabold">Duel Back</span> special is that, in addition to enjoying the games, users can win
+                            bet prizes through two-player
+                            challenges. This feature adds an extra layer of excitement and motivation to every game.
+                            <br>
+                            <br>
+                            We are committed to transparency and security in all our interactions and strive to create a safe and trustworthy
+                            environment for all players. Our support team is always ready to answer your questions and meet your needs.
+                            <br>
+                            <br>
+                            Learn more about <span class="font-extrabold">Duel Back</span> and join us on this exciting journey. Are you ready to
+                            challenge your intellect and win
+                            great prizes? Come and meet new friends and rivals!</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </main>
+    </div>
+    <script>
+        function open_link(link) {
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.openLink(link.toString());
+            }
+        }
+    </script>
+{% endblock %}
+

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% load humanize %}
+
+{% block content %}
+    <div id="wrapper">
+        <main class="2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
+            <div class="main__inner pt-0">
+
+                <div class="level-box">
+                    <h4 class="font-bold">Withdrawal</h4>
+                </div>
+
+                <div class="mt-10">
+
+                    <!-- sticky tabs -->
+                    <div uk-sticky="cls-active: bg-slate-100/60 z-30 backdrop-blur-lg px-4 dark:bg-slate-800/60; start: 500; animation: uk-animation-slide-top"
+                         class="uk-sticky">
+
+                        <nav class="text-sm text-center text-gray-500 capitalize font-semibold dark:text-white">
+                            <ul class="flex gap-2 justify-center border-t dark:border-slate-700"
+                                uk-switcher="connect: #story_tab ; animation: uk-animation-fade, uk-animation-slide-left-medium">
+
+                                <li class="uk-active"><a href="#"
+                                                         class="flex items-center p-4 py-2.5 -mb-px border-t-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white"
+                                                         aria-expanded="false">
+                                    <ion-icon class="mr-2 text-2xl" name="camera-outline"></ion-icon>
+                                    Withdraw </a></li>
+                                <li class=""><a href="#"
+                                                class="flex items-center p-4 py-2.5 -mb-px border-t-2 border-transparent aria-expanded:text-black aria-expanded:border-black aria-expanded:dark:text-white aria-expanded:dark:border-white"
+                                                aria-expanded="true">
+                                    <ion-icon class="mr-2 text-2xl" name="play-outline"></ion-icon>
+                                    History </a></li>
+                            </ul>
+                        </nav>
+
+                    </div>
+                    <div class="uk-sticky-placeholder" hidden="" style="height: 41.4px; width: 682.2px; margin: 0px;"></div>
+
+
+                    <div id="story_tab" class="uk-switcher" style="touch-action: pan-y pinch-zoom;">
+
+                        <!-- Post list -->
+                        <div class="uk-active">
+                            <form method="POST" class="space-y-3" uk-scrollspy="target: > *; cls: uk-animation-scale-up; delay: 100 ;repeat: true">
+                                {% csrf_token %}
+                                <input class="!w-full" id="waller-address" name="wallet" type="text" placeholder="Wallet TRX" minlength="20"
+                                       required="">
+                                <input class="!w-full" id="token" name="token" type="number" placeholder="Token amount" min="20"
+                                       required="">
+                                {% if wallet_error %}
+                                    <p class="text-red-600">* Wallet address is not valid.</p>
+                                {% endif %}
+
+                                {% if token_error %}
+                                    <p class="text-red-600">* Token is not enough to withdraw.</p>
+                                {% endif %}
+
+                                {% if send_error %}
+                                    <p class="text-orange-500">* Your withdrawal request was not approved. Please try again later or contact support.</p>
+                                {% endif %}
+
+                                <p>* Minimum <span class="font-extrabold">20</span> token</p>
+                                <button type="submit"
+                                        class="font-medium w-full rounded-lg py-1.5 px-4 text-white h-[38px] active:scale-[0.97] transition-all duration-150 uk-scrollspy-inview "
+                                        style="background-color: #23953c;"><span>Withdraw</span></button>
+
+                            </form>
+                        </div>
+
+                        <div class="">
+
+                            <div class="space-y-2 capitalize text-xs font-normal mt-5 mb-2 text-gray-500 dark:text-white/80">
+                                {% for payment in payments reversed %}
+                                    <div class="flex items-center gap-3">
+                                        <span>{{ forloop.counter }}</span>
+
+                                        <div class="flex-1">
+                                            {% if payment.status == "2" %}
+                                                <h4 class="font-semibold text-sm deposit-fail"><i class="fa-solid fa-xmark"></i> Reject
+                                                </h4>
+                                            {% elif payment.status == "3" %}
+                                                <h4 class="font-semibold text-sm deposit-suc"><i class="fa-solid fa-check"></i> Done</h4>
+                                            {% endif %}
+
+                                            <div class="mt-0.5">{{ payment.created_time }}</div>
+                                        </div>
+                                        <button type="button" class=" text-sm rounded-full py-1.5 px-4 font-semibold bg-secondery">
+                                            <i class="fa-solid fa-coins"></i> {{ payment.amount_game_token }}
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+    </div>
+    </main>
+    </div>
+{% endblock %}
+

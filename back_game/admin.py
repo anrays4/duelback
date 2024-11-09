@@ -5,7 +5,7 @@ from .models import GameTable, WaitingRoom, GameRoom, PlayerWarning
 
 @admin.register(GameTable)
 class GameTableAdmin(admin.ModelAdmin):
-    list_display = ('name', 'fee', 'image', 'xp_for_winner', 'xp_for_loser', 'is_active', 'created_time')
+    list_display = ('name', 'fee', 'xp_for_winner', 'xp_for_loser', 'is_active', 'created_time')
     search_fields = ('name',)
     list_filter = ('created_time',)
     ordering = ('-created_time',)
@@ -20,17 +20,8 @@ class WaitingRoomAdmin(admin.ModelAdmin):
 
 @admin.register(GameRoom)
 class GameRoomAdmin(admin.ModelAdmin):
-    list_display = ('id', 'waiting_room', 'player_1', 'player_2')
+    list_display = ('id', 'table', 'player_1__username', 'player_2__username')
     search_fields = ('player_1__username', 'player_2__username')
-
-    fieldsets = (
-        (None, {
-            'fields': ('waiting_room', 'player1', 'player2', 'current_turn', 'board_state')
-        }),
-        ('Timestamps', {
-            'fields': ('last_move_time', 'move_deadline')
-        }),
-    )
 
 
 @admin.register(PlayerWarning)

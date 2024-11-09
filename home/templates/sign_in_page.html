@@ -1,0 +1,71 @@
+{% load static %}
+{% load custom_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="{% versioned_static "images/new-logo.png" %}" rel="icon" type="image/png">
+
+    <title>Enter your Name</title>
+    <meta name="description" content="DuelBack - Best gaming platform for enjoy">
+    {% include 'header_ref.html' %}
+    <link rel="stylesheet" href="{% versioned_static "css/playing_game.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="{% versioned_static "js/jquery-3.7.1.js" %}"></script>
+    <style>
+        #base_logo {
+            width: 180px;
+        }
+    </style>
+</head>
+<body>
+<div id="loading" style="display: none;">
+    <div class="flex flex-col h-screen items-center">
+        <div class="max-w-sm mx-auto md:px-10 p-4 w-full">
+            <div class="flex flex-col justify-center">
+
+                <div class="flex justify-center mb-12" uk-scrollspy="target: > *; cls: uk-animation-scale-up; delay: 100 ;repeat: true">
+                    <img id="base_logo" src="{% versioned_static "images/base.jpg" %}" alt=""
+                         class="w-auto shrink-0 bg-fuchsia-100 rounded-2xl uk-scrollspy-inview ">
+
+                </div>
+
+
+            </div>
+        </div>
+        <div class="loader mt-10"></div>
+    </div>
+
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+        }
+        var loading = document.getElementById("loading");
+        loading.style.display = "flex";
+
+        window.addEventListener("load", function () {
+            //loading.style.display = "none";
+        });
+    });
+    const data = window.Telegram.WebApp;
+    const INIT_DATA = data.initData;
+
+    if (window.location.pathname.length < 10) {
+        setTimeout(function () {
+            window.location.pathname = "/" + INIT_DATA;
+        }, 1100)
+    }
+
+</script>
+</body>
+</html>

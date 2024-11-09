@@ -5,43 +5,42 @@
 
 
 {% block content %}
-    <div id="wrapper">
+    <div id="wrapper" style="margin-bottom: 110px">
         <main class="2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
 
-            <div class="main__inner">
-
+            {#     backgammon game      #}
+            <div class="main__inner mt-5" style="padding-top: 0">
                 <div class="relative bg-white border border-slate-200 p-1 rounded-xl shadow-sm overflow-hidden dark:border1 dark:bg-dark2">
 
                     <h4 class="text-lg font-medium text-black dark:text-white absolute top-4 left-4"> Backgammon </h4>
 
-                    <!-- button tab -->
                     <div class="inline-flex my-2 bg-slate-50 rounded-md p-0.5 font-medium text-sm shadow-sm absolute top-1.5 right-3 dark:bg-slate-700/40"
                          uk-switcher="animation: uk-animation-slide-left-small, uk-animation-slide-right-small ;toggle: > *">
                         <button type="button" class="px-4 py-1.5 rounded-md bg-white shadow aria-expanded:dark:bg-slate-700/80" aria-expanded="false">
-                            <i class="fa-solid fa-users"></i> <span>1,200</span>
+                            <i class="fa-solid fa-users"></i> <span>{{ total_backgammon_game }}</span>
                         </button>
                     </div>
 
-                    <div class="bg-slate-50 rounded-lg border border-gray-100 overflow-hidden mt-[60px] dark:border1 dark:bg-dark1">
+                    <div class="bg-slate-50 rounded-lg border border-gray-100 overflow-hidden mt-[60px] dark:border1 dark:bg-dark1"
+                         style="height: 220px">
 
-                        <!-- Preview -->
-                        <div class="p-10 relative" style="background-image: url('{% versioned_static "images/back.PNG" %}')">
+                        <div class="p-10 relative pt-20"
+                             style="background-image: url('{% versioned_static "images/backgammon.jpg" %}'); background-repeat: round;height: 220px">
 
                             <div class="relative z-20">
+                                <div class="relative z-20 flex justify-center py-2">
+                                    <a href="{% url "game_table_page" %}">
+                                        <button class="button bg-secondery text-white w-32 btn-shadow">Play</button>
+                                    </a>
 
-
-                                <div class="grid gap-5 md:grid-cols-2 dark:text-white">
-                                    <div class="p-5 bg-white shadow rounded-md dark:bg-slate-700 uk-scrollspy-inview "
-                                         uk-scrollspy="cls: uk-animation-slide-left; repeat: true" style="">
-                                        <h3 class="mb-2 text-base font-semibold">Left</h3>
-                                        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div>
-                                    <div class="p-5 bg-white shadow rounded-md dark:bg-slate-700 uk-scrollspy-inview "
-                                         uk-scrollspy="cls: uk-animation-slide-right; repeat: true" style="">
-                                        <h3 class="mb-2 text-base font-semibold">Right</h3>
-                                        <p class="text-sm">Lorem ipsum dolor sit amet consectetur adipiscing elit.</p>
-                                    </div>
                                 </div>
+                                <div class="relative z-20 flex justify-center py-2">
+                                    <a href="{% url "backgammon_leaderboard" %}">
+                                        <button class="button bg-secondery text-white w-32 btn-shadow">Leaderboard</button>
+                                    </a>
+
+                                </div>
+
 
                             </div>
                         </div>
@@ -52,9 +51,43 @@
 
             </div>
 
+            <div class="main__inner" style="padding-top: 0">
+                <div class="relative bg-white border border-slate-200 p-1 rounded-xl shadow-sm overflow-hidden dark:border1 dark:bg-dark2">
+
+                    <h4 class="text-lg font-medium text-black dark:text-white absolute top-4 left-4"> Sudoku </h4>
+
+                    <div class="inline-flex my-2 bg-slate-50 rounded-md p-0.5 font-medium text-sm shadow-sm absolute top-1.5 right-3 dark:bg-slate-700/40"
+                         uk-switcher="animation: uk-animation-slide-left-small, uk-animation-slide-right-small ;toggle: > *">
+                        <button type="button" class="px-4 py-1.5 rounded-md bg-white shadow aria-expanded:dark:bg-slate-700/80" aria-expanded="false">
+{#                            <i class="fa-solid fa-users"></i> <span>{{ total_backgammon_game }}</span>#}
+                        </button>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-lg border border-gray-100 overflow-hidden mt-[60px] dark:border1 dark:bg-dark1"
+                         style="height: 220px">
+
+                        <div class="p-10 relative pt-20"
+                             style="background-image: url('{% versioned_static "images/sudoku-bg.jpg" %}'); background-repeat: round;height: 220px">
+
+                            <div class="relative z-20">
+                                <div class="relative z-20 flex justify-center py-2 mt-10">
+                                    <a href="#">
+                                        <button class="button bg-secondery text-white w-48 btn-shadow">
+                                            <i class="fa-solid fa-lock"></i>
+                                            Coming soon
+                                        </button>
+                                    </a>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </main>
     </div>
-
 {% endblock %}
 
 
