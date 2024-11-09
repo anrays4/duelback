@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-0cwq=sfzwll6g8e^rj#lr!lhs$&rf9$-)_vx&93z4yifrg)xtm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['duelback.com', 'www.duelback.com', "162.254.32.4"]
+ALLOWED_HOSTS = ['duelback.com', 'www.duelback.com', "162.254.32.4", "localhost"]
 
 STATIC_VERSION = "1.0.0"
 # Application definition
