@@ -32,7 +32,7 @@ urlpatterns = [
 
     path('register/player', RegisterPlayer.as_view(), name="register_api"),
 
-    path('admin/', admin.site.urls),
+    path('admin/aliarya/duelback', admin.site.urls),
 
     # URLs برای اپ players
     path('users/', include('players.urls')),
