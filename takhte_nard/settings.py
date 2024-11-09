@@ -75,12 +75,8 @@ WSGI_APPLICATION = 'takhte_nard.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'duelbackdb',
-        'USER': 'duelbackdbuser',
-        'PASSWORD': 'Arya_13811218@db',
-        'HOST': 'localhost',
-        'POST': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
