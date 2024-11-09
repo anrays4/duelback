@@ -1,5 +1,10 @@
+*.pyc
+*/*.pyc
+*/*/*.pyc
+
 .venv/
 .idea/
 
 **/__pycache__/
 *.pyc
+db.sqlite3
