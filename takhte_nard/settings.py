@@ -13,11 +13,13 @@ SECRET_KEY = 'django-insecure-0cwq=sfzwll6g8e^rj#lr!lhs$&rf9$-)_vx&93z4yifrg)xtm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['duelback.com', 'www.duelback.com', "162.254.32.4", "localhost"]
+ALLOWED_HOSTS = ['duelback.com', 'www.duelback.com', "localhost"]
 
 STATIC_VERSION = "1.0.0"
-# Application definition
 
+CSRF_TRUSTED_ORIGINS = ['https://www.duelback.com']
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -73,13 +75,23 @@ WSGI_APPLICATION = 'takhte_nard.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'duel_db',
+        'USER': 'duel_db_user',
+        'PASSWORD': 'Arya_13811218@13811218',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
