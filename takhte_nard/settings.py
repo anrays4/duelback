@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-0cwq=sfzwll6g8e^rj#lr!lhs$&rf9$-)_vx&93z4yifrg)xtm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['duelback.com', 'www.duelback.com', "localhost"]
 
