@@ -249,7 +249,7 @@ class PollingTurnAPIView(APIView):
                 game_room.save()
                 return Response({"status": "you_win"}, status=status.HTTP_200_OK)
 
-            if game_room.is_player_1_win and game_room.game_room_is_end and not game_room.is_player_2_offline:
+            if game_room.is_player_1_win and game_room.game_room_is_end and game_room.is_player_2_offline:
                 game_room.iam_win_the_game(winner=game_room.player_1,
                                            prize=game_room.table.get_winner_prize_user_left_the_game())
                 game_room.game_room_is_end = True
@@ -271,7 +271,7 @@ class PollingTurnAPIView(APIView):
                 game_room.iam_lose_the_game(loser=game_room.player_2)
                 return Response({"status": "you_lose"}, status=status.HTTP_200_OK)
 
-            if game_room.is_player_2_win and game_room.game_room_is_end and not game_room.is_player_1_offline:
+            if game_room.is_player_2_win and game_room.game_room_is_end and game_room.is_player_1_offline:
                 game_room.iam_win_the_game(winner=game_room.player_2,
                                            prize=game_room.table.get_winner_prize_user_left_the_game())
                 game_room.game_room_is_end = True
@@ -423,7 +423,6 @@ class CheckTimePlease(APIView):
                                                prize=game_room.table.get_winner_prize_user_left_the_game())
                     game_room.iam_lose_the_game(loser=game_room.get_enemy_user_qs(my_user))
                     game_room.delete()
-                    print("hello ")
                     return Response({"status": "you_win"}, status=status.HTTP_200_OK)
 
         if game_room.game_room_is_end:

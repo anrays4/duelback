@@ -1,18 +1,18 @@
 import telebot
 import requests
-from telebot.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton
+from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 
-API_TOKEN = '6877055485:AAFsii5hGHW9kXvsrd8zsphwa2P6IXcmg7s'
+API_TOKEN = '8041774615:AAFSOfK19ZX6D5Stz80uWd5tXYSK0PRge60'
 
 bot = telebot.TeleBot(API_TOKEN)
 
-mini_app_url = "https://google.com/"
-sign_up_url = ''
+mini_app_url = "https://www.duelback.com/register"
+sign_up_url = 'https://www.duelback.com/register/player'
+
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     referral = message.text.split()[-1]
-    user_id = message.chat.id
     username = message.from_user.username
 
     user_id = message.from_user.id
@@ -28,29 +28,26 @@ def send_welcome(message):
     except:
         pass
 
-    print(file_url)
     payload = {
         'user_id': user_id,
         'username': username,
-        'referral': referral,
+        'ref_code': referral,
         'avatar': file_url,
     }
-
+    print(referral)
     response = requests.request("POST", sign_up_url, data=payload)
 
-    print(response.text)
-
-    # ساخت دکمه شیشه‌ای (inline button) با URL
     keyboard = InlineKeyboardMarkup()
-    web_app_info = WebAppInfo(mini_app_url)  # URL مربوط به مینی‌اپ شما
+    web_app_info = WebAppInfo(mini_app_url)
 
-    # ایجاد دکمه شیشه‌ای با WebAppInfo
-    play_button = InlineKeyboardButton(text="Play", web_app=web_app_info)
+    play_button = InlineKeyboardButton(text="Play 🎮💰", web_app=web_app_info)
     keyboard.add(play_button)
 
-    caption_text = "به بازی خوش آمدید! روی دکمه زیر کلیک کنید تا بازی کنید."
+    with open(f'logo.jpg', 'rb') as photo:
 
-    bot.send_message(chat_id=message.chat.id, text=caption_text, reply_markup=keyboard)
+      caption_text = "*** \n Welcome to the Duelback Betting Platform. We are committed to providing a secure, fair, and transparent environment for all users."
+
+      bot.send_photo(message.chat.id, photo, caption=caption_text, reply_markup=keyboard)
 
 
 bot.polling()

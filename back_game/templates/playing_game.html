@@ -269,11 +269,8 @@
                 </a>
 
                 <a href="#" style="display: flex; justify-content: center;flex-wrap: wrap;">
-                    <div class="md:w-10 md:h-10 w-10 h-10 relative shadow border-white">
-                        <i class="fa-solid fa-coins"></i>
-                    </div>
                     <div style="display: flex; align-items: center">
-                        <p class="font-bold">{{ game_room.table.get_winner_prize|floatformat:0 }}</p>
+                        <i class="fa-solid fa-coins"></i><p class="font-bold">{{ game_room.table.get_winner_prize|floatformat:0 }}</p>
                     </div>
                     <div class="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700" role="progressbar" aria-valuenow="25"
                          aria-valuemin="0" aria-valuemax="100">

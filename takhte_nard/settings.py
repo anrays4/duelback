@@ -14,9 +14,9 @@ SECRET_KEY = 'django-insecure-0cwq=sfzwll6g8e^rj#lr!lhs$&rf9$-)_vx&93z4yifrg)xtm
 DEBUG = False
 
 ALLOWED_HOSTS = ['duelback.com', 'www.duelback.com', "localhost"]
-#ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ["*"]
 
-STATIC_VERSION = "1.0.0"
+STATIC_VERSION = "1.0.1"
 
 CSRF_TRUSTED_ORIGINS = ['https://www.duelback.com']
 CSRF_COOKIE_SECURE = True
@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'takhte_nard.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+#
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',

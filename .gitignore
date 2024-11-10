@@ -7,6 +7,6 @@
 
 **/__pycache__/
 *.pyc
-db.sqlite3
-vps
 duelback_bot.py
+vps.txt
+db.sqlite3
