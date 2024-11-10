@@ -6,7 +6,7 @@
             <div>
                 <div class="w-4 h-4 absolute box-level-home">
                     <span class="relative z-10">{{ my_user.level }}</span>
-                    <img src="/static/images/star.png?v=1.0.0" class="level-star-home">
+                    <img src="{% versioned_static "images/star.png" %}" class="level-star-home">
                 </div>
                 {% if my_user.avatar is None %}
                     <img src="{% versioned_static "images/profile-default.jpg" %}" alt=""
@@ -17,8 +17,6 @@
                 {% endif %}
 
             </div>
-
-
             <span class="font-semibold text-base">  {{ my_user.name }} </span>
         </a>
 

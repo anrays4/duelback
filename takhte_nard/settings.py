@@ -14,6 +14,7 @@ SECRET_KEY = 'django-insecure-0cwq=sfzwll6g8e^rj#lr!lhs$&rf9$-)_vx&93z4yifrg)xtm
 DEBUG = False
 
 ALLOWED_HOSTS = ['duelback.com', 'www.duelback.com', "localhost"]
+#ALLOWED_HOSTS = ["*"]
 
 STATIC_VERSION = "1.0.0"
 
