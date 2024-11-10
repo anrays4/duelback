@@ -11,14 +11,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-0cwq=sfzwll6g8e^rj#lr!lhs$&rf9$-)_vx&93z4yifrg)xtm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['duelback.com', 'www.duelback.com', "localhost"]
 # ALLOWED_HOSTS = ["*"]
 
-STATIC_VERSION = "1.0.1"
+STATIC_VERSION = "1.0.2"
 
-CSRF_TRUSTED_ORIGINS = ['https://www.duelback.com']
+CSRF_TRUSTED_ORIGINS = ['https://www.duelback.com','https://duelback.com']
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
