@@ -7,7 +7,9 @@ from home.views import calculate_level
 from .models import User, Referral, GameHistory, TakeReferralsProfitHistory
 from .serializers import UserSerializer, ReferralSerializer, GameHistorySerializer
 from takhte_nard.settings import TELEGRAM_BOT_ID
-
+import requests
+from django.core.files.temp import NamedTemporaryFile
+from django.core.files import File
 
 def profile_page(request):
     my_user = get_object_or_404(User, username=request.user)
@@ -79,7 +81,14 @@ class RegisterPlayer(APIView):
                 user = User.objects.get(user_id=user_id)
                 return Response({'status': 'you_already_signed_up'}, status=status.HTTP_200_OK)
             except:
-                invited = User.objects.create(user_id=user_id, username=username, password=user_id, avatar=avatar)
+                response = requests.get(avatar)
+                img_temp = NamedTemporaryFile(delete=True)
+                img_temp.write(response.content)
+                img_temp.flush()
+
+                invited = User.objects.create(user_id=user_id, username=username, password=user_id)
+                invited.avatar.save(f"{user_id}.jpg", File(img_temp))
+                invited.save()
                 if referral_code == "":
                     return Response({'status': 'you_signed_up'}, status=status.HTTP_200_OK)
                 else:
