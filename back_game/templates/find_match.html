@@ -28,11 +28,11 @@
                                 <li class="w-1/2 pr-2" tabindex="-1">
                                     <div class="flex flex-col items-center shadow-sm p-2 rounded-xl border1 box-shadow-dark-in">
                                         <div class="relative w-16 h-16 mx-auto mt-2">
-                                            {% if my_user.avatar is None %}
+                                            {% if not my_user.avatar %}
                                                 <img src="{% versioned_static "images/profile-default.jpg" %}"
                                                      class="h-full object-cover rounded-full shadow w-full box-shadow-dark">
                                             {% else %}
-                                                <img src="{{ my_user.avatar }}"
+                                                <img src="{{ my_user.avatar.url }}"
                                                      class="h-full object-cover rounded-full shadow w-full box-shadow-dark">
                                             {% endif %}
 

@@ -74,7 +74,7 @@ class FindMatch(APIView):
                                                     player_2=player_2,
                                                     game_polling_time=poll_time, game_start_time=int(time.time()))
                 enemy_name = player_2.name
-                enemy_avatar = player_2.avatar
+                enemy_avatar = player_2.avatar.url
                 enemy_level = player_2.level
                 wait_room_player_2.delete()
                 res = {"status": "go_to_play", "game_room_id": game_room.id, "enemy_name": enemy_name,
@@ -88,7 +88,7 @@ class FindMatch(APIView):
                 game_room = GameRoom.objects.get(player_1=my_user)
                 game_rome_id = game_room.id
                 enemy_name = game_room.player_2.name
-                enemy_avatar = game_room.player_2.avatar
+                enemy_avatar = game_room.player_2.avatar.url
                 enemy_level = game_room.player_2.level
                 res = {"status": "your_match_ready", "game_room_id": game_rome_id, "enemy_name": enemy_name,
                        "enemy_avatar": enemy_avatar, "enemy_level": enemy_level}
@@ -98,7 +98,7 @@ class FindMatch(APIView):
                 game_room = GameRoom.objects.get(player_2=my_user)
                 game_rome_id = game_room.id
                 enemy_name = game_room.player_1.name
-                enemy_avatar = game_room.player_1.avatar
+                enemy_avatar = game_room.player_1.avatar.url
                 enemy_level = game_room.player_1.level
                 res = {"status": "your_match_ready", "game_room_id": game_rome_id, "enemy_name": enemy_name,
                        "enemy_avatar": enemy_avatar, "enemy_level": enemy_level}

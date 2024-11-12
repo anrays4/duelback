@@ -66,11 +66,11 @@
                             {% for game in back_game_history reversed %}
                                 <div class="matches {% if game.status == "win" %}win-bg{% else %}lose-bg{% endif %}">
                                     <div class="inline-pic-my">
-                                        {% if game.user1.avatar is None %}
+                                        {% if not game.user1.avatar %}
                                             <img src="{% versioned_static "images/profile-default.jpg" %}" alt=""
                                                  class="bg-gray-200 match-pic ml-2 mr-2">
                                         {% else %}
-                                            <img src="{{ game.user1.avatar }}" alt="" class="bg-gray-200 match-pic ml-2 mr-2">
+                                            <img src="{{ game.user1.avatar.url }}" alt="" class="bg-gray-200 match-pic ml-2 mr-2">
                                         {% endif %}
 
                                         <h4 class="font-semibold text-sm text-black dark:text-white text-left">{{ game.user1.name }}</h4>
@@ -87,11 +87,11 @@
                                     </div>
 
                                     <div class="inline-pic-enemy">
-                                        {% if game.user2.avatar is None %}
+                                        {% if not game.user2.avatar %}
                                             <img src="{% versioned_static "images/profile-default.jpg" %}" alt=""
                                                  class="bg-gray-200 match-pic ml-2 mr-2">
                                         {% else %}
-                                            <img src="{{ game.user2.avatar }}" alt="" class="bg-gray-200 match-pic ml-2 mr-2">
+                                            <img src="{{ game.user2.avatar.url }}" alt="" class="bg-gray-200 match-pic ml-2 mr-2">
                                         {% endif %}
                                         <h4 class="font-semibold text-sm text-black dark:text-white text-right">{{ game.user2.name }}</h4>
                                     </div>

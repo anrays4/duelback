@@ -83,11 +83,11 @@
                                 {% for referral in referrals %}
                                     <div class="matches" style="background-color: #7171713d">
                                         <div class="inline-pic-my">
-                                            {% if referral.invited_user.avatar is None %}
+                                            {% if not referral.invited_user.avatar %}
                                                 <img src="{% versioned_static "images/profile-default.jpg" %}" alt=""
                                                      class="bg-gray-200 match-pic ml-2 mr-2">
                                             {% else %}
-                                                <img src="{{ referral.invited_user.avatar }}" alt="" class="bg-gray-200 match-pic ml-2 mr-2">
+                                                <img src="{{ referral.invited_user.avatar.url }}" alt="" class="bg-gray-200 match-pic ml-2 mr-2">
                                             {% endif %}
 
 

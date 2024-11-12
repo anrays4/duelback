@@ -8,11 +8,11 @@
                     <span class="relative z-10">{{ my_user.level }}</span>
                     <img src="{% versioned_static "images/star.png" %}" class="level-star-home">
                 </div>
-                {% if my_user.avatar is None %}
+                {% if not my_user.avatar %}
                     <img src="{% versioned_static "images/profile-default.jpg" %}" alt=""
                          class="profile-pic-border md:w-7 md:h-7 border-2 dark:border-gray-700">
                 {% else %}
-                    <img src="{{ my_user.avatar }}" alt=""
+                    <img src="{{ my_user.avatar.url }}" alt=""
                          class="profile-pic-border md:w-7 md:h-7 border-2 dark:border-gray-700">
                 {% endif %}
 

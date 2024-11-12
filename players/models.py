@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 import random
 import string
 from back_game.models import GameTable
+import os
 
 
 class UserManager(BaseUserManager):
@@ -27,12 +28,26 @@ class UserManager(BaseUserManager):
         return user
 
 
+
+def get_filename_deposit(filepath):
+    base_name = os.path.basename(filepath)
+    name, ext = os.path.splitext(base_name)
+    return name, ext
+
+
+def profile_images(instance, filename):
+    name, ext = get_filename_deposit(filename)
+    random_id = random.randint(1, 100000)
+    final_name = f'{random_id}-{instance}'
+    return f"profile_pic/{final_name}"
+
+
 class User(AbstractUser, PermissionsMixin):
     username = models.CharField(verbose_name="username", max_length=150, unique=True)
     password = models.CharField(verbose_name="password", max_length=128)
     user_id = models.CharField(verbose_name="Tel_ID", max_length=128, unique=True)
     name = models.CharField(verbose_name="name", max_length=100, blank=True, null=True)
-    avatar = models.CharField(max_length=500, verbose_name="avatar", blank=True, null=True)
+    avatar = models.ImageField(upload_to=profile_images, verbose_name="avatar", blank=True, null=True)
     level = models.IntegerField(verbose_name="level", default=1)
     level_xp = models.IntegerField(verbose_name="level xp", default=0)
     game_token = models.FloatField(verbose_name="game token", default=0)  # مقدار ثابت اولیه توکن

@@ -52,10 +52,10 @@
         </div>
         <div class="p-6 py-0 flex items-center justify-center">
             <div id="enemy-profile-pic" class="md:w-10 md:h-10 w-10 h-10 relative md:border-3 border-2 shadow border-white dark:border-slate-700">
-                {% if enemy_user.avatar is None %}
+                {% if not enemy_user.avatar %}
                     <img src="{% versioned_static "images/profile-default.jpg" %}" alt="" class="absolute w-full h-full">
                 {% else %}
-                    <img src="{{ enemy_user.avatar }}" alt="" class="absolute w-full h-full">
+                    <img src="{{ enemy_user.avatar.url }}" alt="" class="absolute w-full h-full">
                 {% endif %}
             </div>
             <p class="ml-2">{{ enemy_user.username }}</p>
@@ -88,10 +88,10 @@
         <div class="p-6 py-0 flex items-center justify-center">
             <div id="enemy-profile-pic" class="md:w-10 md:h-10 w-10 h-10 relative md:border-3 border-2 shadow border-white dark:border-slate-700">
 
-                {% if my_user.avatar is None %}
+                {% if not my_user.avatar %}
                     <img src="{% versioned_static "images/profile-default.jpg" %}" alt="" class="absolute w-full h-full">
                 {% else %}
-                    <img src="{{ my_user.avatar }}" alt="" class="absolute w-full h-full">
+                    <img src="{{ my_user.avatar.url }}" alt="" class="absolute w-full h-full">
                 {% endif %}
             </div>
             <p class="ml-2">{{ my_user.username }}</p>
@@ -253,10 +253,10 @@
                 <a href="#" uk-toggle="target: #enemy-profile" data-caption="Caption 1" style="display: flex; justify-content: flex-start">
                     <div id="enemy-profile-pic"
                          class="md:w-10 md:h-10 w-10 h-10 relative md:border-3 border-2 shadow border-white dark:border-slate-700">
-                        {% if enemy_user.avatar is None %}
+                        {% if not enemy_user.avatar %}
                             <img src="{% versioned_static "images/profile-default.jpg" %}" alt="" class="absolute w-full h-full">
                         {% else %}
-                            <img src="{{ enemy_user.avatar }}" alt="" class="absolute w-full h-full">
+                            <img src="{{ enemy_user.avatar.url }}" alt="" class="absolute w-full h-full">
                         {% endif %}
                         <div class="w-4 h-4 absolute box-level" style="left: 26px">
                             <span class="relative z-10">{{ enemy_user.level }}</span>
@@ -283,10 +283,10 @@
                 <a href="#" uk-toggle="target: #my-profile" data-caption="Caption 1" style="display: flex; flex-direction: row-reverse;">
                     <div id="my-profile-pic"
                          class="md:w-10 md:h-10 w-10 h-10 relative md:border-3 border-2 shadow border-white dark:border-slate-700">
-                        {% if my_user.avatar is None %}
+                        {% if not my_user.avatar %}
                             <img src="{% versioned_static "images/profile-default.jpg" %}" alt="" class="absolute w-full h-full">
                         {% else %}
-                            <img src="{{ my_user.avatar }}" alt="" class="absolute w-full h-full">
+                            <img src="{{ my_user.avatar.url }}" alt="" class="absolute w-full h-full">
                         {% endif %}
                         <div class="w-4 h-4 absolute box-level">
                             <span class="relative z-10">{{ my_user.level }}</span>
