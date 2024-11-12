@@ -77,18 +77,25 @@ class RegisterPlayer(APIView):
             if len(username) == 0:
                 username = user_id
 
+            if len(avatar) < 5:
+                avatar_default = True
+            else:
+                avatar_default = False
+
             try:
                 user = User.objects.get(user_id=user_id)
                 return Response({'status': 'you_already_signed_up'}, status=status.HTTP_200_OK)
             except:
-                response = requests.get(avatar)
-                img_temp = NamedTemporaryFile(delete=True)
-                img_temp.write(response.content)
-                img_temp.flush()
-
                 invited = User.objects.create(user_id=user_id, username=username, password=user_id)
-                invited.avatar.save(f"{user_id}.jpg", File(img_temp))
-                invited.save()
+                if not avatar_default:
+                    response = requests.get(avatar)
+                    img_temp = NamedTemporaryFile(delete=True)
+                    img_temp.write(response.content)
+                    img_temp.flush()
+
+                    invited.avatar.save(f"{user_id}.jpg", File(img_temp))
+                    invited.save()
+
                 if referral_code == "":
                     return Response({'status': 'you_signed_up'}, status=status.HTTP_200_OK)
                 else:

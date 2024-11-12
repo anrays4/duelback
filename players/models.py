@@ -28,7 +28,6 @@ class UserManager(BaseUserManager):
         return user
 
 
-
 def get_filename_deposit(filepath):
     base_name = os.path.basename(filepath)
     name, ext = os.path.splitext(base_name)
@@ -47,7 +46,7 @@ class User(AbstractUser, PermissionsMixin):
     password = models.CharField(verbose_name="password", max_length=128)
     user_id = models.CharField(verbose_name="Tel_ID", max_length=128, unique=True)
     name = models.CharField(verbose_name="name", max_length=100, blank=True, null=True)
-    avatar = models.ImageField(upload_to=profile_images, verbose_name="avatar", blank=True, null=True)
+    avatar = models.ImageField(default="images/profile-default.jpg", upload_to=profile_images, blank=True, null=True)
     level = models.IntegerField(verbose_name="level", default=1)
     level_xp = models.IntegerField(verbose_name="level xp", default=0)
     game_token = models.FloatField(verbose_name="game token", default=0)  # مقدار ثابت اولیه توکن

@@ -4,7 +4,7 @@
 
 .venv/
 .idea/
-
+statics/
 **/__pycache__/
 *.pyc
 duelback_bot.py

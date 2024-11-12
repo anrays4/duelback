@@ -1,0 +1,455 @@
+.board-table {
+    height: 375px;
+    position: relative;
+    border: 5px solid #4A3728;
+    border-radius: 6px;
+    box-shadow: inset 0 0 10px 2px #000000;
+    background-color: #e18f45;
+}
+
+.middle-of-board {
+    width: 6%;
+    background-color: #4a3728;
+    height: 100%;
+    position: relative;
+    left: 47%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.enemy-out-dice {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.my-out-dice {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.enemy-out-dice-place {
+    width: 100%;
+    height: 20px;
+}
+
+.my-out-dice-place {
+    width: 100%;
+    height: 20px;
+}
+
+.top {
+    width: 100%;
+    height: 45%;
+    position: absolute;
+    top: 0;
+}
+
+.bottom {
+    width: 100%;
+    height: 45%;
+    position: absolute;
+    bottom: 0;
+}
+
+.size-4-part {
+    display: inline-block;
+    height: 100%;
+    width: 46%;
+}
+
+.display-4-part {
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.top-left {
+    position: absolute;
+}
+
+.top-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.bottom-left {
+    position: absolute;
+}
+
+.bottom-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.all-line {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.top-line {
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.bottom-line {
+    flex-direction: column-reverse;
+}
+
+
+.dice-place {
+    border-radius: 108px;
+    height: 25px;
+    width: 25px;
+    z-index: 0;
+}
+
+.triangle {
+    width: 10%;
+    height: 100%;
+    position: absolute;
+    z-index: 0;
+}
+
+.triangle-top {
+    clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+    box-shadow: inset 0px 2px 5px #000000;
+}
+
+.triangle-bottom {
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    box-shadow: inset 0px -2px 5px #000000;
+}
+
+.triangle-odd {
+    background-color: #f4b862;
+}
+
+.triangle-even {
+    background-color: #9f4628;
+}
+
+#finish-enemy-dice {
+    width: 100%;
+    height: 35px;
+    display: flex;
+}
+
+#finish-my-dice {
+    width: 100%;
+    height: 35px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.finish-enemy-dice-place {
+    width: 25px;
+    height: 25px;
+}
+
+.finish-my-dice-place {
+    width: 25px;
+    height: 25px;
+}
+
+.tas-place {
+    width: 100%;
+    height: 12%;
+    position: relative;
+    bottom: 56%;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.enemy-tas-place {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.my-tas-place {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.main-tas {
+    width: 50px;
+    height: 100%;
+    text-align: center;
+}
+
+.my-dices {
+    display: flex;
+}
+
+.enemy-dices {
+    display: flex;
+}
+
+.my-dice-style {
+    width: 25px;
+    height: 25px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: inset 2px 2px 4px 0px #000000;
+    z-index: 2;
+    border: 2px solid #000000;
+}
+
+.enemy-dice-style {
+    width: 25px;
+    height: 25px;
+    background-color: #000000;
+    border-radius: 15px;
+    box-shadow: inset 2px 2px 4px 0px #939393;
+    border: 2px solid #5b5b5b;
+}
+
+.btn-box {
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.bg-secondery {
+    border-radius: 10px;
+}
+
+.dice {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    transform-style: preserve-3d;
+    transition: transform 1s;
+    margin: 5px 10px 0 10px;
+}
+
+.dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    margin: -3.5px 5px 5px -3.5px;
+    border-radius: 20px;
+    background-color: #474747;
+    box-shadow: inset 2px 2px #000000;
+}
+
+.dice-two {
+    position: absolute;
+    left: -50px;
+
+}
+
+.side {
+    position: absolute;
+    background-color: #ffF;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e5e5e5;
+    text-align: center;
+    line-height: 2em;
+}
+
+.side:nth-child(1) {
+    transform: translateZ(0.8em);
+}
+
+.side:nth-child(6) {
+    transform: rotateY(90deg) translateZ(0.8em);
+}
+
+.side:nth-child(3) {
+    transform: rotateY(-90deg) translateZ(0.8em);
+}
+
+.side:nth-child(4) {
+    transform: rotateX(90deg) translateZ(0.8em);
+}
+
+.side:nth-child(5) {
+    transform: rotateX(-90deg) translateZ(0.8em);
+}
+
+.side:nth-child(2) {
+    transform: rotateY(-180deg) translateZ(0.8em);
+}
+
+.show-1 {
+    transform: rotateX(720deg) rotateZ(-720deg);
+}
+
+.show-2 {
+    transform: rotateX(-900deg) rotateZ(1080deg);
+}
+
+.show-6 {
+    transform: rotateY(-450deg) rotateZ(-1440deg) rotateX(360deg);
+}
+
+.show-3 {
+    transform: rotateY(810deg) rotateZ(720deg);
+}
+
+.show-4 {
+    transform: rotateX(-810deg) rotateZ(-1080deg);
+}
+
+.show-5 {
+    transform: rotateX(450deg) rotateZ(-720deg);
+}
+
+.two-1, .three-1, .four-1, .five-1, .six-1 {
+    top: 25%;
+    left: 25%;
+}
+
+.four-3, .five-3, .six-4 {
+    top: 25%;
+    left: 75%;
+}
+
+.one-1, .three-2, .five-5 {
+    top: 50%;
+    left: 50%;
+}
+
+.four-2, .five-2, .six-3 {
+    top: 75%;
+    left: 25%;
+}
+
+.two-2, .three-3, .four-4, .five-4, .six-6 {
+    top: 75%;
+    left: 75%;
+}
+
+.six-2 {
+    top: 50%;
+    left: 25%;
+}
+
+.six-5 {
+    top: 50%;
+    left: 75%;
+}
+
+.shake {
+    animation: shake 0.3s;
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(1px, 1px) rotate(0deg);
+    }
+    10% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+    }
+    20% {
+        transform: translate(-3px, 0px) rotate(1deg);
+    }
+    30% {
+        transform: translate(3px, 2px) rotate(0deg);
+    }
+    40% {
+        transform: translate(1px, -1px) rotate(1deg);
+    }
+    50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+    }
+    60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+    }
+    70% {
+        transform: translate(3px, 1px) rotate(-1deg);
+    }
+    80% {
+        transform: translate(-1px, -1px) rotate(1deg);
+    }
+    90% {
+        transform: translate(1px, 2px) rotate(0deg);
+    }
+    100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+    }
+}
+
+.selected-tas {
+    box-shadow: 0px 0px 6px 5px #239a0b
+}
+
+.xl\:ml-\[--w-side-md\] {
+    margin: 0;
+}
+
+.bg-white {
+    background-color: #293445;
+}
+
+.rounded-xl {
+    border-radius: 0px;
+}
+
+.btn-box-shadow {
+    box-shadow: 0px 0px 5px black;
+}
+
+.level-star {
+    bottom: 20px;
+    left: -4px;
+    text-align: center;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    max-width: none;
+}
+
+.box-level {
+    bottom: 28px;
+    right: 26px;
+    font-size: 8px;
+    text-align: center;
+    color: #000000;
+    text-shadow: 1px 1px 0px #ffffff;
+    font-weight: 900;
+}
+
+.turn-border {
+    border: 2px solid lawngreen;
+}
+
+.can-move-border {
+    border: 2px solid #7aff00;
+}
+
+.text-alert {
+    color: #ff1800;
+}
+
+.btn-alert {
+    background-color: #b61c0b;
+}
+
+.text-suc {
+    color: #5ba01c;
+}
+
+.btn-suc {
+    background-color: #5ba01c;
+}
+
+
