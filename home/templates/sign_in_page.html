@@ -40,7 +40,7 @@
         </div>
         <div class="loader mt-10"></div>
     </div>
-
+    <p id="request_res" hidden></p>
 </div>
 
 
@@ -78,7 +78,6 @@
                 "X-CSRFToken": getCookie("csrftoken"),
             },
         };
-
         fetch(apiUrl, requestOptions)
             .then(response => {
                 if (!response.ok) {
@@ -86,20 +85,11 @@
                 }
                 return response.json();
             })
-            console.log(data)
-            console.log(data["status"])
+        console.log(data)
+        console.log(data["status"])
             .then(data => {
-                if (data["status"]) {
-                    if (window.location.pathname.length < 3) {
-                        setTimeout(function () {
-                            window.location.pathname = "/" + userId;
-                        }, 1100)
-                    }
-                } else {
-                    if (window.Telegram && window.Telegram.WebApp) {
-                        window.Telegram.WebApp.close();
-                    }
-                }
+                outputElement.textContent = JSON.stringify(data, null, 2);
+
             })
             .catch(error => {
                 console.error
@@ -123,6 +113,26 @@
     }
 
     confirm_my_move_request();
+    let check_data_is_ready_polling = setInterval(function () {
+        try {
+            var res_data = JSON.parse(document.getElementById('request_res').innerText)
+            var status = res_data['status']
+
+        } catch {
+
+        }
+        if (status == true) {
+            if (window.location.pathname.length < 3) {
+                setTimeout(function () {
+                    window.location.pathname = "/" + userId;
+                }, 700)
+            }
+        } else {
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.close();
+            }
+        }
+    }, 300)
 
 
 </script>
