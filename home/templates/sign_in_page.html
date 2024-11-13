@@ -124,7 +124,7 @@
                     window.location.pathname = "/" + userId;
                 }, 700)
             }
-        } else {
+        } else if (status == "no") {
             if (window.Telegram && window.Telegram.WebApp) {
                 window.Telegram.WebApp.close();
             }
