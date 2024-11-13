@@ -62,10 +62,12 @@ class FindMatch(APIView):
             if WaitingRoom.objects.filter(game_table=table).count() > 1:
                 all_game_rome = GameRoom.objects.all().count()
 
-                if all_game_rome < 25:
-                    poll_time = 5
-                elif all_game_rome >= 25:
-                    poll_time = 7
+                if all_game_rome < 10:
+                    poll_time = 2
+                elif 20 > all_game_rome >= 10:
+                    poll_time = 3
+                elif all_game_rome >= 20:
+                    poll_time = 4
 
                 wait_room.delete()
                 wait_room_player_2 = WaitingRoom.objects.filter(game_table=table).first()

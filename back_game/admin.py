@@ -20,7 +20,7 @@ class WaitingRoomAdmin(admin.ModelAdmin):
 
 @admin.register(GameRoom)
 class GameRoomAdmin(admin.ModelAdmin):
-    list_display = ('id', 'table', 'player_1__username', 'player_2__username')
+    list_display = ('id', 'table', 'player_1__username', 'player_2__username', 'created_time')
     search_fields = ('player_1__username', 'player_2__username')
 
 
