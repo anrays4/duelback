@@ -104,7 +104,7 @@ def deposit_page(request):
                                                  time_st_for_expired=int(time.time()))
             merchant = DEPOSIT_KEY
             token_amount = token_amount_user
-            call_back_url = WEBSITE_URL + "/payments/get-deposit-info/"  # you should use slash at last
+            call_back_url = WEBSITE_URL + "/payments/get-deposit-info"  # you should use slash at last
             network = "trc20"  # trc20 or bep20
             token = "trx"  # trc20: trx, usdt || bep20: bnb, usdc
             orderId = str(new_payment.id)  # deposit id in my models for confirm users payment
@@ -169,7 +169,7 @@ class CheckPayment(APIView):
             payment.user.deposit_token(amount=payment.amount_game_token)
 
             payment.status = "3"
-            payment.from_address = request.POST
+            payment.from_address = request.POST["sender"]
             payment.save()
             return Response({"status": True}, status=status.HTTP_200_OK)
         except:
