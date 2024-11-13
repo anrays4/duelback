@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from players.models import User
 from django.shortcuts import get_object_or_404
 from back_game.models import WaitingRoom, GameRoom
-from .validate_init_data import validate_init_data
 from django.contrib.auth import login
 
 
@@ -17,12 +16,10 @@ def calculate_level(level_xp):
 
 def sign_in_page(request, init_data):
     try:
-        is_valid, user_data = validate_init_data(init_data)
-        if is_valid:
-            telegram_user_id = str(user_data['id'])
-            user = User.objects.get(password=telegram_user_id)
-            login(request, user)
-            return redirect("home_page")
+        telegram_user_id = str(init_data)
+        user = User.objects.get(password=telegram_user_id)
+        login(request, user)
+        return redirect("home_page")
     except:
         pass
     return render(request, "sign_in_page.html", context={})
@@ -70,3 +67,6 @@ def top_bar(request):
         "my_user": my_user,
     }
     return render(request, "top-bar.html", context)
+
+
+

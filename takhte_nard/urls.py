@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from about.views import about_page
 from home.views import sign_in_page
-from players.views import RegisterPlayer
+from players.views import RegisterPlayer, LoginPlayer
 
 urlpatterns = [
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
@@ -31,6 +31,7 @@ urlpatterns = [
     path('<init_data>', sign_in_page, name="sign_in_page"),
 
     path('register/player', RegisterPlayer.as_view(), name="register_api"),
+    path('login/player', LoginPlayer.as_view(), name="register_api"),
 
     path('admin/aliarya/duelback', admin.site.urls),
 

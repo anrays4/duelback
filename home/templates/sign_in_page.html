@@ -59,12 +59,56 @@
     });
     const data = window.Telegram.WebApp;
     const INIT_DATA = data.initData;
+    const userId = data.initDataUnsafe.user.id;
 
-    if (window.location.pathname.length < 10) {
-        setTimeout(function () {
-            window.location.pathname = "/" + INIT_DATA;
-        }, 1100)
+
+    function confirm_my_move_request() {
+        const apiUrl = window.location.origin + "/login/player";
+        const formdata = new FormData();
+
+        formdata.append("init_data", INIT_DATA);
+
+        const outputElement = document.getElementById("request_res");
+
+        const requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: "follow",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+        };
+
+        fetch(apiUrl, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                outputElement.textContent = JSON.stringify(data, null, 2);
+
+                if (data["status"]) {
+                    if (window.location.pathname.length < 3) {
+                        setTimeout(function () {
+                            window.location.pathname = "/" + userId;
+                        }, 1100)
+                    }
+                } else {
+                    if (window.Telegram && window.Telegram.WebApp) {
+                        window.Telegram.WebApp.close();
+                    }
+                }
+            })
+            .catch(error => {
+                console.error
+                ('Error:', error);
+            });
     }
+
+    confirm_my_move_request();
+
 
 </script>
 </body>

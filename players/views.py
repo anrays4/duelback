@@ -10,6 +10,8 @@ from takhte_nard.settings import TELEGRAM_BOT_ID
 import requests
 from django.core.files.temp import NamedTemporaryFile
 from django.core.files import File
+from home.validate_init_data import validate_init_data
+
 
 def profile_page(request):
     my_user = get_object_or_404(User, username=request.user)
@@ -64,6 +66,16 @@ def referral_page(request):
 
     }
     return render(request, 'referral_page.html', context=context)
+
+
+class LoginPlayer(APIView):
+    def post(self, request):
+        init_data = request.POST['init_data']
+        is_valid, user_data = validate_init_data(init_data)
+        if is_valid:
+            return Response({"status": True}, status=status.HTTP_200_OK)
+        else:
+            return Response({"status": False}, status=status.HTTP_403_FORBIDDEN)
 
 
 class RegisterPlayer(APIView):
