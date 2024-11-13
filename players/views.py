@@ -73,9 +73,9 @@ class LoginPlayer(APIView):
         init_data = request.POST['init_data']
         is_valid, user_data = validate_init_data(init_data)
         if is_valid:
-            return Response({"status": True}, status=status.HTTP_200_OK)
+            return Response({"status": "ok"}, status=status.HTTP_200_OK)
         else:
-            return Response({"status": False}, status=status.HTTP_403_FORBIDDEN)
+            return Response({"status": "no"}, status=status.HTTP_403_FORBIDDEN)
 
 
 class RegisterPlayer(APIView):
