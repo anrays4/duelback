@@ -119,11 +119,9 @@
 
         }
         if (status == "ok") {
-            if (window.location.pathname.length < 3) {
-                setTimeout(function () {
-                    window.location.pathname = "/" + userId;
-                }, 700)
-            }
+            setTimeout(function () {
+                window.location.pathname = "/" + userId;
+            }, 700)
         } else if (status == "no") {
             if (window.Telegram && window.Telegram.WebApp) {
                 window.Telegram.WebApp.close();
