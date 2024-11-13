@@ -85,11 +85,8 @@
                 }
                 return response.json();
             })
-        console.log(data)
-        console.log(data["status"])
             .then(data => {
                 outputElement.textContent = JSON.stringify(data, null, 2);
-
             })
             .catch(error => {
                 console.error
