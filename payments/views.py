@@ -113,7 +113,7 @@ def deposit_page(request):
             payload = json.dumps({
                 "merchant": merchant,
                 "callbackUrl": call_back_url,
-                "amount": float(token_amount),
+                "amount": int(token_amount),
                 "network": network,
                 "token": token,
                 "orderId": orderId
