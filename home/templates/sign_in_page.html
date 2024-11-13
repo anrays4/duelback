@@ -119,6 +119,7 @@
 
         }
         if (status == "ok") {
+            clearInterval(check_data_is_ready_polling);
             setTimeout(function () {
                 window.location.pathname = "/" + userId;
             }, 700)
