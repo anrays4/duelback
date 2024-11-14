@@ -16,10 +16,9 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /path/to/your/project
-            git pull origin main
+            cd /var/www/duelback/duelback
+            git pull --rebase
             source venv/bin/activate
-            pip install -r requirements.txt
-            python manage.py migrate
-            python manage.py collectstatic --noinput
-            sudo systemctl restart gunicorn
+            python3 manage.py collectstatic --noinput
+            sudo systemctl daemon-reload
+            sudo systemctl restart duelback.com.gunicorn
