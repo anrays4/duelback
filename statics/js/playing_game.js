@@ -203,7 +203,7 @@ var check_dom_is_ready = setInterval(function () {
                                         clearInterval(check_my_turn_polling);
                                         document.getElementById("win-alert-dis").classList.add("uk-open");
                                         setTimeout(function () {
-                                            window.location.pathname = "/home";
+                                            window.location.pathname = "/home/";
                                         }, 5000);
                                     }
                                 }, 200);
@@ -221,7 +221,7 @@ var check_dom_is_ready = setInterval(function () {
                     clearInterval(req_check_again_my_game);
                     document.getElementById("game-cancel").classList.add("uk-open");
                     setTimeout(function () {
-                        window.location.pathname = "/home";
+                        window.location.pathname = "/home/";
                     }, 5000);
                 }
             }, 200)
@@ -229,6 +229,7 @@ var check_dom_is_ready = setInterval(function () {
     }
 }, 100);
 
+var pollingInProgress = false;
 
 function confirm_move() {
     if (isMyTurn) {
@@ -261,80 +262,86 @@ function confirm_move() {
             }
 
             if (status == "wait_for_turn") {
-
                 clearInterval(check_data_is_ready);
+
                 var check_my_turn_polling = setInterval(function () {
-                    let base_url = window.location.origin;
-                    let req_url = base_url + "/backgammon/check_my_turn/turn/" + gameRoomId + "/";
-                    polling_for_my_turn_request(req_url);
-                    let check_data_is_ready_polling = setInterval(function () {
-                        try {
-                            var res_data = JSON.parse(document.getElementById('request_res').innerText)
-                            var status = res_data['status']
+                    if (!pollingInProgress) {
+                        pollingInProgress = true;
+                        let base_url = window.location.origin;
+                        let req_url = base_url + "/backgammon/check_my_turn/turn/" + gameRoomId + "/";
+                        polling_for_my_turn_request(req_url);
+                        console.log("arya")
+                        let check_data_is_ready_polling = setInterval(function () {
+                            try {
+                                var res_data = JSON.parse(document.getElementById('request_res').innerText)
+                                var status = res_data['status']
 
-                        } catch {
+                            } catch {
 
-                        }
-                        if (status == "you_can_play") {
-                            clearInterval(check_data_is_ready_polling);
-                            clearInterval(check_my_turn_polling);
-                            myTurnNum = res_data["my_turn_num"];
-                            if (myTurnNum == 1) {
-                                enemyTurnNum = 2;
-                            } else {
-                                enemyTurnNum = 1;
                             }
-
-                            var tas_1 = res_data["main_tas_1"];
-                            var tas_2 = res_data["main_tas_2"];
-                            let move_history = res_data["move_history"]
-                            set_move_count(tas_1, tas_2);
-                            action_enemy_move(move_history);
-
-                            if (res_data['turn'] == myTurnNum) {
-                                isMyTurn = true;
-
-                                myTas1 = tas_1;
-                                myTas2 = tas_2;
-                            }
-                            setTimeout(function () {
-                                if (isMyTurn) {
-                                    clearInterval(enemy_time);
-                                    my_time = start_turn_time();
-
-                                    show_and_hide_roll_btn(true);
+                            if (status == "you_can_play") {
+                                console.log("why not")
+                                clearInterval(check_data_is_ready_polling);
+                                clearInterval(check_my_turn_polling);
+                                myTurnNum = res_data["my_turn_num"];
+                                if (myTurnNum == 1) {
+                                    enemyTurnNum = 2;
+                                } else {
+                                    enemyTurnNum = 1;
                                 }
-                            }, 2000)
 
-                        } else if (status == "wait_more") {
-                            clearInterval(check_data_is_ready_polling);
+                                var tas_1 = res_data["main_tas_1"];
+                                var tas_2 = res_data["main_tas_2"];
+                                let move_history = res_data["move_history"]
+                                set_move_count(tas_1, tas_2);
+                                action_enemy_move(move_history);
 
-                        } else if (status == "you_win") {
-                            clearInterval(check_data_is_ready_polling);
-                            clearInterval(check_my_turn_polling);
-                            document.getElementById("win-alert").classList.add("uk-open");
-                            setTimeout(function () {
-                                window.location.pathname = "/home";
-                            }, 5000);
-                        } else if (status == "game_cancel") {
-                            set_info_text("Game is cancel !!!")
-                            clearInterval(check_data_is_ready_polling);
-                            clearInterval(check_my_turn_polling);
-                            document.getElementById("game-cancel").classList.add("uk-open");
-                            setTimeout(function () {
-                                window.location.pathname = "/home";
-                            }, 5000);
-                        } else if (status == "you_lose") {
-                            set_info_text("Game is End !!!")
-                            clearInterval(check_data_is_ready_polling);
-                            clearInterval(check_my_turn_polling);
-                            document.getElementById("lose-alert").classList.add("uk-open");
-                            setTimeout(function () {
-                                window.location.pathname = "/home";
-                            }, 5000);
-                        }
+                                if (res_data['turn'] == myTurnNum) {
+                                    isMyTurn = true;
 
-                    }, 200);
+                                    myTas1 = tas_1;
+                                    myTas2 = tas_2;
+                                }
+                                setTimeout(function () {
+                                    if (isMyTurn) {
+                                        clearInterval(enemy_time);
+                                        my_time = start_turn_time();
+
+                                        show_and_hide_roll_btn(true);
+                                    }
+                                }, 2000)
+
+                            } else if (status == "wait_more") {
+                                clearInterval(check_data_is_ready_polling);
+
+                            } else if (status == "you_win") {
+                                clearInterval(check_data_is_ready_polling);
+                                clearInterval(check_my_turn_polling);
+                                document.getElementById("win-alert").classList.add("uk-open");
+                                setTimeout(function () {
+                                    window.location.pathname = "/home/";
+                                }, 5000);
+                            } else if (status == "game_cancel") {
+                                set_info_text("Game is cancel !!!")
+                                clearInterval(check_data_is_ready_polling);
+                                clearInterval(check_my_turn_polling);
+                                document.getElementById("game-cancel").classList.add("uk-open");
+                                setTimeout(function () {
+                                    window.location.pathname = "/home/";
+                                }, 5000);
+                            } else if (status == "you_lose") {
+                                set_info_text("Game is End !!!")
+                                clearInterval(check_data_is_ready_polling);
+                                clearInterval(check_my_turn_polling);
+                                document.getElementById("lose-alert").classList.add("uk-open");
+                                setTimeout(function () {
+                                    window.location.pathname = "/home/";
+                                }, 5000);
+                            }
+
+                        }, 200);
+                    }
+
 
                 }, parseInt(polling_time) * 1000);
 
@@ -348,13 +355,13 @@ function confirm_move() {
                 clearInterval(check_data_is_ready);
                 document.getElementById("win-alert").classList.add("uk-open");
                 setTimeout(function () {
-                    window.location.pathname = "/home";
+                    window.location.pathname = "/home/";
                 }, 5000);
             } else if (status == "you_lose") {
                 clearInterval(check_data_is_ready);
                 document.getElementById("lose-alert").classList.add("uk-open");
                 setTimeout(function () {
-                    window.location.pathname = "/home";
+                    window.location.pathname = "/home/";
                 }, 5000);
             }
         }, 200)
@@ -406,7 +413,7 @@ function start_turn_time() {
                         clearInterval(check_status);
                         document.getElementById("lose-alert").classList.add("uk-open");
                         setTimeout(function () {
-                            window.location.pathname = "/home";
+                            window.location.pathname = "/home/";
                         }, 5000);
                     }
                 }, 300);
@@ -1186,12 +1193,14 @@ function polling_for_my_turn_request(url) {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
+            pollingInProgress = false;
             return response.json();
         })
         .then(data => {
             outputElement.textContent = JSON.stringify(data, null, 2);
         })
         .catch(error => {
+            pollingInProgress = false;
             console.error
 
             ('Error:', error);
@@ -1244,7 +1253,7 @@ function i_want_leave() {
 
         }
         if (status == "thanks") {
-            window.location.pathname = "/home";
+            window.location.pathname = "/home/";
         }
     }, 300);
 }
