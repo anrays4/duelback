@@ -3,19 +3,22 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - main  # یا branch اصلی شما
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
         with:
-          host: 162.254.32.4
+          host: '162.254.32.4'
           port: 22
-          username: root
-          key: b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACBWH5D7nVkHxvltbtKTGHcRo5NwnE+yVtxi/AC4KF96LAAAAKB5+SgfefkoHwAAAAtzc2gtZWQyNTUxOQAAACBWH5D7nVkHxvltbtKTGHcRo5NwnE+yVtxi/AC4KF96LAAAAED8i5l80n0kq338hJzzMM7XbYzxIP3YUNJkWm/rcscunVYfkPudWQfG+W1u0pMYdxGjk3CcT7JW3GL8ALgoX3osAAAAFnlvdXJfZW1haWxAZXhhbXBsZS5jb20BAgMEBQYH
+          username: 'root'
+          key: ${{ secrets.SSH_PRIVATE_KEY }}  # کلید باید در GitHub Secrets تنظیم شود
           script: |
             cd /var/www/duelback/duelback
             git pull --rebase
