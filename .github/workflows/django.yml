@@ -12,8 +12,9 @@ jobs:
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
+          host: 162.254.32.4
+          port: 22
+          username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/duelback/duelback
