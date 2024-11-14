@@ -270,7 +270,6 @@ function confirm_move() {
                         let base_url = window.location.origin;
                         let req_url = base_url + "/backgammon/check_my_turn/turn/" + gameRoomId + "/";
                         polling_for_my_turn_request(req_url);
-                        console.log("arya")
                         let check_data_is_ready_polling = setInterval(function () {
                             try {
                                 var res_data = JSON.parse(document.getElementById('request_res').innerText)
@@ -280,7 +279,6 @@ function confirm_move() {
 
                             }
                             if (status == "you_can_play") {
-                                console.log("why not")
                                 clearInterval(check_data_is_ready_polling);
                                 clearInterval(check_my_turn_polling);
                                 myTurnNum = res_data["my_turn_num"];
