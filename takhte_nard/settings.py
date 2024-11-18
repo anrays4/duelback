@@ -16,7 +16,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['duelback.com', 'www.duelback.com', "localhost"]
 # ALLOWED_HOSTS = ["*"]
 
-STATIC_VERSION = "2.0.6"
+STATIC_VERSION = "3.0.0"
 
 CSRF_TRUSTED_ORIGINS = ['https://www.duelback.com','https://duelback.com']
 CSRF_COOKIE_SECURE = True
