@@ -27,7 +27,7 @@ def find_match_page(request, table_id):
 
     game_room_time_end = GameRoom.objects.filter(game_room_is_end=False)
     for room in game_room_time_end:
-        if int(time.time()) - room.game_start_time > 1:
+        if int(time.time()) - room.game_start_time > 3600:
             room.delete()
 
     WaitingRoom.objects.filter(player_1=my_user).delete()
