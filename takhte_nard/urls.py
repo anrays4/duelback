@@ -31,7 +31,7 @@ urlpatterns = [
     path('<init_data>', sign_in_page, name="sign_in_page"),
 
     path('register/player', RegisterPlayer.as_view(), name="register_api"),
-    path('login/player', LoginPlayer.as_view(), name="register_api"),
+    path('login/player', LoginPlayer.as_view(), name="login_api"),
 
     path('admin/aliarya/duelback', admin.site.urls),
 

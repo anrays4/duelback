@@ -25,6 +25,11 @@ def find_match_page(request, table_id):
     GameRoom.objects.filter(player_1=my_user, game_room_is_end=True).delete()
     GameRoom.objects.filter(player_2=my_user, game_room_is_end=True).delete()
 
+    game_room_time_end = GameRoom.objects.filter(game_room_is_end=False)
+    for room in game_room_time_end:
+        if int(time.time()) - room.game_start_time > 1:
+            room.delete()
+
     WaitingRoom.objects.filter(player_1=my_user).delete()
     WaitingRoom.objects.create(game_table=qs_table, player_1=my_user)
 
