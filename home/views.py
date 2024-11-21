@@ -1,3 +1,5 @@
+import random
+
 from django.shortcuts import render, redirect
 from players.models import User, LoginCode
 from django.shortcuts import get_object_or_404
@@ -48,6 +50,7 @@ def home_page(request):
     }
     return render(request, "home_page.html", context)
 
+
 @login_required
 def enter_name_page(request):
     my_user = get_object_or_404(User, username=request.user)
@@ -89,7 +92,7 @@ class LoginCodeCreate(APIView):
         if not LoginCode.objects.filter(user=user).exists():
             import telebot
             try:
-                code = LoginCode.objects.create(user=user)
+                code = LoginCode.objects.create(user=user, code=random.randint(111111, 999999), time_st=int(time.time()))
                 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
                 bot.send_message(str(user_id), f"Login Code is {code.code}")
