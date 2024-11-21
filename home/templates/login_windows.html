@@ -1,0 +1,228 @@
+{% load static %}
+{% load custom_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="{% versioned_static "images/new-logo.png" %}" rel="icon" type="image/png">
+
+    <title>Enter your Name</title>
+    <meta name="description" content="DuelBack - Best gaming platform for enjoy">
+    {% include 'header_ref.html' %}
+    <link rel="stylesheet" href="{% versioned_static "css/playing_game.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="{% versioned_static "js/jquery-3.7.1.js" %}"></script>
+    <style>
+        #base_logo {
+            width: 180px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="loading" style="display: none;">
+    <div class="loader"></div>
+</div>
+<div class="flex flex-col h-screen justify-center items-center">
+    <div class="max-w-sm mx-auto md:px-10 p-4 w-full">
+        <div uk="" -scrollspy="target: > * > *; cls: uk-animation-scale-up; delay: 100 ;repeat: true">
+            <p class="text-center font-bold">WELCOME TO THE</p>
+            <!-- logo -->
+            <div class="flex justify-center mb-12" uk-scrollspy="target: > *; cls: uk-animation-scale-up; delay: 100 ;repeat: true">
+                <img id="base_logo" src="{% versioned_static "images/base.jpg" %}" alt=""
+                     class="w-auto shrink-0 bg-fuchsia-100 rounded-2xl uk-scrollspy-inview ">
+            </div>
+
+
+            <p id="info" style="margin-bottom: 5px;">* Get user id from Telegram Bot</p>
+            <input class="!w-full uk-scrollspy-inview" id="user_id_input" name="name" type="text" autofocus="" placeholder="USER ID" required>
+
+            <button type="submit" id="btn_user_id"
+                    onclick="click_send_verify_code()"
+                    class="font-medium w-full rounded-lg py-1.5 px-4 mt-2 text-white h-[38px] active:scale-[0.97] transition-all duration-150 uk-scrollspy-inview "
+                    style="background-color: #23953c;"><span>Login</span></button>
+
+            <button type="submit" id="btn_verify_code" hidden
+                    onclick="send_verify_code()"
+                    class="font-medium w-full rounded-lg py-1.5 px-4 mt-2 text-white h-[38px] active:scale-[0.97] transition-all duration-150 uk-scrollspy-inview "
+                    style="background-color: #23953c;"><span>Verify</span></button>
+
+            <a href="{{ telegram_bot }}">
+                <button type="button"
+                        class="font-medium w-full rounded-lg py-1.5 px-4 text-white h-[38px] active:scale-[0.97] transition-all duration-150 uk-scrollspy-inview mt-5"
+                        style="background-color: #229ED9;"><span>Sign up with </span><i class="fa-brands fa-telegram" style="font-size: 20px"></i>
+                </button>
+            </a>
+
+        </div>
+    </div>
+    <p id="errors" style="color: red"></p>
+    <p id="request_res" hidden></p>
+</div>
+<script>
+    var userId;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var loading = document.getElementById("loading");
+        loading.style.display = "flex";
+
+        window.addEventListener("load", function () {
+            loading.style.display = "none";
+        });
+    });
+
+
+    function send_login_user_id() {
+        const apiUrl = window.location.origin + "/login-with-user-id";
+        const formdata = new FormData();
+
+        let user_id = document.getElementById("user_id_input").value;
+        formdata.append("user_id", user_id);
+
+        const outputElement = document.getElementById("request_res");
+
+        const requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: "follow",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+        };
+
+        fetch(apiUrl, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                outputElement.textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error
+
+                ('Error:', error);
+            });
+
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function click_send_verify_code() {
+        let user_id = document.getElementById("user_id_input").value;
+        userId = user_id;
+        let errors = document.getElementById("errors");
+        if (user_id.length > 6) {
+            document.getElementById("btn_user_id").innerText = "Sending ..."
+            send_login_user_id()
+            var check_status = setInterval(function () {
+                try {
+                    var res_data = JSON.parse(document.getElementById('request_res').innerText)
+                    var status = res_data['status']
+                } catch {
+
+                }
+                if (status === "code_is_ready") {
+                    clearInterval(check_status);
+                    errors.innerText = "";
+                    show_verify_btn();
+                } else if (status === "need_sign_up") {
+                    clearInterval(check_status);
+                    document.getElementById("btn_user_id").innerText = "Login"
+                    errors.innerText = "User id is not valid.";
+                }
+            }, 300);
+        }
+    }
+
+    function show_verify_btn() {
+        document.getElementById("btn_user_id").hidden = true;
+        document.getElementById("btn_verify_code").hidden = false;
+
+        let info_box = document.getElementById("info");
+        info_box.style.color = "#20b020"
+        info_box.innerText = "* The code has been sent to your Telegram bot";
+
+        let input_box = document.getElementById("user_id_input");
+        input_box.placeholder = "Code";
+        input_box.value = ""
+    }
+
+    function send_verify_code() {
+        const apiUrl = window.location.origin + "/login-with-user-id-verify";
+        const formdata = new FormData();
+
+        let verifyCode = document.getElementById("user_id_input").value;
+        formdata.append("user_id", userId);
+        formdata.append("code", verifyCode);
+
+        const outputElement = document.getElementById("request_res");
+
+        const requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: "follow",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+        };
+
+        fetch(apiUrl, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                outputElement.textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error
+                ('Error:', error);
+            });
+        var check_status = setInterval(function () {
+            try {
+                var res_data = JSON.parse(document.getElementById('request_res').innerText)
+                var status = res_data['status']
+            } catch {
+
+            }
+            if (status === "code_is_true") {
+                clearInterval(check_status);
+                window.location.href = "{% url "home_page" %}"
+            } else if (status === "user_not_exist") {
+                clearInterval(check_status);
+                window.location.href = "{% url "login_window" %}"
+            }else if (status === "code_is_wrong") {
+                clearInterval(check_status);
+                let errors = document.getElementById("errors");
+                errors.innerText = "Code is not correct";
+            }
+        }, 300);
+
+    }
+
+</script>
+
+</body>
+</html>

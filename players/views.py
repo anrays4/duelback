@@ -11,8 +11,10 @@ import requests
 from django.core.files.temp import NamedTemporaryFile
 from django.core.files import File
 from home.validate_init_data import validate_init_data
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def profile_page(request):
     my_user = get_object_or_404(User, username=request.user)
     back_game = GameHistory.objects.filter(user1=my_user).reverse()
@@ -43,6 +45,7 @@ def profile_page(request):
     return render(request, "profile_page.html", context=context)
 
 
+@login_required
 def referral_page(request):
     my_user = get_object_or_404(User, username=request.user)
     referrals = Referral.objects.filter(inviter=my_user)

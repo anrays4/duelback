@@ -6,8 +6,11 @@
     <div id="wrapper">
         <main class="2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
             <div class="main__inner" style="padding-top: 0">
-
+                <a href="{% url "log_out" %}">
+                    <i class="fa-solid fa-right-from-bracket" style="color: #cb1c1c"></i> Logout
+                </a>
                 <div class="level-box">
+
                     <p><i class="fa-solid fa-star text-yellow-400"></i> <span>{{ pool_fill }}</span>/<span>{{ pool_lvl }}</span></p>
                     <div class="w-full flex items-center justify-center">
                         <p class="font-bold mr-1">{{ current_lvl }}</p>
@@ -81,7 +84,7 @@
                                             <i class="fa-solid fa-coins mr-1"></i>
                                             {% if game.status == "win" %}{{ game.table.get_winner_prize|floatformat:2 }}
                                             {% else %}
-                                            {{ game.table.fee|floatformat:2 }}
+                                                {{ game.table.fee|floatformat:2 }}
                                             {% endif %}
                                         </p>
                                     </div>

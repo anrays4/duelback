@@ -1,8 +1,14 @@
 from django.shortcuts import render, redirect
-from players.models import User
+from players.models import User, LoginCode
 from django.shortcuts import get_object_or_404
 from back_game.models import WaitingRoom, GameRoom
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from takhte_nard.settings import TELEGRAM_BOT_ID, TELEGRAM_BOT_TOKEN
+import time
 
 
 def calculate_level(level_xp):
@@ -25,6 +31,7 @@ def sign_in_page(request, init_data):
     return render(request, "sign_in_page.html", context={})
 
 
+@login_required
 def home_page(request):
     my_user = get_object_or_404(User, username=request.user)
     WaitingRoom.objects.filter(player_1=my_user).delete()
@@ -41,7 +48,7 @@ def home_page(request):
     }
     return render(request, "home_page.html", context)
 
-
+@login_required
 def enter_name_page(request):
     my_user = get_object_or_404(User, username=request.user)
     if my_user.name is not None:
@@ -49,12 +56,74 @@ def enter_name_page(request):
 
     if request.method == "POST":
         nickname = request.POST["name"]
-        if len(nickname) >= 4 and len(nickname) <= 12:
+        if 4 <= len(nickname) <= 12:
             my_user.name = nickname
             my_user.save()
             return redirect("home_page")
 
     return render(request, "enter_name_page.html", context={})
+
+
+def login_windows_page(request):
+    if not "Window" in request.headers["User-Agent"]:
+        return redirect("sign_in_page")
+
+    if request.user.is_authenticated:
+        return redirect("home_page")
+
+    telegram_bot = f"https://t.me/{TELEGRAM_BOT_ID}"
+
+    context = {
+        "telegram_bot": telegram_bot,
+    }
+    return render(request, "login_windows.html", context)
+
+
+class LoginCodeCreate(APIView):
+    def post(self, request):
+        user_id = request.POST["user_id"]
+        try:
+            user = User.objects.get(user_id=user_id)
+        except:
+            return Response({"status": "need_sign_up"}, status=status.HTTP_200_OK)
+        if not LoginCode.objects.filter(user=user).exists():
+            import telebot
+            try:
+                code = LoginCode.objects.create(user=user)
+                bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
+
+                bot.send_message(str(user_id), f"Login Code is {code.code}")
+
+                return Response({"status": "code_is_ready"}, status=status.HTTP_200_OK)
+            except:
+                code.delete()
+                return Response({"status": "need_sign_up"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "code_is_ready"}, status=status.HTTP_200_OK)
+
+
+class VerifyLoginCode(APIView):
+    def post(self, request):
+        user_id = request.POST["user_id"]
+        code = request.POST["code"]
+        try:
+            user = User.objects.get(user_id=user_id)
+        except:
+            return Response({"status": "user_not_exist"}, status=status.HTTP_200_OK)
+        if LoginCode.objects.filter(user=user).exists():
+            main_code = LoginCode.objects.get(user=user)
+            if time.time() - int(main_code.time_st) >= 120:
+                main_code.delete()
+                return Response({"status": "user_not_exist"}, status=status.HTTP_200_OK)
+
+            if main_code.code == code:
+                login(request, user)
+                main_code.delete()
+                return Response({"status": "code_is_true"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"status": "code_is_wrong"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "user_not_exist"}, status=status.HTTP_200_OK)
 
 
 def sidebar(request):
@@ -69,4 +138,6 @@ def top_bar(request):
     return render(request, "top-bar.html", context)
 
 
-
+def log_out(request):
+    logout(request)
+    return redirect("login_window")

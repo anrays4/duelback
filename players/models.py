@@ -1,3 +1,4 @@
+import time
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
@@ -161,3 +162,12 @@ class TakeReferralsProfitHistory(models.Model):
 
     def __str__(self):
         return self.for_user.username
+
+
+class LoginCode(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    code = models.CharField(default=random.randint(111111, 999999), max_length=20)
+    time_st = models.CharField(default=int(time.time()), max_length=120)
+
+    def __str__(self):
+        return self.user.username

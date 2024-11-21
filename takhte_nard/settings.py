@@ -16,7 +16,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['duelback.com', 'www.duelback.com', "localhost"]
 # ALLOWED_HOSTS = ["*"]
 
-STATIC_VERSION = "4.0.1"
+STATIC_VERSION = "4.0.2"
 
 CSRF_TRUSTED_ORIGINS = ['https://www.duelback.com', 'https://duelback.com']
 CSRF_COOKIE_SECURE = True
@@ -114,6 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
+LOGIN_URL = '/'
 
 LANGUAGE_CODE = 'en-us'
 

@@ -6,6 +6,7 @@ API_TOKEN = '8041774615:AAFSOfK19ZX6D5Stz80uWd5tXYSK0PRge60'
 
 bot = telebot.TeleBot(API_TOKEN)
 
+main_url = "https://www.duelback.com"
 mini_app_url = "https://www.duelback.com/register"
 sign_up_url = 'https://www.duelback.com/register/player'
 
@@ -34,20 +35,20 @@ def send_welcome(message):
         'ref_code': referral,
         'avatar': file_url,
     }
-    print(referral)
     response = requests.request("POST", sign_up_url, data=payload)
 
     keyboard = InlineKeyboardMarkup()
     web_app_info = WebAppInfo(mini_app_url)
 
-    play_button = InlineKeyboardButton(text="Play 🎮💰", web_app=web_app_info)
+    play_button = InlineKeyboardButton(text="🎮 Play 💰", web_app=web_app_info)
     keyboard.add(play_button)
 
     with open(f'logo.jpg', 'rb') as photo:
 
-      caption_text = "*** \n Welcome to the Duelback Betting Platform. We are committed to providing a secure, fair, and transparent environment for all users."
+      caption_text = "*** \n Welcome to the Duelback Betting Platform. We are committed to providing a secure, fair, " \
+                     f"and transparent environment for all users. \n\n User ID :{user_id} \n Login with link :\n" \
+                     f" {main_url} \n Or you can play on MiniApp 👇👇👇👇"
 
       bot.send_photo(message.chat.id, photo, caption=caption_text, reply_markup=keyboard)
-
 
 bot.polling()

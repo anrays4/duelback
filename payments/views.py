@@ -2,7 +2,6 @@ import json
 import time
 from players.models import User
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponseNotFound
 from rest_framework.views import APIView
 from rest_framework import status
 from .models import Withdraw, Deposit
@@ -10,8 +9,10 @@ from rest_framework.response import Response
 from takhte_nard.settings import WEBSITE_URL, DEPOSIT_KEY, WITHDRAW_WALLET_ADDRESS, WITHDRAW_KEY, WALLET_PRIVATE_KEY
 import requests
 from payments.transaction import send_tron_for_user, check_wallet
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def withdraw_page(request):
     player = request.user
     payments_history = Withdraw.objects.filter(user=player)
@@ -79,6 +80,7 @@ def withdraw_page(request):
     return render(request, 'withdraw_page.html', context)
 
 
+@login_required
 def deposit_page(request):
     player = request.user
 
@@ -146,6 +148,7 @@ def deposit_page(request):
     return render(request, 'deposit_page.html', context)
 
 
+@login_required
 def payment_page(request):
     player = request.user
     if not Deposit.objects.filter(user=player, status="1").exists():

@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from .models import User, Referral, GameHistory,TakeReferralsProfitHistory
-
+from .models import User, Referral, GameHistory, TakeReferralsProfitHistory, LoginCode
 
 
 @admin.register(TakeReferralsProfitHistory)
@@ -14,7 +13,7 @@ class TakeReferralsProfitHistoryAdmin(admin.ModelAdmin):
 # ثبت مدل User در پنل ادمین
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'name', 'level', 'game_token', 'referral_code')
+    list_display = ('username', 'name', 'level', 'game_token', 'referral_code', 'user_id')
     search_fields = ('username', 'name', 'referral_code')
     list_filter = ('level',)
     ordering = ('-level',)
@@ -36,3 +35,8 @@ class GameHistoryAdmin(admin.ModelAdmin):
     search_fields = ('user1__username', 'user2__username', 'table__name')
     list_filter = ('status', 'created_time')
     ordering = ('-created_time',)
+
+
+@admin.register(LoginCode)
+class LoginCodeAdmin(admin.ModelAdmin):
+    list_display = ('user', 'code')

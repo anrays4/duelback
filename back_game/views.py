@@ -11,8 +11,10 @@ from .models import GameTable, WaitingRoom, GameRoom, PlayerWarning
 from back_game.validator import validate_moves, win_check
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def find_match_page(request, table_id):
     my_user = get_object_or_404(User, username=request.user)
     qs_table = get_object_or_404(GameTable, id=table_id)
@@ -125,6 +127,7 @@ class CancelFindMatch(APIView):
         return Response({"status": "ok"}, status=status.HTTP_200_OK)
 
 
+@login_required
 def playing_game_page(request, game_room_id):
     if not request.user.is_authenticated:
         return redirect("home_page")
@@ -157,6 +160,7 @@ def playing_game_page(request, game_room_id):
     return render(request, "playing_game.html", context=context)
 
 
+@login_required
 def game_table_page(request):
     game_tables = GameTable.objects.all().order_by("fee")
     my_user = get_object_or_404(User, username=request.user)
@@ -170,6 +174,7 @@ def game_table_page(request):
     return render(request, 'game_tables.html', context)
 
 
+@login_required
 def backgammon_leaderboard(request):
     top_back_players = User.objects.order_by("backgammon_game_wins").reverse()
 
