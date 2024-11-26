@@ -9,7 +9,13 @@
             <div class="level-box">
                 <h4 class="font-bold">Your Payment</h4>
                 <span><span class="text-gray-400 font-extrabold"
-                            style="color:#23953c;">{{ my_payment.amount|floatformat:6 }}</span> Tron (trc 20) </span>
+                            style="color:#23953c;">{{ my_payment.amount|floatformat:6 }}
+                    {% if my_payment.crypto_name == "growbit" %}
+                        </span> Growbit (bep 20) </span>
+                    {% else %}
+                        </span> Tron (trc 20) </span>
+                    {% endif %}
+
 
                 <div id="timer" class="font-extrabold">59:59</div>
             </div>
@@ -42,7 +48,7 @@
 
                         <div class="space-y-2 capitalize text-xs font-normal mt-5 mb-2 text-gray-500 dark:text-white/80">
 
-                            <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-1">
                                 <span>{{ forloop.counter }}</span>
 
                                 <div class="flex-1">
@@ -83,7 +89,7 @@
         var base_time = parseInt({{ time }});
         document.getElementById("timer").innerText = time_count(base_time);
         setInterval(function () {
-            base_time --;
+            base_time--;
             document.getElementById("timer").innerText = time_count(base_time);
         }, 1000)
 

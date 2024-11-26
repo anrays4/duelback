@@ -16,7 +16,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['duelback.com', 'www.duelback.com', "localhost"]
 # ALLOWED_HOSTS = ["*"]
 
-STATIC_VERSION = "4.0.3"
+STATIC_VERSION = "4.0.4"
 
 CSRF_TRUSTED_ORIGINS = ['https://www.duelback.com', 'https://duelback.com']
 CSRF_COOKIE_SECURE = True
@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'takhte_nard.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-# #
+#
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
