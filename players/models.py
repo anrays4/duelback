@@ -62,6 +62,7 @@ class User(AbstractUser, PermissionsMixin):
 
     date_joined = models.DateTimeField(verbose_name='date joined', default=timezone.now)
     last_seen = models.DateTimeField(verbose_name='last seen date', null=True)
+    history_submit_time_limit = models.IntegerField(null=True, blank=True)
 
     backgammon_game_wins = models.IntegerField(default=0)
 
@@ -74,6 +75,10 @@ class User(AbstractUser, PermissionsMixin):
         db_table = 'users'
         verbose_name = 'User'
         verbose_name_plural = 'Users'
+
+    def update_time(self):
+        self.history_submit_time_limit = int(time.time())
+        self.save()
 
     def create_lose_game_history(self, winner, game_table):
         GameHistory.objects.create(user1=self, user2=winner, status="lose", table=game_table)

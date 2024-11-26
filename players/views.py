@@ -66,7 +66,6 @@ def referral_page(request):
         'referral_count': referrals.count(),
         'ref_link': referral_link,
         'claim_history': my_claim_history,
-
     }
     return render(request, 'referral_page.html', context=context)
 

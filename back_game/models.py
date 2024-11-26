@@ -120,18 +120,20 @@ class GameRoom(models.Model):
         self.save()
 
     def iam_win_the_game(self, winner, prize):
-        if winner == self.player_1:
-            self.is_player_1_win = True
-            winner.create_win_game_history(loser=self.player_2, game_table=self.table)
-        else:
-            self.is_player_2_win = True
-            winner.create_win_game_history(loser=self.player_1, game_table=self.table)
+        if int(time.time()) - winner.history_submit_time_limit > 10:
+            winner.update_time()
+            if winner == self.player_1:
+                self.is_player_1_win = True
+                winner.create_win_game_history(loser=self.player_2, game_table=self.table)
+            else:
+                self.is_player_2_win = True
+                winner.create_win_game_history(loser=self.player_1, game_table=self.table)
 
-        winner.level_xp += self.table.xp_for_winner
-        winner.game_token += prize
-        winner.backgammon_game_wins += 1
-        winner.save()
-        self.save()
+            winner.level_xp += self.table.xp_for_winner
+            winner.game_token += prize
+            winner.backgammon_game_wins += 1
+            winner.save()
+            self.save()
 
     def check_time_is_ok(self, user):
         if user == self.player_1:

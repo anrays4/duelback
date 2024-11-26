@@ -413,6 +413,12 @@ function start_turn_time() {
                         setTimeout(function () {
                             window.location.pathname = "/home/";
                         }, 5000);
+                    } else if (status === "you_win") {
+                        clearInterval(check_status);
+                        document.getElementById("win-alert").classList.add("uk-open");
+                        setTimeout(function () {
+                            window.location.pathname = "/home/";
+                        }, 5000);
                     }
                 }, 300);
 

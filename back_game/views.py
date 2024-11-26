@@ -87,6 +87,9 @@ class FindMatch(APIView):
                 game_room = GameRoom.objects.create(table=table, player_1=my_user,
                                                     player_2=player_2,
                                                     game_polling_time=poll_time, game_start_time=int(time.time()))
+                game_room.player_1.update_time()
+                game_room.player_2.update_time()
+
                 enemy_name = player_2.name
                 enemy_avatar = self.get_avatar_url(player_2)
                 enemy_level = player_2.level
