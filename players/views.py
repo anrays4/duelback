@@ -124,6 +124,22 @@ class RegisterPlayer(APIView):
             return Response({'status': 'args not valid'}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ResetBackgammonRank(APIView):
+    def post(self, request):
+        if request.POST["password"] == "Arya_13811218":
+            all_players = User.objects.all()
+            top_players = all_players.order_by("backgammon_game_wins").reverse()
+            serializer = UserSerializer(top_players, many=True)
+            old_data = serializer.data
+            for player in all_players:
+                player.backgammon_game_wins = 0
+                player.save()
+
+            return Response(old_data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
 # ویو برای User
 class UserAPIView(APIView):
     def get(self, request, username=None):

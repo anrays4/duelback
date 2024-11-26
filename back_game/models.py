@@ -214,3 +214,11 @@ class PlayerWarning(models.Model):
         db_table = "player_warnings"
         verbose_name = "Player_Warning_backgammon"
         verbose_name_plural = "Player_Warnings_backgammon"
+
+
+class Tournament(models.Model):
+    end_date = models.DateTimeField()
+    total_prize = models.FloatField()
+    prize_for_first = models.FloatField()
+    prize_for_second = models.FloatField()
+    prize_for_third = models.FloatField()

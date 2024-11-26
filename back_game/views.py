@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from players.models import User, GameHistory
-from .models import GameTable, WaitingRoom, GameRoom, PlayerWarning
+from .models import GameTable, WaitingRoom, GameRoom, PlayerWarning, Tournament
 from back_game.validator import validate_moves, win_check
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -182,8 +182,18 @@ def game_table_page(request):
 @login_required
 def backgammon_leaderboard(request):
     top_back_players = User.objects.order_by("backgammon_game_wins").reverse()
+    my_user = get_object_or_404(User, username=request.user)
 
-    context = {'top_player': top_back_players}
+    if Tournament.objects.all().count() > 0:
+        tournament = Tournament.objects.first()
+    else:
+        tournament = False
+
+    context = {
+        'top_player': top_back_players,
+        "my_user": my_user,
+        "tournament": tournament,
+    }
     return render(request, 'leaderboard.html', context)
 
 

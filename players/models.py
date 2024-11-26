@@ -99,6 +99,17 @@ class User(AbstractUser, PermissionsMixin):
         self.game_token += amount
         self.save()
 
+    def deposit_token_offer(self, amount, offer):
+        new_amount = amount + (amount*offer/100)
+        self.game_token += new_amount
+        self.save()
+
+    def get_rank(self):
+        # تعداد مواردی را که امتیاز بیشتری دارند دریافت می کند
+        higher_ranking = User.objects.filter(backgammon_game_wins__gt=self.backgammon_game_wins).count()
+        # رتبه فعلی برابر با تعداد آیتم‌های با رتبه بالاتر + 1
+        return higher_ranking + 1
+
     def __str__(self):
         return self.username
 

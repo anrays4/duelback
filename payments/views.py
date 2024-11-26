@@ -98,17 +98,24 @@ def deposit_page(request):
 
     if request.method == "POST":
         token_amount_user = request.POST['token']
+        token_network = request.POST['network']
 
         if not has_payment and float(token_amount_user) >= 10:
 
-            new_payment = Deposit.objects.create(user=player, amount=token_amount_user, crypto_name="tron",
+            new_payment = Deposit.objects.create(user=player, amount=token_amount_user, crypto_name=token_network,
                                                  amount_game_token=token_amount_user, status="1",
                                                  time_st_for_expired=int(time.time()))
             merchant = DEPOSIT_KEY
             token_amount = token_amount_user
-            call_back_url = WEBSITE_URL + "/payments/get-deposit-info"  # you should use slash at last
-            network = "trc20"  # trc20 or bep20
-            token = "trx"  # trc20: trx, usdt || bep20: bnb, usdc
+            call_back_url = WEBSITE_URL + "/payments/get-deposit-info"
+            if token_network == "tron":
+                network = "trc20"  # trc20 or bep20
+                token = "trx"  # trc20: trx, usdt || bep20: bnb, usdc
+            elif token_network == "growbit":
+                network = "bep20"
+                token = "grb"
+            else:
+                return redirect("home_page")
             orderId = str(new_payment.id)  # deposit id in my models for confirm users payment
 
             url = "https://zedteam.xyz/CryptoPay/"
@@ -124,9 +131,9 @@ def deposit_page(request):
             headers = {
                 'Content-Type': 'application/json'
             }
+
             try:
                 response = requests.request("POST", url=url, headers=headers, data=payload)
-
                 res_status = response.json()['status']
                 if res_status:
                     res_to_wallet_address = response.json()['wallet']
@@ -138,6 +145,7 @@ def deposit_page(request):
                     return redirect("payment_token")
                 else:
                     new_payment.delete()
+                pass
             except:
                 new_payment.delete()
 
@@ -168,8 +176,12 @@ class CheckPayment(APIView):
         try:
             id_payment = request.POST['orderId']
             payment = Deposit.objects.get(id=id_payment, status="1")
+            deposit_amount = payment.amount_game_token
 
-            payment.user.deposit_token(amount=payment.amount_game_token)
+            if payment.crypto_name == "growbit":
+                payment.user.deposit_token_offer(amount=deposit_amount, offer=10)  # 10 is percent
+            else:
+                payment.user.deposit_token(amount=deposit_amount)
 
             payment.status = "3"
             payment.from_address = request.POST["sender"]

@@ -50,7 +50,7 @@
 }
 
 .deposit-suc {
-    color: green;
+    color: #adff2f;
 }
 
 .deposit-pending {
@@ -66,11 +66,26 @@
     margin: 0 5px 0 5px;
 }
 
+.model-rank-number {
+    border-right: 4px solid;
+    border-radius: 20px;
+    padding: 5px;
+}
+
+.model-rank {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+}
+
 .all-socials {
     margin: 20px 0 20px 0px;
     display: flex;
     justify-content: center;
 }
+
 
 @keyframes rotate {
     100% {

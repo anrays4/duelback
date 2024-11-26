@@ -7,7 +7,7 @@ from .models import User, Referral, GameHistory
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'name', 'avatar', 'level', 'level_xp', 'game_token', 'referral_code']
+        fields = ['username', 'name', 'user_id', 'level', 'backgammon_game_wins']
 
 
 # سریالایزر برای مدل Referral

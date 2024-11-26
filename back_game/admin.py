@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import GameTable, WaitingRoom, GameRoom, PlayerWarning
+from .models import GameTable, WaitingRoom, GameRoom, PlayerWarning, Tournament
 
 
 @admin.register(GameTable)
@@ -28,3 +28,8 @@ class GameRoomAdmin(admin.ModelAdmin):
 class PlayerWarningAdmin(admin.ModelAdmin):
     list_display = ('player', 'reason', 'expiry_date')
     search_fields = ('player__username',)
+
+
+@admin.register(Tournament)
+class TournamentAdmin(admin.ModelAdmin):
+    list_display = ('total_prize', 'prize_for_first', 'prize_for_second', 'prize_for_third')

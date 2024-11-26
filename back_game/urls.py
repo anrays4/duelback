@@ -1,4 +1,6 @@
 from django.urls import path
+
+from players.views import ResetBackgammonRank
 from .views import playing_game_page, CheckTimePlease, IWantLeave, find_match_page, FindMatch, CancelFindMatch, \
     backgammon_leaderboard
 
@@ -30,5 +32,5 @@ urlpatterns = [
     # backgammon leaderboard view
     path('leaderboard/', backgammon_leaderboard, name="backgammon_leaderboard"),
 
-
+    path('reset-backgammon-rank/', ResetBackgammonRank.as_view(), name="reset_backgammon_rank"),
 ]

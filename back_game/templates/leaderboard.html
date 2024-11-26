@@ -8,16 +8,70 @@
         <main class="2xl:ml-[--w-side] xl:ml-[--w-side-md] md:ml-[--w-side-small]">
             <div class="main__inner">
 
-                <div class="bg-white rounded-xl shadow-sm p-5 border1 dark:bg-dark2">
+                <div class="bg-white rounded-xl shadow-sm p-5 border1 dark:bg-dark2" style="margin-bottom: 50px">
 
                     <div class="flex justify-center text-black dark:text-white">
                         <h3 class="font-bold text-base"><i class="fa-solid fa-chess-queen"></i> Leaderboard Top 100 </h3>
-                        <button type="button">
-                            <ion-icon name="sync-outline" class="text-xl"></ion-icon>
-                        </button>
                     </div>
+                    {% if tournament %}
+                        <div class="relative z-20 flex justify-center">
+                            <div uk-countdown="date: {{ tournament.end_date|date:"Y-m-d H:i" }}"
+                                 class="flex items-center font-bold text-gray-800 dark:text-white uk-countdown" style="font-size: 20px">
+
+                                <div class="uk-countdown-days"><span>2</span><span>4</span><span>5</span></div>
+                                :
+                                <div class="uk-countdown-hours"><span>1</span><span>2</span></div>
+                                :
+                                <div class="uk-countdown-minutes"><span>0</span><span>2</span></div>
+                                :
+                                <div class="uk-countdown-seconds"><span>4</span><span>4</span></div>
+                            </div>
+                        </div>
+
+                        <div class="relative z-20 flex justify-center items-center" style="color:#fac600;">
+                            <i class="fa-solid fa-1 model-rank-number"> </i>
+                            <div class="model-rank">
+                                <p>1000</p>
+                                <i class="fa-solid fa-coins ml-2"></i>
+                            </div>
+                        </div>
+                        <div class="relative z-20 flex justify-center items-center" style="color:#fe860a;">
+                            <i class="fa-solid fa-2 model-rank-number"> </i>
+                            <div class="model-rank">
+                                <p>1000</p>
+                                <i class="fa-solid fa-coins ml-2"></i>
+                            </div>
+                        </div>
+                        <div class="relative z-20 flex justify-center items-center" style="color:#fb2b3a;">
+                            <i class="fa-solid fa-3 model-rank-number"> </i>
+                            <div class="model-rank">
+                                <p>1000</p>
+                                <i class="fa-solid fa-coins ml-2"></i>
+                            </div>
+                        </div>
+                    {% endif %}
+
 
                     <div class="space-y-2 capitalize text-xs font-normal mt-5 mb-2 text-gray-500 dark:text-white/80">
+
+                        <div class="flex items-center gap-3" style="border-bottom: 1px solid;padding-bottom: 10px;">
+                            <span class="deposit-suc">{{ my_user.get_rank }}</span>
+                            {% if not my_user.avatar %}
+                                <img src="{% versioned_static "images/profile-default.jpg" %}"
+                                     class="bg-gray-200 rounded-full w-10 h-10">
+                            {% else %}
+                                <img src="{{ my_user.avatar.url }}" alt="" class="bg-gray-200 rounded-full w-10 h-10">
+                            {% endif %}
+
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-sm text-black dark:text-white"> You</h4></a>
+                                <div class="mt-0.5">Level {{ my_user.level }}</div>
+                            </div>
+                            <button type="button"
+                                    class="text-sm rounded-full py-1.5 px-4 font-semibold bg-secondery deposit-suc"><i
+                                    class="fa-solid fa-trophy"></i> {{ my_user.backgammon_game_wins }}</button>
+                        </div>
+
 
                         {% for player in top_player %}
                             {% if forloop.counter0 < 100 %}
