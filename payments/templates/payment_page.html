@@ -9,7 +9,7 @@
             <div class="level-box">
                 <h4 class="font-bold">Your Payment</h4>
                 <span><span class="text-gray-400 font-extrabold"
-                            style="color:#23953c;">{{ my_payment.amount|floatformat:6 }}
+                            style="color:#23953c;">{{ my_payment.amount|floatformat:3 }}
                     {% if my_payment.crypto_name == "growbit" %}
                         </span> Growbit (bep 20) </span>
                     {% else %}
@@ -67,7 +67,7 @@
                             <div class="mt-2 font-bold">
                                 3. Please make sure that the amount you send us is exactly
                                 <span class="font-extrabold" style="color:#23953c;">
-                                {{ my_payment.amount|floatformat:6 }}
+                                {{ my_payment.amount|floatformat:3 }}
                                 </span>
                             </div>
                             <div class="mt-2 font-bold">4. Your payment will be confirmed after 10 to 60 minutes</div>
