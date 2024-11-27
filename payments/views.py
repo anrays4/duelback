@@ -180,6 +180,8 @@ class CheckPayment(APIView):
 
             if payment.crypto_name == "growbit":
                 payment.user.deposit_token_offer(amount=deposit_amount, offer=10)  # 10 is percent
+                new_amount = deposit_amount + (deposit_amount*10/100)
+                payment.amount_game_token = new_amount
             else:
                 payment.user.deposit_token(amount=deposit_amount)
 
