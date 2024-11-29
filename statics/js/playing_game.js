@@ -1364,11 +1364,7 @@ function is_exist_move() { // if is true then cant click to go btn for confirm m
             }
         }
     }
-    if (moveCount === 0) {
-        document.getElementById("go-btn").hidden = false;
-    } else {
-        document.getElementById("go-btn").hidden = true;
-    }
+
     return false;
 }
 
