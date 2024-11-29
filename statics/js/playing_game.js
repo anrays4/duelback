@@ -535,6 +535,7 @@ function action_move(place_elm, dice_elm) { // arg = ( place elm , dice elm)
                     myTasActive2 = false;
                 }
                 switch_dice_selected();
+                show_Go_btn();
             }
 
 
@@ -583,7 +584,8 @@ function action_move(place_elm, dice_elm) { // arg = ( place elm , dice elm)
         } else {
             myTasActive2 = false;
         }
-        switch_dice_selected()
+        switch_dice_selected();
+        show_Go_btn();
 
     } else {
         if (myTasActive1 == false) {
