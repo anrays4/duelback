@@ -264,13 +264,13 @@
                         </div>
                     </div>
                     <div style="display: flex; align-items: center">
-                        <p class="m-2">{{ enemy_user.name }}</p>
+                        <p style="margin-left: 5px;font-size: 12px">{{ enemy_user.name }}</p>
                     </div>
                 </a>
 
                 <a href="#" style="display: flex; justify-content: center;flex-wrap: wrap;">
                     <div style="display: flex; align-items: center">
-                        <i class="fa-solid fa-coins"></i><p class="font-bold">{{ game_room.table.get_winner_prize|floatformat:0 }}</p>
+                        <i class="fa-solid fa-coins"></i><p class="font-bold"> {{ game_room.table.get_winner_prize|floatformat:0 }}</p>
                     </div>
                     <div class="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700" role="progressbar" aria-valuenow="25"
                          aria-valuemin="0" aria-valuemax="100">
@@ -295,7 +295,7 @@
 
                     </div>
                     <div style="display: flex; align-items: center">
-                        <p class="m-2">{{ my_user.name }}</p>
+                        <p style="margin-right: 5px;font-size: 12px">{{ my_user.name }}</p>
                     </div>
                 </a>
             </div>

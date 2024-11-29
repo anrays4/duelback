@@ -106,18 +106,19 @@ class GameRoom(models.Model):
         verbose_name_plural = "Game_Rooms"
 
     def iam_lose_the_game(self, loser):
-        if loser == self.player_1:
-            self.is_player_1_offline = True
-            self.is_player_2_win = True
-            loser.create_lose_game_history(winner=self.player_2, game_table=self.table)
-        else:
-            self.is_player_2_offline = True
-            self.is_player_1_win = True
-            loser.create_lose_game_history(winner=self.player_1, game_table=self.table)
+        if int(time.time()) - loser.history_submit_time_limit > 10:
+            if loser == self.player_1:
+                self.is_player_1_offline = True
+                self.is_player_2_win = True
+                loser.create_lose_game_history(winner=self.player_2, game_table=self.table)
+            else:
+                self.is_player_2_offline = True
+                self.is_player_1_win = True
+                loser.create_lose_game_history(winner=self.player_1, game_table=self.table)
 
-        loser.level_xp += self.table.xp_for_loser
-        loser.save()
-        self.save()
+            loser.level_xp += self.table.xp_for_loser
+            loser.save()
+            self.save()
 
     def iam_win_the_game(self, winner, prize):
         if int(time.time()) - winner.history_submit_time_limit > 10:
