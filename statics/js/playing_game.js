@@ -588,11 +588,15 @@ function action_move(place_elm, dice_elm) { // arg = ( place elm , dice elm)
     } else {
         if (myTasActive1 == false) {
             if (!can_move_to_this_place(get_place_variable(document.getElementById("p" + myTas2)))) {
-                document.getElementById("go-btn").hidden = false;
+                if (moveCount === 0) {
+                    document.getElementById("go-btn").hidden = false;
+                }
             }
         } else if (myTasActive2 == false) {
             if (!can_move_to_this_place(get_place_variable(document.getElementById("p" + myTas1)))) {
-                document.getElementById("go-btn").hidden = false;
+                if (moveCount === 0) {
+                    document.getElementById("go-btn").hidden = false;
+                }
             }
         }
 
@@ -1248,7 +1252,7 @@ function i_want_leave() {
     let base_url = window.location.origin;
     let req_url = base_url + "/backgammon/i_want_leave/" + gameRoomId + "/";
     request_sender_without_data(req_url);
-    setInterval(function () {
+    let check_data = setInterval(function () {
         try {
             var res_data = JSON.parse(document.getElementById('request_res').innerText)
             var status = res_data['status']
@@ -1257,7 +1261,10 @@ function i_want_leave() {
 
         }
         if (status == "thanks") {
-            window.location.pathname = "/home/";
+            clearInterval(check_data);
+            setTimeout(function () {
+                window.location.pathname = "/home/";
+            }, 500);
         }
     }, 300);
 }
