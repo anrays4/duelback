@@ -1366,7 +1366,7 @@ function is_exist_move() { // if is true then cant click to go btn for confirm m
             }
         }
     }
-    document.getElementById("go-btn").hidden = false;
+    show_Go_btn();
     return false;
 }
 
