@@ -588,15 +588,11 @@ function action_move(place_elm, dice_elm) { // arg = ( place elm , dice elm)
     } else {
         if (myTasActive1 == false) {
             if (!can_move_to_this_place(get_place_variable(document.getElementById("p" + myTas2)))) {
-                if (moveCount === 0) {
-                    document.getElementById("go-btn").hidden = false;
-                }
+                show_Go_btn();
             }
         } else if (myTasActive2 == false) {
             if (!can_move_to_this_place(get_place_variable(document.getElementById("p" + myTas1)))) {
-                if (moveCount === 0) {
-                    document.getElementById("go-btn").hidden = false;
-                }
+                show_Go_btn();
             }
         }
 
