@@ -177,8 +177,8 @@ class GameRoom(models.Model):
     def roll_dice(self):
         """تولید مقدار جدید برای دو تاس"""
         import random
-        self.dice1 = random.randint(6, 6)
-        self.dice2 = random.randint(5, 6)
+        self.dice1 = random.randint(1, 6)
+        self.dice2 = random.randint(1, 6)
         self.save()
 
     def set_turn(self):
