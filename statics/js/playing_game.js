@@ -59,6 +59,7 @@ var gameTurnTime = JSON.parse(document.getElementById('turn_time').textContent);
 var gameTurnTimeCounter = JSON.parse(document.getElementById('turn_time').textContent);
 var canStartGame = false;
 var pollingTime = 2;
+var game_is_end = false;
 
 
 // design first place of all dice
@@ -199,6 +200,7 @@ var check_dom_is_ready = setInterval(function () {
                                     } else if (status == "wait_more") {
                                         clearInterval(check_data_is_ready_polling);
                                     } else if (status == "you_win") {
+                                        game_is_end = true;
                                         clearInterval(check_data_is_ready_polling);
                                         clearInterval(check_my_turn_polling);
                                         document.getElementById("win-alert-dis").classList.add("uk-open");
@@ -216,6 +218,7 @@ var check_dom_is_ready = setInterval(function () {
                         }
                     }, 2000)
                 } else if (status == "game_cancel") {
+                    game_is_end = true;
                     set_info_text("Game is cancel !!!")
                     clearInterval(check_data_is_ready);
                     clearInterval(req_check_again_my_game);
@@ -313,6 +316,7 @@ function confirm_move() {
                                 clearInterval(check_data_is_ready_polling);
 
                             } else if (status == "you_win") {
+                                game_is_end = true;
                                 clearInterval(check_data_is_ready_polling);
                                 clearInterval(check_my_turn_polling);
                                 document.getElementById("win-alert").classList.add("uk-open");
@@ -320,6 +324,7 @@ function confirm_move() {
                                     window.location.pathname = "/home/";
                                 }, 5000);
                             } else if (status == "game_cancel") {
+                                game_is_end = true;
                                 set_info_text("Game is cancel !!!")
                                 clearInterval(check_data_is_ready_polling);
                                 clearInterval(check_my_turn_polling);
@@ -328,6 +333,7 @@ function confirm_move() {
                                     window.location.pathname = "/home/";
                                 }, 5000);
                             } else if (status == "you_lose") {
+                                game_is_end = true;
                                 set_info_text("Game is End !!!")
                                 clearInterval(check_data_is_ready_polling);
                                 clearInterval(check_my_turn_polling);
@@ -350,12 +356,14 @@ function confirm_move() {
 
                 }, 1000)
             } else if (status == "you_win") {
+                game_is_end = true;
                 clearInterval(check_data_is_ready);
                 document.getElementById("win-alert").classList.add("uk-open");
                 setTimeout(function () {
                     window.location.pathname = "/home/";
                 }, 5000);
             } else if (status == "you_lose") {
+                game_is_end = true;
                 clearInterval(check_data_is_ready);
                 document.getElementById("lose-alert").classList.add("uk-open");
                 setTimeout(function () {
@@ -408,12 +416,14 @@ function start_turn_time() {
 
                     }
                     if (status === "you_lose") {
+                        game_is_end = true;
                         clearInterval(check_status);
                         document.getElementById("lose-alert").classList.add("uk-open");
                         setTimeout(function () {
                             window.location.pathname = "/home/";
                         }, 5000);
                     } else if (status === "you_win") {
+                        game_is_end = true;
                         clearInterval(check_status);
                         document.getElementById("win-alert").classList.add("uk-open");
                         setTimeout(function () {
@@ -1147,101 +1157,111 @@ function getCookie(name) {
 
 
 function confirm_my_move_request(url, move_history, place_status, first_scan) {
-    const apiUrl = url;
-    const formdata = new FormData();
-    formdata.append("move_history", move_history);
-    formdata.append("first_scan", first_scan);
-    formdata.append("second_scan", place_status);
+    if (!game_is_end) {
+        const apiUrl = url;
+        const formdata = new FormData();
+        formdata.append("move_history", move_history);
+        formdata.append("first_scan", first_scan);
+        formdata.append("second_scan", place_status);
 
-    const outputElement = document.getElementById("request_res");
+        const outputElement = document.getElementById("request_res");
 
-    const requestOptions = {
-        method: 'POST',
-        body: formdata,
-        redirect: "follow",
-        headers: {
-            "X-CSRFToken": getCookie("csrftoken"),
-        },
-    };
+        const requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: "follow",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+        };
 
-    fetch(apiUrl, requestOptions)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            outputElement.textContent = JSON.stringify(data, null, 2);
-        })
-        .catch(error => {
-            console.error
+        fetch(apiUrl, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                outputElement.textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error
 
-            ('Error:', error);
-        });
-
+                ('Error:', error);
+            });
+    } else {
+        window.location.pathname = "/home/";
+    }
 }
 
 function polling_for_my_turn_request(url) {
-    const outputElement = document.getElementById("request_res");
-    const requestOptions = {
-        method: 'GET',
-        redirect: "follow",
-        headers: {
-            "X-CSRFToken": getCookie("csrftoken"),
-        },
-    };
+    if (!game_is_end) {
+        const outputElement = document.getElementById("request_res");
+        const requestOptions = {
+            method: 'GET',
+            redirect: "follow",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+        };
 
-    fetch(url, requestOptions)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            pollingInProgress = false;
-            return response.json();
-        })
-        .then(data => {
-            outputElement.textContent = JSON.stringify(data, null, 2);
-        })
-        .catch(error => {
-            pollingInProgress = false;
-            console.error
+        fetch(url, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                pollingInProgress = false;
+                return response.json();
+            })
+            .then(data => {
+                outputElement.textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                pollingInProgress = false;
+                console.error
 
-            ('Error:', error);
-        });
+                ('Error:', error);
+            });
+    }else {
+        window.location.pathname = "/home/";
+    }
 }
 
 
 function request_sender_without_data(url) {
-    const apiUrl = url;
-    const outputElement = document.getElementById("request_res");
+    if (!game_is_end) {
+        const apiUrl = url;
+        const outputElement = document.getElementById("request_res");
 
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        headers: {
-            "X-CSRFToken": getCookie("csrftoken"),
-        },
-    };
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+        };
 
-    fetch(apiUrl, requestOptions)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            outputElement.textContent = JSON.stringify(data, null, 2);
-        })
-        .catch(error => {
-            console.error
+        fetch(apiUrl, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                outputElement.textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error
 
-            ('Error:', error);
-        });
-
+                ('Error:', error);
+            });
+    }else {
+        window.location.pathname = "/home/";
+    }
 }
 
 function i_want_leave() {
@@ -1257,6 +1277,7 @@ function i_want_leave() {
 
         }
         if (status == "thanks") {
+            game_is_end = true;
             clearInterval(check_data);
             setTimeout(function () {
                 window.location.pathname = "/home/";
@@ -1264,7 +1285,6 @@ function i_want_leave() {
         }
     }, 300);
 }
-
 
 function fix_all_dice_position() {
     for (let i = 0; i < 25; i++) {
@@ -1278,7 +1298,6 @@ window.onresize = function (event) {
 window.onscroll = function (event) {
     fix_all_dice_position();
 };
-
 
 function get_all_place_status() {
     let status = {}
@@ -1326,44 +1345,86 @@ function is_all_dice_in_my_home() {
 }
 
 function is_exist_move() { // if is true then cant click to go btn for confirm move
-    for (let i = 0; i < 25; i++) {
-        let place_elm = document.getElementById("p" + i);
-        let place_var = get_place_variable(place_elm);
+    if (!tasIsMosavi) {
+        for (let i = 0; i < 25; i++) {
+            let place_elm = document.getElementById("p" + i);
+            let place_var = get_place_variable(place_elm);
 
-        if (place_var.length > 0 && place_var[0].id.split("-")[0] == "m") {
-            let next_place_elm_1 = get_next_place(place_elm, myTas1)
-            let next_place_elm_2 = get_next_place(place_elm, myTas2)
-            if (next_place_elm_1 == "dice_is_finished" && is_all_dice_in_my_home()) {
-                if ((can_go_for_finish(place_elm, myTas1) && myTasActive1) || (can_go_for_finish(place_elm, myTas2) && myTasActive2)) {
+            if (place_var.length > 0 && place_var[0].id.split("-")[0] == "m") {
+                let next_place_elm_1 = get_next_place(place_elm, myTas1)
+                let next_place_elm_2 = get_next_place(place_elm, myTas2)
+                if (next_place_elm_1 == "dice_is_finished" && is_all_dice_in_my_home()) {
+                    if ((can_go_for_finish(place_elm, myTas1) && myTasActive1) || (can_go_for_finish(place_elm, myTas2) && myTasActive2)) {
+                        return true;
+                    }
+                } else {
+                    if (myTasActive1 && next_place_elm_1 != "dice_is_finished" && myOutDice.length == 0) {
+                        let next_place_var_1 = get_place_variable(next_place_elm_1);
+                        var move_is_exist_1 = can_move_to_this_place(next_place_var_1);
+                    } else {
+
+                        move_is_exist_1 = false
+                    }
+                }
+                if (next_place_elm_2 == "dice_is_finished" && is_all_dice_in_my_home()) {
+                    if ((can_go_for_finish(place_elm, myTas1) && myTasActive1) || (can_go_for_finish(place_elm, myTas2) && myTasActive2)) {
+                        return true;
+                    }
+                } else {
+                    if (myTasActive2 && next_place_elm_2 != "dice_is_finished" && myOutDice.length == 0) {
+                        let next_place_var_2 = get_place_variable(next_place_elm_2);
+                        var move_is_exist_2 = can_move_to_this_place(next_place_var_2);
+                    } else {
+
+                        move_is_exist_2 = false
+                    }
+                }
+                if ((move_is_exist_1 || move_is_exist_2) && myOutDice.length == 0) {
                     return true;
                 }
-            } else {
-                if (myTasActive1 && next_place_elm_1 != "dice_is_finished" && myOutDice.length == 0) {
-                    let next_place_var_1 = get_place_variable(next_place_elm_1);
-                    var move_is_exist_1 = can_move_to_this_place(next_place_var_1);
-                } else {
-
-                    move_is_exist_1 = false
-                }
             }
-            if (next_place_elm_2 == "dice_is_finished" && is_all_dice_in_my_home()) {
-                if ((can_go_for_finish(place_elm, myTas1) && myTasActive1) || (can_go_for_finish(place_elm, myTas2) && myTasActive2)) {
+        }
+    } else {
+        for (let i = 0; i < 25; i++) {
+            let place_elm = document.getElementById("p" + i);
+            let place_var = get_place_variable(place_elm);
+
+            if (place_var.length > 0 && place_var[0].id.split("-")[0] == "m") {
+                let next_place_elm_1 = get_next_place(place_elm, myTas1)
+                let next_place_elm_2 = get_next_place(place_elm, myTas2)
+                if (next_place_elm_1 == "dice_is_finished" && is_all_dice_in_my_home()) {
+                    if (can_go_for_finish(place_elm, myTas1) || can_go_for_finish(place_elm, myTas2)) {
+                        return true;
+                    }
+                } else {
+                    if (next_place_elm_1 != "dice_is_finished" && myOutDice.length == 0) {
+                        let next_place_var_1 = get_place_variable(next_place_elm_1);
+                        var move_is_exist_1 = can_move_to_this_place(next_place_var_1);
+                    } else {
+
+                        move_is_exist_1 = false
+                    }
+                }
+                if (next_place_elm_2 == "dice_is_finished" && is_all_dice_in_my_home()) {
+                    if (can_go_for_finish(place_elm, myTas1) || can_go_for_finish(place_elm, myTas2)) {
+                        return true;
+                    }
+                } else {
+                    if (next_place_elm_2 != "dice_is_finished" && myOutDice.length == 0) {
+                        let next_place_var_2 = get_place_variable(next_place_elm_2);
+                        var move_is_exist_2 = can_move_to_this_place(next_place_var_2);
+                    } else {
+
+                        move_is_exist_2 = false
+                    }
+                }
+                if ((move_is_exist_1 || move_is_exist_2) && myOutDice.length == 0) {
                     return true;
                 }
-            } else {
-                if (myTasActive2 && next_place_elm_2 != "dice_is_finished" && myOutDice.length == 0) {
-                    let next_place_var_2 = get_place_variable(next_place_elm_2);
-                    var move_is_exist_2 = can_move_to_this_place(next_place_var_2);
-                } else {
-
-                    move_is_exist_2 = false
-                }
-            }
-            if ((move_is_exist_1 || move_is_exist_2) && myOutDice.length == 0) {
-                return true;
             }
         }
     }
+
 
     return false;
 }

@@ -215,7 +215,7 @@ class PlayerReadyAPIView(APIView):
             return Response({"status": 'you are not in this room'}, status=status.HTTP_400_BAD_REQUEST)
 
         delta_time = int(time.time()) - int(game_room.game_start_time)
-        if delta_time > 45:
+        if delta_time > 20:
             game_room.delete()
             return Response({"status": "game_cancel"}, status=status.HTTP_200_OK)
 
@@ -267,6 +267,13 @@ class PollingTurnAPIView(APIView):
             return Response({"status": "game_cancel"}, status=status.HTTP_200_OK)
 
         if my_turn_num == 1:
+            time_is_ok = game_room.check_time_is_ok(game_room.player_2)
+            if not time_is_ok:
+                game_room.iam_win_the_game(winner=game_room.player_1,
+                                           prize=game_room.table.get_winner_prize_user_left_the_game())
+                game_room.delete()
+                return Response({"status": "you_win"}, status=status.HTTP_200_OK)
+
             if game_room.game_room_is_end and game_room.is_player_2_win:
                 game_room.iam_lose_the_game(loser=game_room.player_1)
                 game_room.delete()
@@ -291,6 +298,12 @@ class PollingTurnAPIView(APIView):
                 return Response({"status": "you_lose"}, status=status.HTTP_200_OK)
 
         else:
+            time_is_ok = game_room.check_time_is_ok(game_room.player_1)
+            if not time_is_ok:
+                game_room.iam_win_the_game(winner=game_room.player_2,
+                                           prize=game_room.table.get_winner_prize_user_left_the_game())
+                game_room.delete()
+                return Response({"status": "you_win"}, status=status.HTTP_200_OK)
             if game_room.game_room_is_end and game_room.is_player_1_win:
                 game_room.iam_lose_the_game(loser=game_room.player_2)
                 game_room.game_room_is_end = True
