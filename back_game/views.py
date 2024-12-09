@@ -193,7 +193,7 @@ def backgammon_leaderboard(request):
         tournament = False
 
     context = {
-        'top_player': top_back_players,
+        'top_player': top_back_players[0:105],
         "my_user": my_user,
         "tournament": tournament,
     }

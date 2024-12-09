@@ -13,7 +13,7 @@ private_key_hex = WALLET_PRIVATE_KEY
 
 
 def send_tron_for_user(amount, receiver_address):
-    new_amount = amount * 1000000  # Amount in shardi (1 TRX = 1e6 shardi)
+    new_amount = amount * 1000000  # Amount bayad shardi bashe (1 TRX = 1e6 shardi)
 
     txn = client.trx.transfer(sender_address, receiver_address, new_amount)
 

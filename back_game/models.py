@@ -107,6 +107,7 @@ class GameRoom(models.Model):
 
     def iam_lose_the_game(self, loser):
         if int(time.time()) - loser.history_submit_time_limit > 10:
+            loser.update_time()
             if loser == self.player_1:
                 self.is_player_1_offline = True
                 self.is_player_2_win = True
@@ -124,10 +125,12 @@ class GameRoom(models.Model):
         if int(time.time()) - winner.history_submit_time_limit > 10:
             winner.update_time()
             if winner == self.player_1:
+                self.is_player_2_offline = True
                 self.is_player_1_win = True
                 winner.create_win_game_history(loser=self.player_2, game_table=self.table)
             else:
                 self.is_player_2_win = True
+                self.is_player_1_offline = True
                 winner.create_win_game_history(loser=self.player_1, game_table=self.table)
 
             winner.level_xp += self.table.xp_for_winner
