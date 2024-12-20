@@ -62,7 +62,7 @@ def referral_page(request):
 
     context = {
         "my_user": my_user,
-        'referrals': referrals,
+        'referrals': referrals[0:20],
         'referral_count': referrals.count(),
         'ref_link': referral_link,
         'claim_history': my_claim_history,
