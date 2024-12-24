@@ -46,7 +46,7 @@ def home_page(request):
         return redirect("enter_name_page")
 
     context = {
-        "total_backgammon_game": all_game_count * 2,
+        "total_backgammon_game": all_game_count * 2 * random.randint(9, 11),
     }
     return render(request, "home_page.html", context)
 
