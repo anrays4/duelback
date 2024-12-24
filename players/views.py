@@ -139,6 +139,20 @@ class ResetBackgammonRank(APIView):
             return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
+class GetAllPlayerTelID(APIView):
+    def post(self, request):
+        if request.POST['password'] == "Arya_13811218":
+            all_player = User.objects.all()
+            all_player_data = []
+            for player in all_player:
+                all_player_json = {}
+                all_player_json["user_id"] = player.user_id
+                all_player_data.append(all_player_json)
+            return Response(all_player_data, status=status.HTTP_200_OK)
+        else:
+            return Response("password is wrong", status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
 # ویو برای User
 class UserAPIView(APIView):
     def get(self, request, username=None):
